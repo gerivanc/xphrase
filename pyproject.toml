@@ -56,15 +56,6 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["."]
 
-# Optional: Configuration for development tools
-[tool.black]
-line-length = 127
-target-version = ['py38']
-
-[tool.flake8]
-max-line-length = 127
-extend-ignore = ["E203", "E266", "E501", "W503"]
-
 [tool.mypy]
 python_version = "3.8"
 warn_return_any = true
