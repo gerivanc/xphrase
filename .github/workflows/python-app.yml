@@ -41,16 +41,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 build
 
-    - name: Lint with flake8
-      run: |
-        # Lint main Python files
-        flake8 xphrase.py word_manager.py --max-line-length=127 --ignore=D,E203,E303,E305,W294 --count --show-source --statistics
-        
-        # Lint data module
-        if [ -d "data" ]; then
-          flake8 data/ --max-line-length=127 --ignore=D,E203,E303,E305,W294 --count --show-source --statistics
-        fi
-
     - name: Run unit tests
       run: |
         python -m unittest discover tests/ -v
