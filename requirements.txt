@@ -1,0 +1,16 @@
+# XPhrase Generation - Dependencies
+# No external dependencies required for core functionality
+# This file is maintained for future compatibility
+
+# Future potential dependencies (commented out for now):
+# click>=8.0.0  # For advanced CLI features
+# colorama>=0.4.4  # For cross-platform colored output
+# pytest>=6.0.0  # For testing (if not using unittest)
+
+# Development dependencies (optional):
+# black>=21.0.0  # Code formatting
+# flake8>=3.9.0  # Linting
+# mypy>=0.910  # Type checking
+
+# Core Python requirements (implicit):
+python>=3.8
