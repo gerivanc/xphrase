@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self'">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#00ffff">
+    <meta name="description" content="XPhrase Generation - Expressive phrase generator — strong, modern, and minimalist">
+    <link rel="manifest" href="manifest.json">
+    
+    <title>XPhrase Generation - Expressive Phrase Generator</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #00ffff;
+            --secondary-color: #008b8b;
+            --background-color: #0a0a0f;
+            --card-color: #151520;
+            --text-color: #e0e0e0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .matrix-char {
+            position: absolute;
+            color: rgba(0, 255, 255, 0.7);
+            font-size: 14px;
+            font-family: 'Share Tech Mono', monospace;
+            animation: fall linear infinite;
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+        
+        header {
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid var(--primary-color);
+            background-color: rgba(10, 10, 15, 0.8);
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--primary-color);
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background-color: var(--card-color);
+            border-radius: 8px;
+            border: 1px solid var(--secondary-color);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+        }
+        
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        p {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .feature-card {
+            background-color: rgba(21, 21, 32, 0.8);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--secondary-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+        }
+        
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+        
+        .code-block {
+            background-color: #1a1a2e;
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary-color);
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        .code-block code {
+            color: var(--primary-color);
+        }
+        
+        .example-output {
+            background-color: #1a1a2e;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            border: 1px solid var(--secondary-color);
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .generator-section {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .generate-btn {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s;
+            margin: 1rem 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .generate-btn:hover {
+            background-color: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .stat-card {
+            background-color: rgba(21, 21, 32, 0.8);
+            padding: 1.5rem;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid var(--secondary-color);
+        }
+        
+        .stat-card .number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+        }
+        
+        .stat-card .label {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            margin-top: 0.5rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            border-top: 1px solid var(--primary-color);
+            margin-top: 3rem;
+            background-color: rgba(10, 10, 15, 0.8);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .contact-info {
+            margin-top: 1rem;
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            section {
+                padding: 1.5rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Matrix-style background -->
+    <div class="matrix-bg" id="matrixBg"></div>
+    
+    <header>
+        <h1>XPHRASE GENERATION</h1>
+        <p class="tagline">Expressive phrase generator — strong, modern, and minimalist</p>
+    </header>
+    
+    <div class="container">
+        <section class="project-overview">
+            <h2>PROJECT OVERVIEW</h2>
+            <p>XPhrase Generation is a multilingual phrase generator designed for command-line interface (CLI) usage. It creates expressive, randomized phrases using words from Portuguese, English, and German, interlinked with special characters and digits.</p>
+            <p>This project is:</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>100% Python</h3>
+                    <p>Written entirely in Python for maximum efficiency and portability.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>CLI-Compatible</h3>
+                    <p>Designed for Linux and Windows command-line environments.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Future-Ready</h3>
+                    <p>Architected for easy integration with HTML interfaces in future versions.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="features">
+            <h2>FEATURES</h2>
+            <ul>
+                <li>Generates phrases with 3 to 21 words</li>
+                <li>Words randomly selected from Portuguese, English, and German word banks</li>
+                <li>Each word interlinked with at least one special character and one digit</li>
+                <li>The last character of the final word is always uppercase</li>
+            </ul>
+            
+            <div class="example-output" id="exampleOutput">
+                ice8café*intentos7vermeideN
+            </div>
+            
+            <div class="generator-section">
+                <button class="generate-btn" id="generateBtn">GENERATE PHRASE</button>
+            </div>
+        </section>
+        
+        <section class="requirements">
+            <h2>REQUIREMENTS</h2>
+            <p>XPhrase Generation runs on:</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Python 3.8+</h3>
+                    <p>No external dependencies required</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Linux</h3>
+                    <p>Compatible with Debian, Ubuntu, Arch, and other distributions</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Windows</h3>
+                    <p>Works with PowerShell and CMD</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="usage">
+            <h2>USAGE</h2>
+            <p>Run from CLI:</p>
+            <div class="code-block">
+                <code>python src/xphrase.py</code>
+            </div>
+            
+            <p>Or install as package:</p>
+            <div class="code-block">
+                <code>pip install -e .<br>xphrase-generate</code>
+            </div>
+        </section>
+        
+        <section class="word-bank">
+            <h2>WORD BANK SPECS</h2>
+            <p>The generator contains 4,000 specific and unique words, selected from the vocabulary of three different languages:</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="number">1,334</span>
+                    <span class="label">ENGLISH WORDS</span>
+                </div>
+                <div class="stat-card">
+                    <span class="number">1,333</span>
+                    <span class="label">PORTUGUESE WORDS</span>
+                </div>
+                <div class="stat-card">
+                    <span class="number">1,333</span>
+                    <span class="label">GERMAN WORDS</span>
+                </div>
+            </div>
+        </section>
+        
+        <section class="generation-rules">
+            <h2>GENERATION RULES</h2>
+            <ul>
+                <li>Phrase length: 3 to 21 words</li>
+                <li>Each word includes at least one special character and one digit</li>
+                <li>Final word ends with a capital letter</li>
+                <li>Language order is randomized</li>
+            </ul>
+            
+            <p>Example outputs:</p>
+            <div class="code-block">
+                <code>run7Liebe!café2dream#vermeide9IntentoN<br>code3vermeide@ice8Liebe*intentos1caféZ</code>
+            </div>
+        </section>
+        
+        <section class="roadmap">
+            <h2>FUTURE ROADMAP</h2>
+            <ul>
+                <li>HTML interface (web version)</li>
+                <li>Packaging for PyPI</li>
+                <li>Unit tests and coverage</li>
+            </ul>
+        </section>
+    </div>
+    
+    <footer>
+        <h2>CONTACT</h2>
+        <p>Created by <strong>Gerivan</strong></p>
+        <div class="contact-info">
+            <p>E-mail: ask@gerivan.me</p>
+            <p>Location: Brazil</p>
+        </div>
+        <p>Feel free to reach out for collaboration or feedback!</p>
+        
+        <div class="copyright">
+            <p>Copyright © 2025 Gerivan Costa dos Santos</p>
+            <p>XPhrase Generation — Expressive phrases. Strong logic. Minimalist design © 2025</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Matrix-style background animation
+        function createMatrix() {
+            const matrixBg = document.getElementById('matrixBg');
+            const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?~';
+            const fontSize = 14;
+            const columns = Math.floor(window.innerWidth / fontSize);
+            
+            for (let i = 0; i < columns; i++) {
+                const char = document.createElement('div');
+                char.className = 'matrix-char';
+                char.textContent = chars.charAt(Math.floor(Math.random() * chars.length));
+                char.style.left = (i * fontSize) + 'px';
+                char.style.animationDuration = (Math.random() * 5 + 3) + 's';
+                char.style.animationDelay = (Math.random() * 2) + 's';
+                matrixBg.appendChild(char);
+            }
+        }
+        
+        // Generate example phrases
+        function generatePhrase() {
+            const words = [
+                'dream', 'vermeide', 'café', 'run', 'intentos', 'Liebe', 
+                'code', 'ice', 'amor', 'python', 'linux', 'windows'
+            ];
+            
+            const specialChars = '!@#$%^&*()_+-=[]{}|;:,.<>?~\\';
+            const digits = '0123456789';
+            
+            let phrase = '';
+            const wordCount = Math.floor(Math.random() * 19) + 3; // 3 to 21 words
+            
+            for (let i = 0; i < wordCount; i++) {
+                const word = words[Math.floor(Math.random() * words.length)];
+                const specialChar = specialChars.charAt(Math.floor(Math.random() * specialChars.length));
+                const digit = digits.charAt(Math.floor(Math.random() * digits.length));
+                
+                // Randomly insert special char and digit
+                const insertPos = Math.floor(Math.random() * (word.length + 1));
+                let modifiedWord = word.slice(0, insertPos) + specialChar + digit + word.slice(insertPos);
+                
+                // Make last character of final word uppercase
+                if (i === wordCount - 1) {
+                    modifiedWord = modifiedWord.slice(0, -1) + modifiedWord.slice(-1).toUpperCase();
+                }
+                
+                phrase += modifiedWord;
+            }
+            
+            return phrase;
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            createMatrix();
+            
+            const generateBtn = document.getElementById('generateBtn');
+            const exampleOutput = document.getElementById('exampleOutput');
+            
+            generateBtn.addEventListener('click', function() {
+                exampleOutput.textContent = generatePhrase();
+            });
+            
+            // Generate a new phrase every 5 seconds
+            setInterval(function() {
+                exampleOutput.textContent = generatePhrase();
+            }, 5000);
+        });
+        
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
