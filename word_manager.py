@@ -1,12 +1,12 @@
 import random
-from data import GERMAN_WORDS, PORTUGUESE_WORDS, ENGLISH_WORDS 
+from data import ENGLISH_WORDS, GERMAN_WORDS, PORTUGUESE_WORDS  
 
 class WordManager:
     def __init__(self):
         self.language_pools = {
+            'english': ENGLISH_WORDS,
             'german': GERMAN_WORDS,
-            'portuguese': PORTUGUESE_WORDS, 
-            'english': ENGLISH_WORDS
+            'portuguese': PORTUGUESE_WORDS 
         }
         
     def get_random_word(self, language=None):
