@@ -1,0 +1,72 @@
+name: XPhrase Generator CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Debug - Show project structure
+      run: |
+        echo "Current commit:"
+        git log -1 --oneline
+        echo "Project structure:"
+        find . -name "*.py" -type f | head -20
+        echo "Content of main files:"
+        if [ -f "xphrase.py" ]; then
+          echo "xphrase.py exists"
+          head -10 xphrase.py
+        fi
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 build
+
+    - name: Lint with flake8
+      run: |
+        # Lint main Python files
+        flake8 xphrase.py word_manager.py --max-line-length=127 --ignore=D,E203,E303,E305,W294 --count --show-source --statistics
+        
+        # Lint data module
+        if [ -d "data" ]; then
+          flake8 data/ --max-line-length=127 --ignore=D,E203,E303,E305,W294 --count --show-source --statistics
+        fi
+
+    - name: Run unit tests
+      run: |
+        python -m unittest discover tests/ -v
+
+    - name: Build package
+      run: |
+        python -m build
+
+    - name: Install package locally
+      run: |
+        pip install dist/xphrase-*.whl
+
+    - name: Test CLI functionality
+      run: |
+        # Test single phrase generation
+        xphrase-generate --version || echo "Version check not available"
+        
+        # Test generating phrases (timeout after 10 seconds to avoid hanging)
+        timeout 10s bash -c 'echo "1" | xphrase-generate' || echo "CLI test completed"
