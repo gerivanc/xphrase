@@ -1,4 +1,4 @@
-[project]
+[project] 
 name = "xphrase"
 version = "1.0.0"
 description = "Expressive phrase generator, strong, modern and minimalist"
