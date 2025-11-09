@@ -332,17 +332,28 @@
                 </div>
             </div>
         </section>
+
+        <section class="usage">
+            <h2>INSTALLATION LINUX</h2>
+			<p>Clone the repository:</p>
+            <div class="code-block">
+                <code>git clone https://github.com/gerivanc/xphrase.git</code>			
+            </div>
+			<p>Go to the directory folder.:</p>
+            <div class="code-block">
+                <code>cd xphrase</code>				
+            </div>
+        </section>
         
         <section class="usage">
-            <h2>USAGE</h2>
-            <p>Run from CLI:</p>
+            <h2>USAGE - COMMAND LINE INTERFACE</h2>
+			<p>Generates 1 sentence (interactive mode):</p>
             <div class="code-block">
-                <code>python src/xphrase.py</code>
+                <code>python xphrase.py</code>				
             </div>
-            
-            <p>Or install as package:</p>
+			<p>Minimum and maximum word count argument for generating sentences:</p>
             <div class="code-block">
-                <code>pip install -e .<br>xphrase-generate</code>
+                <code>python xphrase.py --min 2 --max 2</code>				
             </div>
         </section>
         
