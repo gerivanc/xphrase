@@ -18,16 +18,22 @@
     <style>
         :root {
             --primary-color: #00ffff;
-            --secondary-color: #008b8b;
+            --secondary-color: #ff8c00;
             --background-color: #0a0a0f;
             --card-color: #151520;
             --text-color: #e0e0e0;
+            --accent-color: #ff4500;
+            --purple-accent: #9932cc;
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
         
         body {
@@ -47,6 +53,7 @@
             height: 100%;
             z-index: -1;
             pointer-events: none;
+            opacity: 0.7;
         }
         
         .matrix-char {
@@ -64,6 +71,20 @@
             }
         }
         
+        .circuit-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(153, 50, 204, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(0, 255, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
         header {
             padding: 2rem 1rem;
             text-align: center;
@@ -71,6 +92,169 @@
             background-color: rgba(10, 10, 15, 0.8);
             position: relative;
             z-index: 1;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+        
+        /* Efeito Glitch para o título */
+        .glitch {
+            position: relative;
+        }
+        
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff003c;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00ffff;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+        
+        @keyframes glitch-anim {
+            0% {
+                clip: rect(10px, 9999px, 80px, 0);
+            }
+            5% {
+                clip: rect(85px, 9999px, 25px, 0);
+            }
+            10% {
+                clip: rect(5px, 9999px, 35px, 0);
+            }
+            15% {
+                clip: rect(25px, 9999px, 65px, 0);
+            }
+            20% {
+                clip: rect(15px, 9999px, 15px, 0);
+            }
+            25% {
+                clip: rect(15px, 9999px, 35px, 0);
+            }
+            30% {
+                clip: rect(65px, 9999px, 55px, 0);
+            }
+            35% {
+                clip: rect(85px, 9999px, 55px, 0);
+            }
+            40% {
+                clip: rect(65px, 9999px, 30px, 0);
+            }
+            45% {
+                clip: rect(20px, 9999px, 25px, 0);
+            }
+            50% {
+                clip: rect(15px, 9999px, 30px, 0);
+            }
+            55% {
+                clip: rect(70px, 9999px, 50px, 0);
+            }
+            60% {
+                clip: rect(5px, 9999px, 20px, 0);
+            }
+            65% {
+                clip: rect(15px, 9999px, 75px, 0);
+            }
+            70% {
+                clip: rect(15px, 9999px, 10px, 0);
+            }
+            75% {
+                clip: rect(70px, 9999px, 50px, 0);
+            }
+            80% {
+                clip: rect(5px, 9999px, 70px, 0);
+            }
+            85% {
+                clip: rect(5px, 9999px, 20px, 0);
+            }
+            90% {
+                clip: rect(25px, 9999px, 50px, 0);
+            }
+            95% {
+                clip: rect(15px, 9999px, 70px, 0);
+            }
+            100% {
+                clip: rect(85px, 9999px, 25px, 0);
+            }
+        }
+        
+        @keyframes glitch-anim2 {
+            0% {
+                clip: rect(85px, 9999px, 45px, 0);
+            }
+            5% {
+                clip: rect(75px, 9999px, 5px, 0);
+            }
+            10% {
+                clip: rect(55px, 9999px, 65px, 0);
+            }
+            15% {
+                clip: rect(15px, 9999px, 15px, 0);
+            }
+            20% {
+                clip: rect(15px, 9999px, 35px, 0);
+            }
+            25% {
+                clip: rect(65px, 9999px, 45px, 0);
+            }
+            30% {
+                clip: rect(85px, 9999px, 25px, 0);
+            }
+            35% {
+                clip: rect(25px, 9999px, 15px, 0);
+            }
+            40% {
+                clip: rect(15px, 9999px, 35px, 0);
+            }
+            45% {
+                clip: rect(65px, 9999px, 65px, 0);
+            }
+            50% {
+                clip: rect(5px, 9999px, 75px, 0);
+            }
+            55% {
+                clip: rect(15px, 9999px, 55px, 0);
+            }
+            60% {
+                clip: rect(65px, 9999px, 50px, 0);
+            }
+            65% {
+                clip: rect(75px, 9999px, 25px, 0);
+            }
+            70% {
+                clip: rect(15px, 9999px, 15px, 0);
+            }
+            75% {
+                clip: rect(15px, 9999px, 65px, 0);
+            }
+            80% {
+                clip: rect(5px, 9999px, 50px, 0);
+            }
+            85% {
+                clip: rect(35px, 9999px, 5px, 0);
+            }
+            90% {
+                clip: rect(65px, 9999px, 45px, 0);
+            }
+            95% {
+                clip: rect(85px, 9999px, 5px, 0);
+            }
+            100% {
+                clip: rect(15px, 9999px, 35px, 0);
+            }
         }
         
         h1 {
@@ -80,12 +264,14 @@
             text-shadow: 0 0 10px var(--primary-color);
             margin-bottom: 0.5rem;
             letter-spacing: 2px;
+            position: relative;
         }
         
         .tagline {
             font-size: 1.2rem;
             color: var(--secondary-color);
             margin-bottom: 1rem;
+            text-shadow: 0 0 5px var(--secondary-color);
         }
         
         .container {
@@ -99,10 +285,23 @@
         section {
             margin-bottom: 3rem;
             padding: 2rem;
-            background-color: var(--card-color);
+            background-color: rgba(21, 21, 32, 0.8);
             border-radius: 8px;
             border: 1px solid var(--secondary-color);
             box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
         }
         
         h2 {
@@ -112,13 +311,43 @@
             margin-bottom: 1.5rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            border-bottom: 1px solid var(--secondary-color);
+            text-align: center;
+            position: relative;
             padding-bottom: 0.5rem;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--secondary-color), transparent);
         }
         
         p {
             line-height: 1.6;
             margin-bottom: 1rem;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding-left: 1rem;
+        }
+        
+        ul li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        ul li::before {
+            content: '>';
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
         }
         
         .features-grid {
@@ -134,11 +363,28 @@
             border-radius: 6px;
             border: 1px solid var(--secondary-color);
             transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 140, 0, 0.1), transparent);
+            transition: left 0.5s;
         }
         
         .feature-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+        }
+        
+        .feature-card:hover::before {
+            left: 100%;
         }
         
         .feature-card h3 {
@@ -155,10 +401,21 @@
             margin: 1.5rem 0;
             overflow-x: auto;
             font-family: 'Share Tech Mono', monospace;
+            position: relative;
+        }
+        
+        .code-block::before {
+            content: '>>>';
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            color: var(--secondary-color);
         }
         
         .code-block code {
             color: var(--primary-color);
+            margin-left: 2rem;
+            display: block;
         }
         
         .example-output {
@@ -171,6 +428,18 @@
             color: var(--primary-color);
             text-align: center;
             font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .example-output::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
         }
         
         .generator-section {
@@ -191,11 +460,30 @@
             margin: 1rem 0;
             text-transform: uppercase;
             letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .generate-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+            z-index: -1;
         }
         
         .generate-btn:hover {
             background-color: rgba(0, 255, 255, 0.1);
             box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+        
+        .generate-btn:hover::before {
+            left: 100%;
         }
         
         .stats-grid {
@@ -211,6 +499,18 @@
             border-radius: 6px;
             text-align: center;
             border: 1px solid var(--secondary-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--purple-accent));
         }
         
         .stat-card .number {
@@ -218,6 +518,7 @@
             font-weight: bold;
             color: var(--primary-color);
             display: block;
+            text-shadow: 0 0 5px var(--primary-color);
         }
         
         .stat-card .label {
@@ -234,16 +535,51 @@
             background-color: rgba(10, 10, 15, 0.8);
             position: relative;
             z-index: 1;
+            backdrop-filter: blur(10px);
+        }
+        
+        footer h2 {
+            margin-bottom: 1rem;
         }
         
         .contact-info {
             margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
         
         .copyright {
             margin-top: 2rem;
             font-size: 0.9rem;
             color: var(--secondary-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .security-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: var(--primary-color);
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            display: none;
+        }
+        
+        .security-message {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px var(--primary-color);
         }
         
         /* Responsive Design */
@@ -263,15 +599,31 @@
             .container {
                 padding: 1rem;
             }
+            
+            .code-block code {
+                margin-left: 0;
+                font-size: 0.9rem;
+            }
+            
+            .code-block::before {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Security Overlay -->
+    <div class="security-overlay" id="securityOverlay">
+        <div class="security-message">SECURITY BREACH DETECTED</div>
+        <div>UNAUTHORIZED ACCESS ATTEMPT</div>
+    </div>
+    
     <!-- Matrix-style background -->
     <div class="matrix-bg" id="matrixBg"></div>
+    <div class="circuit-pattern"></div>
     
     <header>
-        <h1>XPHRASE GENERATION</h1>
+        <h1 class="glitch" data-text="XPHRASE GENERATION">XPHRASE GENERATION</h1>
         <p class="tagline">Expressive phrase generator — strong, modern, and minimalist</p>
     </header>
     
@@ -404,12 +756,11 @@
     
     <footer>
         <h2>CONTACT</h2>
-        <p>Created by <strong>Gerivan</strong></p>
         <div class="contact-info">
             <p>E-mail: ask@gerivan.me</p>
             <p>Location: Brazil</p>
         </div>
-        <p>Feel free to reach out for collaboration or feedback!</p>
+        <p>Unleash your creativity — Create unique phrases with XPhrase!</p>
         
         <div class="copyright">
             <p>Copyright © 2025 Gerivan Costa dos Santos</p>
@@ -418,6 +769,40 @@
     </footer>
     
     <script>
+        // Security measures
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            showSecurityAlert();
+        });
+        
+        document.addEventListener('keydown', function(e) {
+            // Disable F12
+            if(e.key === 'F12') {
+                e.preventDefault();
+                showSecurityAlert();
+            }
+            
+            // Disable Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+U
+            if(e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C')) {
+                e.preventDefault();
+                showSecurityAlert();
+            }
+            
+            if(e.ctrlKey && e.key === 'u') {
+                e.preventDefault();
+                showSecurityAlert();
+            }
+        });
+        
+        function showSecurityAlert() {
+            const overlay = document.getElementById('securityOverlay');
+            overlay.style.display = 'flex';
+            
+            setTimeout(function() {
+                overlay.style.display = 'none';
+            }, 2000);
+        }
+        
         // Matrix-style background animation
         function createMatrix() {
             const matrixBg = document.getElementById('matrixBg');
