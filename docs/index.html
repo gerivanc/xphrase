@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self'">
     
     <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#00ffff">
+    <meta name="theme-color" content="#00ff00">
     <meta name="description" content="XPhrase Generation - Expressive phrase generator — strong, modern, and minimalist">
     <link rel="manifest" href="manifest.json">
     
@@ -17,12 +17,12 @@
     
     <style>
         :root {
-            --primary-color: #00ffff;
-            --secondary-color: #ff8c00;
-            --background-color: #0a0a0f;
-            --card-color: #151520;
+            --primary-color: #00ff00;
+            --secondary-color: #00ffff;
+            --background-color: #0a0a0a;
+            --card-color: #151515;
             --text-color: #e0e0e0;
-            --accent-color: #ff4500;
+            --accent-color: #ff003c;
             --purple-accent: #9932cc;
         }
         
@@ -58,7 +58,7 @@
         
         .matrix-char {
             position: absolute;
-            color: rgba(0, 255, 255, 0.7);
+            color: rgba(0, 255, 0, 0.7);
             font-size: 14px;
             font-family: 'Share Tech Mono', monospace;
             animation: fall linear infinite;
@@ -79,9 +79,9 @@
             height: 100%;
             z-index: -2;
             background-image: 
-                radial-gradient(circle at 20% 30%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(153, 50, 204, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(0, 255, 255, 0.05) 0%, transparent 50%);
+                radial-gradient(circle at 20% 30%, rgba(0, 255, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255, 0, 60, 0.05) 0%, transparent 50%);
             pointer-events: none;
         }
         
@@ -89,11 +89,11 @@
             padding: 2rem 1rem;
             text-align: center;
             border-bottom: 1px solid var(--primary-color);
-            background-color: rgba(10, 10, 15, 0.8);
+            background-color: rgba(10, 10, 10, 0.8);
             position: relative;
             z-index: 1;
             backdrop-filter: blur(10px);
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
         }
         
         /* Efeito Glitch para o título */
@@ -113,14 +113,14 @@
         
         .glitch::before {
             left: 2px;
-            text-shadow: -2px 0 #ff003c;
+            text-shadow: -2px 0 var(--accent-color);
             clip: rect(44px, 450px, 56px, 0);
             animation: glitch-anim 5s infinite linear alternate-reverse;
         }
         
         .glitch::after {
             left: -2px;
-            text-shadow: -2px 0 #00ffff;
+            text-shadow: -2px 0 var(--primary-color);
             clip: rect(44px, 450px, 56px, 0);
             animation: glitch-anim2 5s infinite linear alternate-reverse;
         }
@@ -285,10 +285,10 @@
         section {
             margin-bottom: 3rem;
             padding: 2rem;
-            background-color: rgba(21, 21, 32, 0.8);
+            background-color: rgba(21, 21, 21, 0.8);
             border-radius: 8px;
             border: 1px solid var(--secondary-color);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
             backdrop-filter: blur(5px);
             position: relative;
             overflow: hidden;
@@ -358,7 +358,7 @@
         }
         
         .feature-card {
-            background-color: rgba(21, 21, 32, 0.8);
+            background-color: rgba(21, 21, 21, 0.8);
             padding: 1.5rem;
             border-radius: 6px;
             border: 1px solid var(--secondary-color);
@@ -374,13 +374,13 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 140, 0, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
             transition: left 0.5s;
         }
         
         .feature-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3);
         }
         
         .feature-card:hover::before {
@@ -394,7 +394,7 @@
         }
         
         .code-block {
-            background-color: #1a1a2e;
+            background-color: #1a1a1a;
             padding: 1.5rem;
             border-radius: 6px;
             border-left: 4px solid var(--primary-color);
@@ -419,7 +419,7 @@
         }
         
         .example-output {
-            background-color: #1a1a2e;
+            background-color: #1a1a1a;
             padding: 1rem;
             border-radius: 6px;
             margin: 1rem 0;
@@ -472,14 +472,14 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.2), transparent);
             transition: left 0.5s;
             z-index: -1;
         }
         
         .generate-btn:hover {
-            background-color: rgba(0, 255, 255, 0.1);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            background-color: rgba(0, 255, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
         }
         
         .generate-btn:hover::before {
@@ -494,7 +494,7 @@
         }
         
         .stat-card {
-            background-color: rgba(21, 21, 32, 0.8);
+            background-color: rgba(21, 21, 21, 0.8);
             padding: 1.5rem;
             border-radius: 6px;
             text-align: center;
@@ -510,7 +510,7 @@
             left: 0;
             width: 100%;
             height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--purple-accent));
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
         }
         
         .stat-card .number {
@@ -532,7 +532,7 @@
             padding: 2rem 1rem;
             border-top: 1px solid var(--primary-color);
             margin-top: 3rem;
-            background-color: rgba(10, 10, 15, 0.8);
+            background-color: rgba(10, 10, 10, 0.8);
             position: relative;
             z-index: 1;
             backdrop-filter: blur(10px);
@@ -564,7 +564,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.9);
             z-index: 9999;
             display: flex;
             justify-content: center;
@@ -634,15 +634,15 @@
             <p>This project is:</p>
             <div class="features-grid">
                 <div class="feature-card">
-                    <h3>100% Python</h3>
+                    <h3>100% PYTHON</h3>
                     <p>Written entirely in Python for maximum efficiency and portability.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>CLI-Compatible</h3>
+                    <h3>CLI-COMPATIBLE</h3>
                     <p>Designed for Linux and Windows command-line environments.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Future-Ready</h3>
+                    <h3>FUTURE-READY</h3>
                     <p>Architected for easy integration with HTML interfaces in future versions.</p>
                 </div>
             </div>
@@ -671,15 +671,15 @@
             <p>XPhrase Generation runs on:</p>
             <div class="features-grid">
                 <div class="feature-card">
-                    <h3>Python 3.8+</h3>
+                    <h3>PYTHON 3.8+</h3>
                     <p>No external dependencies required</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Linux</h3>
+                    <h3>LINUX</h3>
                     <p>Compatible with Debian, Ubuntu, Arch, and other distributions</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Windows</h3>
+                    <h3>WINDOWS</h3>
                     <p>Works with PowerShell and CMD</p>
                 </div>
             </div>
@@ -687,11 +687,11 @@
 
         <section class="usage">
             <h2>INSTALLATION LINUX</h2>
-			<p>Clone the repository:</p>
+            <p>Clone the repository:</p>
             <div class="code-block">
                 <code>git clone https://github.com/gerivanc/xphrase.git</code>			
             </div>
-			<p>Go to the directory folder.:</p>
+            <p>Go to the directory folder:</p>
             <div class="code-block">
                 <code>cd xphrase</code>				
             </div>
@@ -699,11 +699,11 @@
         
         <section class="usage">
             <h2>USAGE - COMMAND LINE INTERFACE</h2>
-			<p>Generates 1 sentence (interactive mode):</p>
+            <p>Generates 1 sentence (interactive mode):</p>
             <div class="code-block">
                 <code>python xphrase.py</code>				
             </div>
-			<p>Minimum and maximum word count argument for generating sentences:</p>
+            <p>Minimum and maximum word count argument for generating sentences:</p>
             <div class="code-block">
                 <code>python xphrase.py --min 2 --max 2</code>				
             </div>
@@ -760,10 +760,10 @@
             
             <div class="button-group" style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap;">
                 <a href="https://github.com/gerivanc/xphrase/" target="_blank" class="generate-btn" style="text-decoration: none; display: inline-block;">
-                    GitHub
+                    GITHUB
                 </a>
                 <a href="https://github.com/gerivanc/xphrase/blob/main/CONTRIBUTING.md" target="_blank" class="generate-btn" style="text-decoration: none; display: inline-block;">
-                    Contributing
+                    CONTRIBUTING
                 </a>
             </div>
         </section>
@@ -839,8 +839,29 @@
         // Generate example phrases
         function generatePhrase() {
             const words = [
-                'dream', 'vermeide', 'café', 'run', 'intentos', 'Liebe', 
-                'code', 'ice', 'amor', 'python', 'linux', 'windows'
+				'dream', 'vermeide', 'café', 'run', 'intentos', 'Liebe', 'água', 'Haus', 'time', 'fogo', 'machen', 
+				'book', 'casa', 'gut', 'light', 'amor', 'gehen', 'child', 'terra', 'Freund', 'work', 'noite', 'essen', 
+				'day', 'árvore', 'trinken', 'way', 'porta', 'neu', 'life', 'sol', 'alt', 'man', 'lua', 'Kind', 'woman', 
+				'feliz', 'sprechen', 'world', 'temporomandibulares', 'kommen', 'house', 'grande', 'Arbeit', 'year', 'pequeno', 
+				'Frau', 'people', 'livro', 'Mann', 'water', 'flor', 'finden', 'fire', 'mesa', 'geben', 'tree', 'cidade', 
+				'haben', 'door', 'rio', 'kaufen', 'night', 'chuva', 'lesen', 'sun', 'vento', 'sehen', 'moon', 'campo', 
+				'spielen', 'sky', 'mar', 'ar', 'montanha', 'hoch', 'land', 'rua', 'niedrig', 'sea', 'ponte', 'schnell', 
+				'air', 'floresta', 'langsam', 'mountain', 'jardim', 'wichtig', 'road', 'escola', 'einfach', 'bridge', 
+				'hospital', 'schwierig', 'forest', 'hotel', 'schön', 'garden', 'restaurante', 'interessant', 'school', 
+				'biblioteca', 'gut', 'hospital', 'parque', 'schlecht', 'hotel', 'praia', 'teuer', 'restaurant', 
+				'mercado', 'billig', 'library', 'farmácia', 'groß', 'park', 'banco', 'klein', 'beach', 'aeroporto', 
+				'schnell', 'market', 'estação', 'langsam', 'pharmacy', 'igreja', 'alt', 'bank', 'ponte', 'neu', 
+				'airport', 'prédio', 'heiß', 'station', 'carro', 'kalt', 'church', 'ônibus', 'laut', 'building', 'bucomaxilo', 
+				'leise', 'car', 'bicicleta', 'sauber', 'bus', 'avião', 'schmutzig', 'train', 'computador', 'stark', 
+				'bicycle', 'telefone', 'schwach', 'plane', 'câmera', 'süß', 'computer', 'relógio', 'sauer', 'phone', 
+				'sapato', 'hart', 'camera', 'camisa', 'weich', 'watch', 'calça', 'nass', 'shoe', 'vestido', 'trocken', 
+				'shirt', 'chapéu', 'dunkel', 'pants', 'meia', 'hell', 'dress', 'casaco', 'schwer', 'hat', 'óculos', 'leicht', 
+				'sock', 'bolsa', 'voll', 'jacket', 'carteira', 'leer', 'glasses', 'chave', 'richtig', 'bag', 'livro', 'falsch', 
+				'wallet', 'caneta', 'scharf', 'key', 'lápis', 'langweilig', 'book', 'caderno', 'aufregend', 'pen', 
+				'jornal', 'ruhig', 'pencil', 'revista', 'laut', 'notebook', 'televisão', 'leise', 'newspaper', 'rádio', 
+				'süß', 'magazine', 'música', 'sauer', 'television', 'filme', 'frisch', 'radio', 'jogo', 'alt', 'music', 
+				'arte', 'lange', 'movie', 'história', 'kurz', 'game', 'ciência', 'teuer', 'art', 'matemática', 'billig', 
+				'history', 'natureza', 'schnell', 'bucomaxilofacial', 'otorrinolaringologista', 'science'
             ];
             
             const specialChars = '!@#$%^&*()_+-=[]{}|;:,.<>?~\\';
