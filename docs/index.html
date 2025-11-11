@@ -96,7 +96,7 @@
             box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
         }
         
-        /* Efeito Glitch para o título */
+        /* Glitch effect for the title. */
         .glitch {
             position: relative;
         }
@@ -609,6 +609,37 @@
                 display: none;
             }
         }
+
+	/* CSS adapted for the phrase generator box */
+	@media (max-width: 480px) {
+		.example-output {
+			font-size: 0.9rem;
+			padding: 0.8rem;
+			word-break: break-all;
+			overflow-wrap: break-word;
+		}
+		
+		h1 {
+			font-size: 1.8rem;
+		}
+		
+		.tagline {
+			font-size: 1rem;
+		}
+		
+		.generate-btn {
+			padding: 0.7rem 1.5rem;
+			font-size: 1rem;
+		}
+	}
+
+	/* Ensure that long sentences are broken up correctly */
+	.example-output {
+		word-break: break-word;
+		overflow-wrap: break-word;
+		white-space: normal;
+	}
+
     </style>
 </head>
 <body>
@@ -783,62 +814,65 @@
         </div>
     </footer>
     
-    <script>
-        // Security measures
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-            showSecurityAlert();
-        });
-        
-        document.addEventListener('keydown', function(e) {
-            // Disable F12
-            if(e.key === 'F12') {
-                e.preventDefault();
-                showSecurityAlert();
-            }
-            
-            // Disable Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+U
-            if(e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C')) {
-                e.preventDefault();
-                showSecurityAlert();
-            }
-            
-            if(e.ctrlKey && e.key === 'u') {
-                e.preventDefault();
-                showSecurityAlert();
-            }
-        });
-        
-        function showSecurityAlert() {
-            const overlay = document.getElementById('securityOverlay');
-            overlay.style.display = 'flex';
-            
-            setTimeout(function() {
-                overlay.style.display = 'none';
-            }, 2000);
-        }
-        
-        // Matrix-style background animation
-        function createMatrix() {
-            const matrixBg = document.getElementById('matrixBg');
-            const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?~';
-            const fontSize = 14;
-            const columns = Math.floor(window.innerWidth / fontSize);
-            
-            for (let i = 0; i < columns; i++) {
-                const char = document.createElement('div');
-                char.className = 'matrix-char';
-                char.textContent = chars.charAt(Math.floor(Math.random() * chars.length));
-                char.style.left = (i * fontSize) + 'px';
-                char.style.animationDuration = (Math.random() * 5 + 3) + 's';
-                char.style.animationDelay = (Math.random() * 2) + 's';
-                matrixBg.appendChild(char);
-            }
-        }
-        
-        // Generate example phrases
-        function generatePhrase() {
-            const words = [
+	<script>
+		// Security measures
+		document.addEventListener('contextmenu', function(e) {
+			e.preventDefault();
+			showSecurityAlert();
+		});
+		
+		document.addEventListener('keydown', function(e) {
+			// Disable F12
+			if(e.key === 'F12') {
+				e.preventDefault();
+				showSecurityAlert();
+			}
+			
+			// Disable Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+U
+			if(e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C')) {
+				e.preventDefault();
+				showSecurityAlert();
+			}
+			
+			if(e.ctrlKey && e.key === 'u') {
+				e.preventDefault();
+				showSecurityAlert();
+			}
+		});
+		
+		function showSecurityAlert() {
+			const overlay = document.getElementById('securityOverlay');
+			overlay.style.display = 'flex';
+			
+			setTimeout(function() {
+				overlay.style.display = 'none';
+			}, 2000);
+		}
+		
+		// Matrix-style background animation
+		function createMatrix() {
+			const matrixBg = document.getElementById('matrixBg');
+			const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?~';
+			const fontSize = 14;
+			const columns = Math.floor(window.innerWidth / fontSize);
+			
+			// Clear existing matrix characters
+			matrixBg.innerHTML = '';
+			
+			for (let i = 0; i < columns; i++) {
+				const char = document.createElement('div');
+				char.className = 'matrix-char';
+				char.textContent = chars.charAt(Math.floor(Math.random() * chars.length));
+				char.style.left = (i * fontSize) + 'px';
+				char.style.animationDuration = (Math.random() * 5 + 3) + 's';
+				char.style.animationDelay = (Math.random() * 2) + 's';
+				matrixBg.appendChild(char);
+			}
+		}
+
+		// Generate example phrases - Corrected function
+		function generatePhrase() {
+			const words = [
 				'dream', 'vermeide', 'café', 'run', 'intentos', 'Liebe', 'água', 'Haus', 'time', 'fogo', 'machen', 
 				'book', 'casa', 'gut', 'light', 'amor', 'gehen', 'child', 'terra', 'Freund', 'work', 'noite', 'essen', 
 				'day', 'árvore', 'trinken', 'way', 'porta', 'neu', 'life', 'sol', 'alt', 'man', 'lua', 'Kind', 'woman', 
@@ -862,50 +896,80 @@
 				'süß', 'magazine', 'música', 'sauer', 'television', 'filme', 'frisch', 'radio', 'jogo', 'alt', 'music', 
 				'arte', 'lange', 'movie', 'história', 'kurz', 'game', 'ciência', 'teuer', 'art', 'matemática', 'billig', 
 				'history', 'natureza', 'schnell', 'bucomaxilofacial', 'otorrinolaringologista', 'science'
-            ];
-            
-            const specialChars = '!@#$%^&*()_+-=[]{}|;:,.<>?~\\';
-            const digits = '0123456789';
-            
-            let phrase = '';
-            const wordCount = Math.floor(Math.random() * 19) + 3; // 3 to 21 words
-            
-            for (let i = 0; i < wordCount; i++) {
-                const word = words[Math.floor(Math.random() * words.length)];
-                const specialChar = specialChars.charAt(Math.floor(Math.random() * specialChars.length));
-                const digit = digits.charAt(Math.floor(Math.random() * digits.length));
-                
-                // Randomly insert special char and digit
-                const insertPos = Math.floor(Math.random() * (word.length + 1));
-                let modifiedWord = word.slice(0, insertPos) + specialChar + digit + word.slice(insertPos);
-                
-                // Make last character of final word uppercase
-                if (i === wordCount - 1) {
-                    modifiedWord = modifiedWord.slice(0, -1) + modifiedWord.slice(-1).toUpperCase();
-                }
-                
-                phrase += modifiedWord;
-            }
-            
-            return phrase;
-        }
-        
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            createMatrix();
-            
-            const generateBtn = document.getElementById('generateBtn');
-            const exampleOutput = document.getElementById('exampleOutput');
-            
-            generateBtn.addEventListener('click', function() {
-                exampleOutput.textContent = generatePhrase();
-            });
-            
-            // Generate a new phrase every 5 seconds
-            setInterval(function() {
-                exampleOutput.textContent = generatePhrase();
-            }, 5000);
-        });
+			];
+			
+			const specialChars = '!@#$%^&*()_+-=[]{}|;:,.<>?~/\\';
+			const digits = '0123456789';
+			
+			let phrase = '';
+			const wordCount = Math.floor(Math.random() * 19) + 3; // 3 to 21 words
+			
+			for (let i = 0; i < wordCount; i++) {
+				let word = words[Math.floor(Math.random() * words.length)];
+				
+				// For the last word, ensure that the last character is capitalized.
+				if (i === wordCount - 1) {
+					// Ensure the word has at least 1 character.
+					if (word.length > 0) {
+						word = word.slice(0, -1) + word.slice(-1).toUpperCase();
+					}
+				}
+				
+				phrase += word;
+				
+				// Add a connecting character (special character + numeric) between words, except after the last word.
+				if (i < wordCount - 1) {
+					const specialChar = specialChars.charAt(Math.floor(Math.random() * specialChars.length));
+					const digit = digits.charAt(Math.floor(Math.random() * digits.length));
+					
+					// Randomly decide the order: special + numeric or numeric + special.
+					if (Math.random() > 0.5) {
+						phrase += specialChar + digit;
+					} else {
+						phrase += digit + specialChar;
+					}
+				}
+			}
+			
+			return phrase;
+		}
+		
+		// Initialize the page - Corrected function
+		document.addEventListener('DOMContentLoaded', function() {
+			createMatrix();
+			
+			const generateBtn = document.getElementById('generateBtn');
+			const exampleOutput = document.getElementById('exampleOutput');
+			
+			// Generate initial phrase
+			exampleOutput.textContent = generatePhrase();
+			
+			// Event listener for the button
+			generateBtn.addEventListener('click', function() {
+				exampleOutput.textContent = generatePhrase();
+			});
+			
+			// Generate a new phrase every 5 seconds
+			setInterval(function() {
+				exampleOutput.textContent = generatePhrase();
+			}, 5000);
+		});
+
+		// PWA Service Worker Registration
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function() {
+				navigator.serviceWorker.register('/sw.js').then(function(registration) {
+					console.log('ServiceWorker registration successful with scope: ', registration.scope);
+				}, function(err) {
+					console.log('ServiceWorker registration failed: ', err);
+				});
+			});
+		}
+
+		// Responsive matrix on window resize
+		window.addEventListener('resize', function() {
+			createMatrix();
+		});
         
         // PWA Service Worker Registration
         if ('serviceWorker' in navigator) {
