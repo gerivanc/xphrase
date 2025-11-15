@@ -1,0 +1,2147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self'">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#00ff00">
+    <meta name="description" content="XPhrase Generation - Expressive phrase generator — strong, modern, and minimalist">
+    <link rel="manifest" href="manifest.json">
+    
+    <title>XPhrase Generation - Expressive Phrase Generator</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #00ff00;
+            --secondary-color: #00ffff;
+            --background-color: #0a0a0a;
+            --card-color: #151515;
+            --text-color: #e0e0e0;
+            --accent-color: #ff003c;
+            --purple-accent: #9932cc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        .matrix-char {
+            position: absolute;
+            color: rgba(0, 255, 0, 0.7);
+            font-size: 14px;
+            font-family: 'Share Tech Mono', monospace;
+            animation: fall linear infinite;
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+        
+        .circuit-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 255, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255, 0, 60, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        header {
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid var(--primary-color);
+            background-color: rgba(10, 10, 10, 0.8);
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+        
+        /* Glitch effect for the title. */
+        .glitch {
+            position: relative;
+        }
+        
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--accent-color);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 var(--primary-color);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+        
+        @keyframes glitch-anim {
+            0% {
+                clip: rect(10px, 9999px, 80px, 0);
+            }
+            5% {
+                clip: rect(85px, 9999px, 25px, 0);
+            }
+            10% {
+                clip: rect(5px, 9999px, 35px, 0);
+            }
+            15% {
+                clip: rect(25px, 9999px, 65px, 0);
+            }
+            20% {
+                clip: rect(15px, 9999px, 15px, 0);
+            }
+            25% {
+                clip: rect(15px, 9999px, 35px, 0);
+            }
+            30% {
+                clip: rect(65px, 9999px, 55px, 0);
+            }
+            35% {
+                clip: rect(85px, 9999px, 55px, 0);
+            }
+            40% {
+                clip: rect(65px, 9999px, 30px, 0);
+            }
+            45% {
+                clip: rect(20px, 9999px, 25px, 0);
+            }
+            50% {
+                clip: rect(15px, 9999px, 30px, 0);
+            }
+            55% {
+                clip: rect(70px, 9999px, 50px, 0);
+            }
+            60% {
+                clip: rect(5px, 9999px, 20px, 0);
+            }
+            65% {
+                clip: rect(15px, 9999px, 75px, 0);
+            }
+            70% {
+                clip: rect(15px, 9999px, 10px, 0);
+            }
+            75% {
+                clip: rect(70px, 9999px, 50px, 0);
+            }
+            80% {
+                clip: rect(5px, 9999px, 70px, 0);
+            }
+            85% {
+                clip: rect(5px, 9999px, 20px, 0);
+            }
+            90% {
+                clip: rect(25px, 9999px, 50px, 0);
+            }
+            95% {
+                clip: rect(15px, 9999px, 70px, 0);
+            }
+            100% {
+                clip: rect(85px, 9999px, 25px, 0);
+            }
+        }
+        
+        @keyframes glitch-anim2 {
+            0% {
+                clip: rect(85px, 9999px, 45px, 0);
+            }
+            5% {
+                clip: rect(75px, 9999px, 5px, 0);
+            }
+            10% {
+                clip: rect(55px, 9999px, 65px, 0);
+            }
+            15% {
+                clip: rect(15px, 9999px, 15px, 0);
+            }
+            20% {
+                clip: rect(15px, 9999px, 35px, 0);
+            }
+            25% {
+                clip: rect(65px, 9999px, 45px, 0);
+            }
+            30% {
+                clip: rect(85px, 9999px, 25px, 0);
+            }
+            35% {
+                clip: rect(25px, 9999px, 15px, 0);
+            }
+            40% {
+                clip: rect(15px, 9999px, 35px, 0);
+            }
+            45% {
+                clip: rect(65px, 9999px, 65px, 0);
+            }
+            50% {
+                clip: rect(5px, 9999px, 75px, 0);
+            }
+            55% {
+                clip: rect(15px, 9999px, 55px, 0);
+            }
+            60% {
+                clip: rect(65px, 9999px, 50px, 0);
+            }
+            65% {
+                clip: rect(75px, 9999px, 25px, 0);
+            }
+            70% {
+                clip: rect(15px, 9999px, 15px, 0);
+            }
+            75% {
+                clip: rect(15px, 9999px, 65px, 0);
+            }
+            80% {
+                clip: rect(5px, 9999px, 50px, 0);
+            }
+            85% {
+                clip: rect(35px, 9999px, 5px, 0);
+            }
+            90% {
+                clip: rect(65px, 9999px, 45px, 0);
+            }
+            95% {
+                clip: rect(85px, 9999px, 5px, 0);
+            }
+            100% {
+                clip: rect(15px, 9999px, 35px, 0);
+            }
+        }
+        
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--primary-color);
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            position: relative;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 5px var(--secondary-color);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background-color: rgba(21, 21, 21, 0.8);
+            border-radius: 8px;
+            border: 1px solid var(--secondary-color);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+        }
+        
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--secondary-color), transparent);
+        }
+        
+        p {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding-left: 1rem;
+        }
+        
+        ul li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        ul li::before {
+            content: '>';
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .feature-card {
+            background-color: rgba(21, 21, 21, 0.8);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--secondary-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3);
+        }
+        
+        .feature-card:hover::before {
+            left: 100%;
+        }
+        
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+        
+        .code-block {
+            background-color: #1a1a1a;
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary-color);
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Share Tech Mono', monospace;
+            position: relative;
+        }
+        
+        .code-block::before {
+            content: '>>>';
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            color: var(--secondary-color);
+        }
+        
+        .code-block code {
+            color: var(--primary-color);
+            margin-left: 2rem;
+            display: block;
+        }
+        
+        .example-output {
+            background-color: #1a1a1a;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            border: 1px solid var(--secondary-color);
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .example-output::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+        }
+        
+        .generator-section {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .generate-btn {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s;
+            margin: 1rem 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .generate-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.2), transparent);
+            transition: left 0.5s;
+            z-index: -1;
+        }
+        
+        .generate-btn:hover {
+            background-color: rgba(0, 255, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+        }
+        
+        .generate-btn:hover::before {
+            left: 100%;
+        }
+        
+        .copy-btn {
+            background-color: transparent;
+            color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s;
+            margin: 1rem 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .copy-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+            z-index: -1;
+        }
+        
+        .copy-btn:hover {
+            background-color: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+        
+        .copy-btn:hover::before {
+            left: 100%;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .stat-card {
+            background-color: rgba(21, 21, 21, 0.8);
+            padding: 1.5rem;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid var(--secondary-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+        }
+        
+        .stat-card .number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+        
+        .stat-card .label {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            margin-top: 0.5rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            border-top: 1px solid var(--primary-color);
+            margin-top: 3rem;
+            background-color: rgba(10, 10, 10, 0.8);
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+        }
+        
+        footer h2 {
+            margin-bottom: 1rem;
+        }
+        
+        .contact-info {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .security-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: var(--primary-color);
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            display: none;
+        }
+        
+        .security-message {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: rgba(21, 21, 21, 0.8);
+            border: 1px solid var(--secondary-color);
+            border-radius: 4px;
+            color: var(--text-color);
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: rgba(21, 21, 21, 0.8);
+            border: 1px solid var(--secondary-color);
+            border-radius: 4px;
+            color: var(--text-color);
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+        }
+        
+        .form-checkbox {
+            margin-right: 0.5rem;
+        }
+        
+        .form-radio {
+            margin-right: 0.5rem;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-col {
+            flex: 1;
+        }
+        
+        .interactive-section {
+            background-color: rgba(21, 21, 21, 0.8);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--secondary-color);
+            margin-top: 1.5rem;
+        }
+        
+        .interactive-option {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: rgba(10, 10, 10, 0.8);
+            border-radius: 4px;
+            border: 1px solid var(--secondary-color);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .interactive-option:hover {
+            background-color: rgba(0, 255, 0, 0.1);
+            border-color: var(--primary-color);
+        }
+        
+        .interactive-option.active {
+            background-color: rgba(0, 255, 0, 0.2);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+        
+        .interactive-prompt {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: rgba(10, 10, 10, 0.8);
+            border-radius: 4px;
+            border: 1px solid var(--secondary-color);
+            display: none;
+        }
+        
+        .interactive-prompt.active {
+            display: block;
+        }
+        
+        .results-section {
+            margin-top: 2rem;
+        }
+        
+        .result-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: rgba(10, 10, 10, 0.8);
+            border-radius: 4px;
+            border: 1px solid var(--secondary-color);
+        }
+        
+        .result-number {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            section {
+                padding: 1.5rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .code-block code {
+                margin-left: 0;
+                font-size: 0.9rem;
+            }
+            
+            .code-block::before {
+                display: none;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .example-output {
+                font-size: 0.9rem;
+                padding: 0.8rem;
+                word-break: break-all;
+                overflow-wrap: break-word;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+            
+            .generate-btn, .copy-btn {
+                padding: 0.7rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Security Overlay -->
+    <div class="security-overlay" id="securityOverlay">
+        <div class="security-message">SECURITY BREACH DETECTED</div>
+        <div>UNAUTHORIZED ACCESS ATTEMPT</div>
+    </div>
+    
+    <!-- Matrix-style background -->
+    <div class="matrix-bg" id="matrixBg"></div>
+    <div class="circuit-pattern"></div>
+    
+    <header>
+        <h1 class="glitch" data-text="XPHRASE GENERATION">XPHRASE GENERATION</h1>
+        <p class="tagline">Expressive phrase generator — strong, modern, and minimalist</p>
+    </header>
+        
+        <section class="features">
+            <h2>PHRASE GENERATOR</h2>
+            
+            <div class="generator-section">
+                <div class="form-group">
+                    <label class="form-label" for="generationMode">Generation Mode:</label>
+                    <select class="form-select" id="generationMode">
+                        <option value="single">Single Phrase (8 words)</option>
+                        <option value="count">Fixed Word Count (5-10 words)</option>
+                        <option value="range">Word Range (min-max)</option>
+                        <option value="interactive">Interactive Mode</option>
+                    </select>
+                </div>
+                
+                <div id="countOptions" class="form-group" style="display: none;">
+                    <label class="form-label" for="wordCount">Word Count:</label>
+                    <select class="form-select" id="wordCount">
+                        <option value="5">5 words</option>
+                        <option value="6">6 words</option>
+                        <option value="7">7 words</option>
+                        <option value="8" selected>8 words</option>
+                        <option value="9">9 words</option>
+                        <option value="10">10 words</option>
+                    </select>
+                </div>
+                
+                <div id="rangeOptions" class="form-row" style="display: none;">
+                    <div class="form-col">
+                        <label class="form-label" for="minWords">Minimum Words:</label>
+                        <input type="number" class="form-input" id="minWords" min="3" max="21" value="5">
+                    </div>
+                    <div class="form-col">
+                        <label class="form-label" for="maxWords">Maximum Words:</label>
+                        <input type="number" class="form-input" id="maxWords" min="3" max="21" value="10">
+                    </div>
+                </div>
+                
+                <div id="interactiveOptions" style="display: none;">
+                    <div class="interactive-section">
+                        <div class="interactive-option" data-option="1">
+                            <h3>1. Generate single phrase</h3>
+                            <p>Generate one phrase with a specified word count (3-21 words)</p>
+                        </div>
+                        
+                        <div class="interactive-option" data-option="2">
+                            <h3>2. Generate multiple phrases</h3>
+                            <p>Generate multiple phrases with consistent word count</p>
+                        </div>
+                        
+                        <div class="interactive-prompt" id="prompt1">
+                            <div class="form-group">
+                                <label class="form-label">Generate between 3-21 words?</label>
+                                <input type="number" class="form-input" id="singleWordCount" min="3" max="21" value="8">
+                            </div>
+                            <button class="generate-btn" id="generateSingle">Generate Phrase</button>
+                        </div>
+                        
+                        <div class="interactive-prompt" id="prompt2">
+                            <div class="form-group">
+                                <label class="form-label">Generate between 3-21 words per phrase?</label>
+                                <input type="number" class="form-input" id="multipleWordCount" min="3" max="21" value="8">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Generate between 5-10 phrases?</label>
+                                <input type="number" class="form-input" id="phraseCount" min="5" max="10" value="5">
+                            </div>
+                            <button class="generate-btn" id="generateMultiple">Generate Phrases</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="generate-btn" id="generateBtn">GENERATE PHRASE</button>
+            </div>
+            
+            <div class="results-section" id="resultsSection">
+                <h3>Generated Phrase:</h3>
+                <div class="example-output" id="generatedOutput">
+                    Click "Generate Phrase" to create your first phrase
+                </div>
+                <button class="copy-btn" id="copyBtn">COPY PHRASE</button>
+            </div>
+        </section>
+ 
+        <section class="usage">
+        <h2>PROJECT REPOSITORY</h2>
+        <div class="button-group" style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap;">
+            <a href="https://xphrase.gerivan.me/" target="_blank" class="generate-btn" style="text-decoration: none; display: inline-block;">
+                HOME XPHRASE GENERATION
+            </a>
+            <a href="https://github.com/gerivanc/xphrase/blob/main/LICENSE" target="_blank" class="generate-btn" style="text-decoration: none; display: inline-block;">
+                LICENSE
+            </a>
+            </div>
+        </section>
+
+    <footer>        
+        <h2>CONTACT</h2>
+        <div class="contact-info">
+            <p>E-mail: ask@gerivan.me</p>
+            <p>Location: Brazil</p>
+        </div>
+        <p>Unleash your creativity — Create unique phrases with XPhrase!</p>
+        
+        <div class="copyright">
+            <p>Copyright © 2025 Gerivan Costa dos Santos</p>
+            <p>XPhrase Generation — Expressive phrases. Strong logic. Minimalist design © 2025</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Word banks
+        const ENGLISH_WORDS = [
+            "a", "abandon", "ability", "able", "about", "above", "abroad", "absence", "absolute", "absolutely", "absorb", "abuse",
+            "academic", "accept", "access", "accident", "accompany", "accomplish", "according", "account", "accurate", "accuse", "achieve", "achievement",
+            "acid", "acknowledge", "acquire", "across", "act", "action", "active", "activist", "activity", "actor", "actress", "actual",
+            "actually", "ad", "adapt", "add", "addition", "additional", "address", "adequate", "adjust", "administration", "administrator", "admire",
+            "admission", "admit", "adolescent", "adopt", "adult", "advance", "advanced", "advantage", "adventure", "advertising", "advice", "advise",
+            "adviser", "advocate", "affair", "affect", "afford", "afraid", "after", "afternoon", "again", "against", "age", "agency",
+            "agenda", "agent", "aggressive", "ago", "agree", "agreement", "agricultural", "ahead", "aid", "aim", "air", "aircraft",
+            "airline", "airport", "alarm", "album", "alcohol", "alive", "all", "alliance", "allow", "ally", "almost", "alone",
+            "along", "already", "also", "alter", "alternative", "although", "always", "amazing", "among", "amount", "analysis", "analyst",
+            "analyze", "ancient", "and", "anger", "angle", "angry", "animal", "anniversary", "announce", "annual", "another", "answer",
+            "anticipate", "anxiety", "any", "anybody", "anymore", "anyone", "anything", "anyway", "anywhere", "apart", "apartment", "apparent",
+            "apparently", "appeal", "appear", "appearance", "apple", "application", "apply", "appoint", "appointment", "appreciate", "approach", "appropriate",
+            "approval", "approve", "approximately", "architect", "area", "argue", "argument", "arise", "arm", "armed", "army", "around",
+            "arrange", "arrangement", "arrest", "arrival", "arrive", "art", "article", "artist", "artistic", "as", "ash", "ask",
+            "asleep", "aspect", "assault", "assert", "assess", "assessment", "asset", "assign", "assignment", "assist", "assistance", "assistant",
+            "associate", "association", "assume", "assumption", "assure", "at", "athlete", "athletic", "atmosphere", "attach", "attack", "attempt",
+            "attend", "attention", "attitude", "attorney", "attract", "attractive", "attribute", "audience", "author", "authority", "auto", "available",
+            "average", "avoid", "award", "aware", "awareness", "away", "awful", "baby", "back", "background", "bad", "badly",
+            "bag", "bake", "balance", "ball", "ban", "band", "bank", "bar", "barely", "barrel", "barrier", "base",
+            "baseball", "basic", "basically", "basis", "basket", "basketball", "bat", "bath", "bathroom", "battery", "battle", "be",
+            "beach", "bean", "bear", "beat", "beautiful", "beauty", "because", "become", "bed", "bedroom", "beer", "before",
+            "begin", "beginning", "behavior", "behind", "being", "belief", "believe", "bell", "belong", "below", "belt", "bench",
+            "bend", "beneath", "benefit", "beside", "besides", "best", "bet", "better", "between", "beyond", "bias", "bicycle",
+            "big", "bike", "bill", "billion", "bind", "biological", "bird", "birth", "birthday", "bit", "bite", "black",
+            "blade", "blame", "blank", "blind", "block", "blood", "blow", "blue", "board", "boat", "body", "bomb",
+            "bombing", "bond", "bone", "book", "boom", "boot", "border", "born", "borrow", "boss", "both", "bother",
+            "bottle", "bottom", "boundary", "bowl", "box", "boy", "brain", "branch", "brand", "bread", "break", "breakfast",
+            "breast", "breath", "breathe", "brick", "bridge", "brief", "briefly", "bright", "brilliant", "bring", "broad", "broken",
+            "brother", "brown", "brush", "budget", "build", "building", "bullet", "bunch", "burden", "burn", "bury", "bus",
+            "business", "busy", "but", "butter", "button", "buy", "buyer", "by", "cabin", "cabinet", "cable", "cake",
+            "calculate", "call", "camera", "camp", "campaign", "campus", "can", "cancel", "cancer", "candidate", "candle", "candy",
+            "cap", "capability", "capable", "capacity", "capital", "captain", "capture", "car", "carbon", "card", "care", "career",
+            "careful", "carefully", "carrier", "carry", "case", "cash", "cast", "cat", "catch", "category", "Catholic", "cause",
+            "ceiling", "celebrate", "celebration", "celebration", "celebrity", "cell", "center", "central", "century", "CEO", "ceremony", "certain", "certainly",
+            "chain", "chair", "chairman", "challenge", "chamber", "champion", "championship", "chance", "change", "changing", "channel", "chapter",
+            "character", "characteristic", "characterize", "charge", "charity", "chart", "chase", "cheap", "check", "cheek", "cheese", "chef",
+            "chemical", "chemistry", "chest", "chicken", "chief", "child", "childhood", "chip", "chocolate", "choice", "cholesterol", "choose",
+            "Christian", "Christmas", "church", "cigarette", "circle", "circumstance", "cite", "citizen", "city", "civil", "civilian", "claim",
+            "class", "classic", "classroom", "clean", "clear", "clearly", "client", "climate", "climb", "clinic", "clinical", "clock",
+            "close", "closely", "closer", "clothes", "clothing", "cloud", "club", "clue", "cluster", "coach", "coal", "coalition",
+            "coast", "coat", "code", "coffee", "cognitive", "cold", "collapse", "colleague", "collect", "collection", "collective", "college",
+            "colonial", "color", "column", "combination", "combine", "come", "comedy", "comfort", "comfortable", "command", "commander", "comment",
+            "commercial", "commission", "commit", "commitment", "committee", "common", "communicate", "communication", "community", "company", "compare",
+            "comparison", "compete", "competition", "competitive", "competitor", "complain", "complaint", "complete", "completely", "complex", "complicated",
+            "component", "compose", "composition", "comprehensive", "computer", "concentrate", "concentration", "concept", "concern", "concerned", "concert",
+            "conclude", "conclusion", "concrete", "condition", "conduct", "conference", "confidence", "confident", "confirm", "conflict", "confront",
+            "confusion", "Congress", "congressional", "connect", "connection", "consciousness", "consensus", "consequence", "conservative", "consider", "considerable",
+            "consideration", "consist", "consistent", "constant", "constantly", "constitute", "constitutional", "construct", "construction", "consultant", "consume",
+            "consumer", "consumption", "contact", "contain", "container", "contemporary", "content", "contest", "context", "continue", "continued", "contract",
+            "contrast", "contribute", "contribution", "control", "controversial", "controversy", "convention", "conventional", "conversation", "convert", "conviction",
+            "convince", "cook", "cookie", "cooking", "cool", "cooperation", "cop", "cope", "copy", "core", "corn", "corner",
+            "corporate", "corporation", "correct", "correspondent", "cost", "cotton", "couch", "could", "council", "counselor", "count", "counter",
+            "country", "county", "couple", "courage", "course", "court", "cousin", "cover", "coverage", "cow", "crack", "craft",
+            "crash", "crazy", "cream", "create", "creation", "creative", "creature", "credit", "crew", "crime", "criminal", "crisis",
+            "criteria", "critic", "critical", "criticism", "criticize", "crop", "cross", "crowd", "crucial", "cry", "cultural", "culture",
+            "cup", "curious", "current", "currently", "curriculum", "custom", "customer", "cut", "cycle", "dad", "daily", "damage",
+            "dance", "danger", "dangerous", "dare", "dark", "darkness", "data", "date", "daughter", "day", "dead", "deal",
+            "dealer", "dear", "death", "debate", "debt", "decade", "decide", "decision", "deck", "declare", "decline", "decrease",
+            "deep", "deeply", "deer", "defeat", "defend", "defendant", "defense", "defensive", "deficit", "define", "definitely", "definition",
+            "degree", "delay", "deliver", "delivery", "demand", "democracy", "Democrat", "democratic", "demonstrate", "demonstration", "deny", "department",
+            "depend", "dependent", "depending", "depict", "depression", "depth", "deputy", "derive", "describe", "description", "desert", "deserve",
+            "design", "designer", "desire", "desk", "desperate", "despite", "destroy", "destruction", "detail", "detailed", "detect", "determine",
+            "develop", "developing", "development", "device", "devote", "dialogue", "die", "diet", "differ", "difference", "different", "differently",
+            "difficult", "difficulty", "dig", "digital", "dimension", "dining", "dinner", "direct", "direction", "directly", "director", "dirt",
+            "dirty", "disability", "disagree", "disappear", "disaster", "discipline", "discourse", "discover", "discovery", "discrimination", "discuss",
+            "discussion", "disease", "dish", "dismiss", "disorder", "display", "dispute", "distance", "distant", "distinct", "distinction", "distinguish",
+            "distribute", "distribution", "district", "diverse", "diversity", "divide", "division", "divorce", "DNA", "do", "doctor", "document",
+            "dog", "domestic", "dominant", "dominate", "door", "double", "doubt", "down", "downtown", "dozen", "draft", "drag",
+            "drama", "dramatic", "dramatically", "draw", "drawing", "dream", "dress", "drink", "drive", "driver", "drop", "drug",
+            "dry", "due", "during", "dust", "duty", "each", "eager", "ear", "early", "earn", "earnings", "earth",
+            "ease", "easily", "east", "eastern", "easy", "eat", "economic", "economics", "economist", "economy", "edge", "edition",
+            "editor", "educate", "education", "educational", "educator", "effect", "effective", "effectively", "efficiency", "efficient", "effort", "egg",
+            "eight", "either", "elderly", "elect", "election", "electric", "electricity", "electronic", "element", "elementary", "eliminate", "elite",
+            "else", "elsewhere", "e-mail", "embrace", "emerge", "emergency", "emission", "emotion", "emotional", "emphasis", "emphasize", "employ",
+            "employee", "employer", "employment", "empty", "enable", "encounter", "encourage", "end", "enemy", "energy", "enforcement", "engage",
+            "engine", "engineer", "engineering", "English", "enhance", "enjoy", "enormous", "enough", "ensure", "enter", "enterprise", "entertainment",
+            "entire", "entirely", "entrance", "entry", "environment", "environmental", "episode", "equal", "equally", "equipment", "era", "error",
+            "escape", "especially", "essay", "essential", "essentially", "establish", "establishment", "estate", "estimate", "etc", "ethics", "ethnic",
+            "European", "evaluate", "evaluation", "even", "evening", "event", "eventually", "ever", "every", "everybody", "everyday", "everyone",
+            "everything", "everywhere", "evidence", "evolution", "evolve", "exact", "exactly", "examination", "examine", "example", "exceed", "excellent",
+            "except", "exception", "exchange", "exciting", "executive", "exercise", "exhibit", "exhibition", "exist", "existence", "existing", "expand",
+            "expansion", "expect", "expectation", "expense", "expensive", "experience", "experiment", "expert", "explain", "explanation", "explode", "explore",
+            "explosion", "expose", "exposure", "express", "expression", "extend", "extension", "extensive", "extent", "external", "extra", "extraordinary",
+            "extreme", "extremely", "eye", "fabric", "face", "facility", "fact", "factor", "factory", "faculty", "fade", "fail", "failure",
+            "fair", "fairly", "faith", "fall", "false", "familiar", "family", "famous", "fan", "fantasy", "far", "farm", "farmer",
+            "fashion", "fast", "fat", "fate", "father", "fault", "favor", "favorite", "fear", "feature", "federal", "fee", "feed",
+            "feel", "feeling", "fellow", "female", "fence", "few", "fewer", "fiber", "fiction", "field", "fifteen", "fifth", "fifty",
+            "fight", "fighter", "fighting", "figure", "file", "fill", "film", "final", "finally", "finance", "financial", "find", "finding",
+            "fine", "finger", "finish", "fire", "firm", "first", "fish", "fishing", "fit", "fitness", "five", "fix", "flag",
+            "flame", "flat", "flavor", "flee", "flesh", "flight", "float", "floor", "flow", "flower", "fly", "focus", "folk",
+            "follow", "following", "food", "foot", "football", "for", "force", "foreign", "forest", "forever", "forget", "form", "formal",
+            "formation", "former", "formula", "forth", "fortune", "forward", "found", "foundation", "founder", "four", "fourth", "frame",
+            "framework", "free", "freedom", "freeze", "French", "frequency", "frequent", "frequently", "fresh", "friend", "friendly", "friendship",
+            "from", "front", "fruit", "frustration", "fuel", "full", "fully", "fun", "function", "fund", "fundamental", "funding", "funeral",
+            "funny", "furniture", "furthermore", "future", "gain", "galaxy", "gallery", "game", "gang", "gap", "garage", "garden", "garlic",
+            "gas", "gate", "gather", "gay", "gaze", "gear", "gender", "gene", "general", "generally", "generate", "generation", "genetic",
+            "gentleman", "gently", "German", "gesture", "get", "ghost", "giant", "gift", "gifted", "girl", "girlfriend", "give", "given",
+            "glad", "glance", "glass", "global", "glove", "go", "goal", "God", "gold", "golden", "golf", "good", "government",
+            "governor", "grab", "grade", "gradually", "graduate", "grain", "grand", "grandfather", "grandmother", "grant", "grass", "grave", "gray",
+            "great", "greatest", "green", "grocery", "ground", "group", "grow", "growing", "growth", "guarantee", "guard", "guess", "guest",
+            "guide", "guideline", "guilty", "gun", "guy", "habit", "habitat", "hair", "half", "hall", "hand", "handful", "handle",
+            "hang", "happen", "happy", "hard", "hardly", "hat", "hate", "have", "he", "head", "headline", "headquarters", "health",
+            "healthy", "hear", "hearing", "heart", "heat", "heaven", "heavily", "heavy", "heel", "height", "helicopter", "hell", "hello",
+            "help", "helpful", "her", "here", "heritage", "hero", "herself", "hey", "hi", "hide", "high", "highlight", "highly",
+            "highway", "hill", "him", "himself", "hip", "hire", "his", "historian", "historic", "historical", "history", "hit", "hold",
+            "hole", "holiday", "holy", "home", "homeless", "honest", "honey", "honor", "hope", "horizon", "horror", "horse", "hospital",
+            "host", "hot", "hotel", "hour", "house", "household", "housing", "how", "however", "huge", "human", "humor", "hundred",
+            "hungry", "hunter", "hunting", "hurt", "husband", "hypothesis", "I", "ice", "idea", "ideal", "identification", "identify", "identity",
+            "ie", "if", "ignore", "ill", "illegal", "illness", "illustrate", "image", "imagination", "imagine", "immediate", "immediately", "immigrant",
+            "immigration", "impact", "implement", "implication", "imply", "importance", "important", "impose", "impossible", "impress", "impression", "impressive",
+            "improve", "improvement", "in", "incentive", "incident", "include", "including", "income", "incorporate", "increase", "increased", "increasing",
+            "increasingly", "incredible", "indeed", "independence", "independent", "index", "Indian", "indicate", "indication", "individual", "industrial", "industry",
+            "infant", "infection", "inflation", "influence", "inform", "information", "ingredient", "initial", "initially", "initiative", "injury", "inner",
+            "innocent", "inquiry", "inside", "insight", "insist", "inspire", "install", "instance", "instead", "institution", "institutional", "instruction",
+            "instructor", "instrument", "insurance", "intellectual", "intelligence", "intend", "intense", "intensity", "intention", "interaction", "interest", "interested",
+            "interesting", "internal", "international", "Internet", "interpret", "interpretation", "intervention", "interview", "into", "introduce", "introduction", "invasion",
+            "invest", "investigate", "investigation", "investigator", "investment", "investor", "invite", "involve", "involved", "involvement", "Iraqi", "Irish",
+            "iron", "Islamic", "island", "Israeli", "issue", "it", "Italian", "item", "its", "itself", "jacket", "jail",
+            "Japanese", "jet", "Jew", "Jewish", "job", "join", "joint", "joke", "journal", "journalist", "journey", "joy",
+            "judge", "judgment", "juice", "jump", "junior", "jury", "just", "justice", "justify", "keep", "key", "kick",
+            "kid", "kill", "killer", "killing", "kind", "king", "kiss", "kitchen", "knee", "knife", "knock", "know",
+            "knowledge", "lab", "label", "labor", "laboratory", "lack", "lady", "lake", "land", "landscape", "language", "lap",
+            "large", "largely", "last", "late", "later", "Latin", "latter", "laugh", "laughter", "launch", "law", "lawn",
+            "lawsuit", "lawyer", "lay", "layer", "lead", "leader", "leadership", "leading", "leaf", "league", "lean", "learn",
+            "learning", "least", "leather", "leave", "left", "leg", "legacy", "legal", "legend", "legislation", "legitimate", "lemon",
+            "length", "less", "lesson", "let", "letter", "level", "liberal", "library", "license", "lie", "life", "lifestyle",
+            "lifetime", "lift", "light", "like", "likely", "limit", "limitation", "limited", "line", "link", "lip", "list",
+            "listen", "literally", "literary", "literature", "little", "live", "living", "load", "loan", "local", "locate", "location",
+            "lock", "long", "long-term", "look", "loose", "lose", "loss", "lost", "lot", "lots", "loud", "love",
+            "lovely", "lover", "low", "lower", "luck", "lucky", "lunch", "lung", "machine", "mad", "magazine", "mail", "main",
+            "mainly", "maintain", "maintenance", "major", "majority", "make", "maker", "makeup", "male", "mall", "man", "manage",
+            "management", "manager", "manner", "manufacturer", "manufacturing", "many", "map", "margin", "mark", "market", "marketing", "marriage",
+            "married", "marry", "mask", "mass", "massive", "master", "match", "material", "math", "matter", "may", "maybe", "mayor",
+            "me", "meal", "mean", "meaning", "meanwhile", "measure", "measurement", "meat", "mechanism", "media", "medical", "medication", "medicine",
+            "medium", "meet", "meeting", "member", "membership", "memory", "mental", "mention", "menu", "mere", "merely", "mess",
+            "message", "metal", "meter", "method", "Mexican", "middle", "might", "military", "milk", "million", "mind", "mine", "minister",
+            "minor", "minority", "minute", "miracle", "mirror", "miss", "missile", "mission", "mistake", "mix", "mixture", "mm-hmm", "mode",
+            "model", "moderate", "modern", "modest", "mom", "moment", "money", "monitor", "month", "mood", "moon", "moral", "more",
+            "moreover", "morning", "mortgage", "most", "mostly", "mother", "motion", "motivation", "motor", "mount", "mountain", "mouse", "mouth",
+            "move", "movement", "movie", "Mr", "Mrs", "Ms", "much", "multiple", "murder", "muscle", "museum", "music", "musical", "musician",
+            "Muslim", "must", "mutual", "my", "myself", "mystery", "myth", "naked", "name", "narrative", "narrow", "nation", "national", "native",
+            "natural", "naturally", "nature", "near", "nearby", "nearly", "necessarily", "necessary", "neck", "need", "negative", "negotiate", "negotiation",
+            "neighbor", "neighborhood", "neither", "nerve", "nervous", "net", "network", "never", "nevertheless", "new", "newly", "news", "newspaper",
+            "next", "nice", "night", "nine", "no", "nobody", "nod", "noise", "nomination", "none", "nonetheless", "nor", "normal",
+            "normally", "north", "northern", "nose", "not", "note", "nothing", "notice", "notion", "novel", "now", "nowhere", "nuclear",
+            "number", "numerous", "nurse", "nut", "object", "objective", "obligation", "observation", "observe", "observer", "obtain", "obvious", "obviously",
+            "occasion", "occasionally", "occupation", "occupy", "occur", "ocean", "odd", "odds", "of", "off", "offense", "offensive", "offer",
+            "office", "officer", "official", "often", "oh", "oil", "ok", "okay", "old", "Olympic", "on", "once", "one",
+            "ongoing", "onion", "online", "only", "onto", "open", "opening", "operate", "operating", "operation", "operator", "opinion", "opponent",
+            "opportunity", "oppose", "opposite", "opposition", "option", "or", "orange", "order", "ordinary", "organic", "organization", "organize", "orientation",
+            "origin", "original", "originally", "other", "others", "otherwise", "ought", "our", "ourselves", "out", "outcome", "outside", "oven",
+            "over", "overall", "overcome", "overlook", "owe", "own", "owner", "pace", "pack", "package", "page", "pain", "painful",
+            "paint", "painter", "painting", "pair", "pale", "Palestinian", "pan", "panel", "pant", "paper", "parent", "park", "parking",
+            "part", "participant", "participate", "participation", "particular", "particularly", "partly", "partner", "partnership", "party", "pass", "passage",
+            "passenger", "passion", "past", "patch", "path", "patient", "pattern", "pause", "pay", "payment", "PC", "peace", "peak",
+            "peer", "penalty", "people", "pepper", "per", "perceive", "percentage", "perception", "perfect", "perfectly", "perform", "performance", "performer",
+            "perhaps", "period", "permanent", "permission", "permit", "person", "personal", "personality", "personally", "personnel", "perspective", "persuade",
+            "pet", "phase", "phenomenon", "philosophy", "phone", "photo", "photograph", "photographer", "photography", "physical", "physically", "physician",
+            "piano", "pick", "picture", "pie", "piece", "pile", "pilot", "pine", "pink", "pipe", "pitch", "place", "plan",
+            "plane", "planet", "planning", "plant", "plastic", "plate", "platform", "play", "player", "please", "pleasure", "plenty", "plot",
+            "plus", "PM", "pocket", "poem", "poet", "poetry", "point", "pole", "police", "policy", "political", "politically", "politician",
+            "politics", "poll", "pollution", "pool", "poor", "pop", "popular", "population", "porch", "port", "portion", "portrait", "portray",
+            "pose", "position", "positive", "possess", "possibility", "possible", "possibly", "post", "pot", "potato", "potential", "potentially", "pound",
+            "pour", "poverty", "power", "powerful", "practical", "practice", "pray", "prayer", "precisely", "predict", "prefer", "preference", "pregnancy",
+            "pregnant", "preparation", "prepare", "prescription", "presence", "present", "presentation", "preserve", "president", "presidential", "press", "pressure",
+            "pretend", "pretty", "prevent", "previous", "previously", "price", "pride", "priest", "primarily", "primary", "prime", "principal", "principle",
+            "print", "prior", "priority", "prison", "prisoner", "privacy", "private", "probably", "problem", "procedure", "proceed", "process", "produce",
+            "producer", "product", "production", "profession", "professional", "professor", "profile", "profit", "program", "progress", "project", "prominent",
+            "promise", "promote", "prompt", "proof", "proper", "properly", "property", "proportion", "proposal", "propose", "proposed", "prosecutor", "prospect",
+            "protect", "protection", "protein", "protest", "proud", "prove", "provide", "provider", "province", "provision", "psychological", "psychologist", "psychology",
+            "public", "publication", "publicly", "publish", "publisher", "pull", "punishment", "purchase", "pure", "purpose", "pursue", "push", "put",
+            "qualify", "quality", "quarter", "quarterback", "question", "quick", "quickly", "quiet", "quietly", "quit", "quite", "quote", "race",
+            "racial", "radical", "radio", "rail", "rain", "raise", "range", "rank", "rapid", "rapidly", "rare", "rarely", "rate",
+            "rather", "rating", "ratio", "raw", "reach", "react", "reaction", "read", "reader", "reading", "ready", "real", "reality",
+            "realize", "really", "reason", "reasonable", "recall", "receive", "recent", "recently", "recipe", "recognition", "recognize", "recommend", "recommendation",
+            "record", "recording", "recover", "recovery", "recruit", "red", "reduce", "reduction", "refer", "reference", "reflect", "reflection", "reform",
+            "refugee", "refuse", "regard", "regarding", "regardless", "regime", "region", "regional", "register", "regular", "regularly", "regulate", "regulation",
+            "reinforce", "reject", "relate", "relation", "relationship", "relative", "relatively", "relax", "release", "relevant", "relief", "religion", "religious",
+            "rely", "remain", "remaining", "remarkable", "remember", "remind", "remote", "remove", "repeat", "repeatedly", "replace", "reply", "report",
+            "reporter", "represent", "representation", "representative", "Republican", "reputation", "request", "require", "requirement", "research", "researcher", "resemble",
+            "reservation", "resident", "resist", "resistance", "resolution", "resolve", "resort", "resource", "respect", "respond", "response", "responsibility", "responsible",
+            "rest", "restaurant", "restore", "restriction", "result", "retain", "retire", "retirement", "return", "reveal", "revenue", "review", "revolution",
+            "rhythm", "rice", "rich", "rid", "ride", "rifle", "right", "ring", "rise", "risk", "river", "road", "rock",
+            "role", "roll", "romantic", "roof", "room", "root", "rope", "rose", "rough", "roughly", "round", "route", "routine",
+            "row", "rub", "rule", "run", "running", "rural", "rush", "Russian", "sacred", "sad", "safe", "safety", "sake", "salad",
+            "salary", "sale", "sales", "salt", "same", "sample", "sanction", "sand", "satellite", "satisfaction", "satisfy", "sauce", "save",
+            "saving", "say", "scale", "scandal", "scared", "scenario", "scene", "schedule", "scheme", "scholar", "scholarship", "school", "science",
+            "scientific", "scientist", "scope", "score", "scream", "screen", "script", "sea", "search", "season", "seat", "second", "secret",
+            "secretary", "section", "sector", "secure", "security", "see", "seed", "seek", "seem", "segment", "seize", "select", "selection",
+            "self", "sell", "Senate", "senator", "send", "senior", "sense", "sensitive", "sentence", "separate", "sequence", "series", "serious",
+            "seriously", "serve", "service", "session", "set", "setting", "settle", "settlement", "seven", "several", "severe", "sex", "sexual",
+            "shade", "shadow", "shake", "shall", "shape", "share", "sharp", "she", "sheet", "shelf", "shell", "shelter", "shift",
+            "shine", "ship", "shirt", "shit", "shock", "shoe", "shoot", "shooting", "shop", "shopping", "shore", "short", "shortly",
+            "shot", "should", "shoulder", "shout", "show", "shower", "shut", "sick", "side", "sigh", "sight", "sign", "signal",
+            "significance", "significant", "significantly", "silence", "silent", "silver", "similar", "similarly", "simple", "simply", "sin", "since",
+            "sing", "singer", "single", "sink", "sir", "sister", "sit", "site", "situation", "six", "size", "ski", "skill",
+            "skin", "sky", "slave", "sleep", "slice", "slide", "slight", "slightly", "slip", "slow", "slowly", "small", "smart",
+            "smell", "smile", "smoke", "smooth", "snap", "snow", "so", "so-called", "soccer", "social", "society", "soft", "software",
+            "soil", "solar", "soldier", "solid", "solution", "solve", "some", "somebody", "somehow", "someone", "something", "sometimes", "somewhat",
+            "somewhere", "son", "song", "soon", "sophisticated", "sorry", "sort", "soul", "sound", "soup", "source", "south", "southern",
+            "Soviet", "space", "Spanish", "speak", "speaker", "special", "specialist", "species", "specific", "specifically", "speech", "speed", "spend",
+            "spending", "spin", "spirit", "spiritual", "split", "spokesman", "sport", "spot", "spread", "spring", "square", "squeeze", "stability",
+            "stable", "staff", "stage", "stair", "stake", "stand", "standard", "standing", "star", "stare", "start", "state", "statement",
+            "station", "statistics", "status", "stay", "steady", "steal", "steel", "step", "stick", "still", "stir", "stock", "stomach",
+            "stone", "stop", "storage", "store", "storm", "story", "straight", "strange", "stranger", "strategic", "strategy", "stream", "street",
+            "strength", "strengthen", "stress", "stretch", "strike", "string", "strip", "stroke", "strong", "strongly", "structure", "struggle", "student",
+            "studio", "study", "stuff", "stupid", "style", "subject", "submit", "subsequent", "substance", "substantial", "succeed", "success", "successful",
+            "such", "suddenly", "sue", "suffer", "sufficient", "sugar", "suggest", "suggestion", "suicide", "suit", "summer", "summit", "sun",
+            "super", "supply", "support", "supporter", "suppose", "supposed", "Supreme", "sure", "surely", "surface", "surgery", "surprise", "surprised",
+            "surprising", "surround", "survey", "survival", "survive", "survivor", "suspect", "sustain", "swear", "sweep", "sweet", "swim", "swing",
+            "switch", "symbol", "symptom", "system", "table", "tablespoon", "tactic", "tail", "take", "tale", "talent", "talk", "tall",
+            "tank", "tap", "tape", "target", "task", "taste", "tax", "taxpayer", "tea", "teach", "teacher", "teaching", "team",
+            "tear", "teaspoon", "technical", "technique", "technology", "teen", "teenager", "telephone", "telescope", "television", "tell", "temperature",
+            "temporary", "ten", "tend", "tendency", "tennis", "tension", "tent", "term", "terms", "terrible", "territory", "terror", "terrorism",
+            "terrorist", "test", "testify", "testimony", "testing", "text", "than", "thank", "thanks", "that", "the", "theater", "their",
+            "them", "theme", "themselves", "then", "theory", "therapy", "there", "therefore", "these", "they", "thick", "thin", "thing",
+            "think", "thinking", "third", "thirty", "this", "those", "though", "thought", "thousand", "threat", "threaten", "three", "throat",
+            "through", "throughout", "throw", "thus", "ticket", "tie", "tight", "time", "tiny", "tip", "tire", "tired", "tissue",
+            "title", "to", "tobacco", "today", "toe", "together", "tomato", "tomorrow", "tone", "tongue", "tonight", "too", "tool",
+            "tooth", "top", "topic", "toss", "total", "totally", "touch", "tough", "tour", "tourist", "tournament", "toward", "towards",
+            "tower", "town", "toy", "trace", "track", "trade", "tradition", "traditional", "traffic", "tragedy", "trail", "train", "training",
+            "transfer", "transform", "transformation", "transition", "translate", "transportation", "travel", "treat", "treatment", "treaty", "tree", "tremendous",
+            "trend", "trial", "tribe", "trick", "trip", "troop", "trouble", "truck", "true", "truly", "trust", "truth", "try",
+            "tube", "tunnel", "turn", "TV", "twelve", "twenty", "twice", "twin", "two", "type", "typical", "typically", "ugly",
+            "ultimate", "ultimately", "unable", "uncle", "under", "undergo", "understand", "understanding", "unfortunately", "uniform", "union", "unique", "unit",
+            "United", "universal", "universe", "university", "unknown", "unless", "unlike", "unlikely", "until", "unusual", "up", "upon", "upper",
+            "urban", "urge", "us", "use", "used", "useful", "user", "usual", "usually", "utility", "vacation", "valley", "valuable",
+            "value", "variable", "variation", "variety", "various", "vary", "vast", "vegetable", "vehicle", "venture", "version", "versus", "very",
+            "vessel", "veteran", "via", "victim", "victory", "video", "view", "viewer", "village", "violate", "violation", "violence", "violent",
+            "virtually", "virtue", "virus", "visible", "vision", "visit", "visitor", "visual", "vital", "voice", "volume", "volunteer", "vote",
+            "voter", "vs", "vulnerable", "wage", "wait", "wake", "walk", "wall", "want", "war", "warm", "warn", "warning", "wash",
+            "waste", "watch", "water", "wave", "way", "we", "weak", "wealth", "wealthy", "weapon", "wear", "weather", "wedding", "week",
+            "weekend", "weekly", "weigh", "weight", "welcome", "welfare", "well", "west", "western", "wet", "what", "whatever", "wheel", "when",
+            "whenever", "where", "whereas", "whether", "which", "while", "whisper", "white", "who", "whole", "whom", "whose", "why", "wide",
+            "widely", "wife", "wild", "will", "willing", "win", "wind", "window", "wine", "wing", "winner", "winter", "wipe", "wire",
+            "wisdom", "wise", "wish", "with", "withdraw", "within", "without", "witness", "woman", "wonder", "wonderful", "wood", "wooden", "word",
+            "work", "worker", "working", "works", "workshop", "world", "worried", "worry", "worth", "would", "wound", "wrap", "write", "writer",
+            "writing", "written", "wrong", "yard", "yeah", "year", "yell", "yellow", "yes", "yesterday", "yet", "yield", "you", "young",
+            "your", "yours", "yourself", "youth", "zone"
+        ];
+
+        const GERMAN_WORDS = [
+            "a", "ab", "aber", "abermals", "abfahren", "Abend", "abgeben", "abholen", 
+            "Abitur", "Ablauf", "Absatz", "abschließen", "Absicht", "absolut", "Abstand", 
+            "Acht", "acht", "achten", "achtzehn", "achtzig", "Acker", "Adler", "Adresse", 
+            "affin", "ahnen", "ähnlich", "Ahnung", "Akt", "Akte", "akzeptieren", "alle", 
+            "allein", "alleine", "allem", "allen", "aller", "allerdings", "alles", 
+            "allgemein", "allmählich", "als", "also", "alt", "Alter", "am", "an", 
+            "andere", "anderen", "anderer", "andern", "anders", "anbieten", "andauern", 
+            "anderthalb", "anfangen", "Anfang", "anfangs", "anfordern", "Anforderung", 
+            "Angebot", "angehen", "angenehm", "Angst", "anhand", "ankommen", "Anlage", 
+            "anmachen", "annehmen", "Anruf", "ans", "anschließen", "anscheinend", 
+            "ansehen", "Ansicht", "anstatt", "Anteil", "Antwort", "anweisen", "anwenden", 
+            "Anwendung", "anziehen", "apart", "Apparat", "Appetit", "April", "Arbeit", 
+            "arbeiten", "Arbeiter", "ärgern", "Argument", "Arm", "arm", "Armee", "Art", 
+            "Artikel", "Arzt", "asozial", "atmen", "auch", "auf", "Aufgabe", "aufgeben", 
+            "aufhalten", "aufheben", "aufhören", "aufmachen", "Aufnahme", "aufnehmen", 
+            "aufs", "Auftrag", "aufweisen", "Auge", "Augenblick", "August", "aus", 
+            "Ausbildung", "Ausdruck", "auseinander", "Ausländer", "Ausnahme", "außerdem", 
+            "außen", "äußere", "äußern", "außerordentlich", "äußerste", "aussehen", 
+            "Außenstelle", "aussi", "Australien", "ausweisen", "Auto", "automatisch", 
+            "Autor", "backen", "bad", "Baden", "Bahn", "bald", "Balkon", "Ball", "banal", 
+            "Band", "Bank", "bar", "Bär", "basteln", "Bau", "Bauer", "bauen", "Bauernhof", 
+            "Baum", "beachten", "Beamte", "Beantwortung", "beben", "Beck", "Becken", 
+            "bedanken", "bedenken", "bedeuten", "Bedeutung", "bedienen", "Bedienung", 
+            "bedingt", "Bedürfnis", "beeilen", "beeinflussen", "beenden", "begegnen", 
+            "begeistern", "beginnen", "Beginn", "begleiten", "begrenzt", "begründen", 
+            "Begriff", "behalten", "behandeln", "Behandlung", "behaupten", "beherrschen", 
+            "bei", "beide", "beiden", "beider", "beides", "Beifahrer", "Bein", "beinah", 
+            "beinahe", "Beispiel", "beißen", "beitragen", "Beitrag", "bekannt", 
+            "bekanntgeben", "bekommen", "belasten", "belegen", "belegt", "bellen", 
+            "belohnen", "bemerken", "bemühen", "benennen", "benötigen", "benutzen", 
+            "Benutzer", "Benzin", "beobachten", "Beobachtung", "beraten", "Bereich", 
+            "bereit", "bereiten", "Berg", "Berge", "berichten", "Bericht", 
+            "berücksichtigen", "beruhen", "beruhigen", "Beruf", "berühmt", "beschädigen", 
+            "beschäftigen", "beschließen", "beschränken", "beschreiben", "beschreiben", 
+            "beschützt", "beseitigen", "besetzen", "besetzt", "besitzen", "besonder", 
+            "besonders", "besser", "beste", "bestehen", "bestehend", "bestellen", 
+            "besten", "bestimmt", "Bestimmung", "Besuch", "besuchen", "beten", "betonen", 
+            "betrachten", "Betrag", "betreffen", "betreiben", "Betrieb", "betrügen", 
+            "Bett", "bevor", "bewegen", "Bewegung", "beweisen", "bewerben", "bewerten", 
+            "bewusst", "bezahlen", "bezeichnen", "beziehen", "Beziehung", "Bezug", 
+            "Bibliothek", "biegen", "Bier", "bieten", "Bild", "bilden", "billig", "bin", 
+            "Binding", "binden", "bis", "bisher", "bislang", "bisschen", "bist", "bitte", 
+            "bitten", "bitter", "blass", "blau", "bleiben", "Bleistift", "Blick", "blieb", 
+            "blind", "bloß", "blöd", "Blume", "Blut", "Boden", "Bogen", "Bohne", "Boot", 
+            "borgen", "böse", "boss", "Brand", "braten", "brauchen", "braun", "brav", 
+            "breit", "breiten", "Bremse", "brennen", "Brief", "Brieftasche", "Brille", 
+            "bringen", "britisch", "Brot", "Brötchen", "Brücke", "Bruder", "Buch", 
+            "bügeln", "Bühne", "Bund", "bunt", "Bürger", "Bürgermeister", "Bus", "Chaos", 
+            "Charakter", "Chef", "Chance", "Chor", "Christ", "Computer", "Cousin", 
+            "Cousine", "da", "dabei", "Dach", "dadurch", "dafür", "dagegen", "daher", 
+            "dahin", "dahinter", "damals", "damit", "Damm", "Dampf", "danach", "daneben", 
+            "Dank", "dankbar", "danken", "dann", "daran", "darauf", "daraus", "darin", 
+            "darstellen", "darum", "darunter", "das", "dass", "Datei", "Daten", "Datum", 
+            "dauern", "davon", "davor", "dazu", "dazwischen", "dein", "deine", "deinen", 
+            "deiner", "deines", "dem", "demgegenüber", "demokratisch", "Demonstration", 
+            "den", "denen", "denkbar", "denken", "denn", "denselben", "der", "deren", 
+            "derjenige", "derzeit", "des", "deshalb", "dessen", "desto", "deswegen", 
+            "Detail", "deuten", "deutlich", "Deutsch", "Deutsche", "Deutschland", "devot", 
+            "dich", "dick", "die", "diejenige", "dienen", "Dienst", "Dienstag", "dies", 
+            "diese", "dieselbe", "dieselben", "diesem", "diesen", "dieser", "dieses", 
+            "diesseits", "dir", "direkt", "Direktor", "Dirndl", "Diskussion", "doch", 
+            "Doktor", "Dokument", "dolmetschen", "donnern", "Donnerstag", "doof", 
+            "doppelt", "Dorf", "dort", "Dose", "Draht", "dran", "drängen", "draußen", 
+            "dreckig", "drei", "dreizehn", "dringend", "drinnen", "dritte", "drohen", 
+            "drüben", "drucken", "du", "dumm", "dunkel", "dünn", "durch", "durchaus", 
+            "durchführen", "dürfen", "durstig", "Durst", "duschen", "duzen", "eben", 
+            "ebenso", "Echo", "echt", "Ecke", "edel", "Effekt", "egal", "ehe", "eher", 
+            "ehrlich", "Ei", "Eiche", "Eid", "Eier", "eifrig", "eigen", "eigene", 
+            "eigenen", "eigener", "eigenes", "eigentlich", "eilen", "eilig", "ein", 
+            "einander", "einatmen", "einbauen", "einbezogen", "einbiegen", "einbrechen", 
+            "Einbruch", "eindeutig", "eindruck", "eine", "eineinhalb", "einem", "einen", 
+            "einer", "einerseits", "einfach", "einfachste", "einführen", "Eingang", 
+            "einige", "einigen", "einiger", "einiges", "einkaufen", "Einkommen", 
+            "einladen", "einmal", "eins", "einsam", "einschalten", "einseitig", "einst", 
+            "einstellen", "eintragen", "eintreffen", "einverstanden", "einzelne", 
+            "einziehen", "Eis", "Eisen", "elend", "Eltern", "empfangen", "empfehlen", 
+            "Ende", "enden", "endlich", "eng", "Engel", "England", "English", "engagiert", 
+            "Enkel", "entdecken", "Ente", "entfernen", "entfernt", "entgegen", "enthalten", 
+            "entlang", "entscheiden", "Entscheidung", "entschließen", "entsprechen", 
+            "entsprechend", "entstehen", "entweder", "entwickeln", "Entwicklung", "er", 
+            "Erbe", "erben", "Erde", "ereignen", "erfahren", "Erfahrung", "erfassen", 
+            "erfinden", "Erfolg", "erforderlich", "erforschen", "erfreut", "erfüllen", 
+            "ergänzen", "ergeben", "Ergebnis", "erhalten", "erheben", "erhöhen", 
+            "erinnern", "erkennen", "erklären", "Erklärung", "erkranken", "erlauben", 
+            "Erlaubnis", "erleben", "erledigen", "erleichtern", "erlösen", "ernst", 
+            "erneut", "ernten", "erobern", "eröffnen", "erreichen", "erscheinen", 
+            "Ersatz", "erst", "erstaunlich", "erstellen", "erstellen", "erstmals", 
+            "ertragen", "erwachen", "erwähnen", "erwarten", "erweisen", "erwerben", 
+            "erzählen", "Erzählung", "erziehen", "es", "essen", "Essen", "Essig", 
+            "etabliert", "Etage", "etwa", "etwas", "euch", "euer", "eure", "europäisch", 
+            "Europäische", "eventuell", "ewig", "Experiment", "Experte", "explodieren", 
+            "extra", "Fabel", "Fach", "fachlich", "Faden", "fähig", "Fahne", "fahren", 
+            "Fahrer", "Fahrrad", "Fall", "fallen", "falsch", "Familie", "fanatisch", 
+            "Farbe", "faszinieren", "fast", "faul", "Februar", "Feder", "fegen", 
+            "fehlen", "Fehler", "Feier", "feiern", "feig", "fein", "Feld", "Fenster", 
+            "Ferien", "fern", "Ferse", "fertig", "fesseln", "fest", "Fest", "festhalten", 
+            "festigen", "festlegen", "feststellen", "fett", "Feuer", "Feuerwehr", 
+            "Fichte", "Fieber", "Figur", "Film", "Filter", "finanziell", "finden", 
+            "Finger", "Finnland", "Firma", "Fisch", "flach", "Flamme", "Flasche", 
+            "fleißig", "flicken", "fliegen", "fliehen", "fließen", "fließend", "Floh", 
+            "Flucht", "Flug", "Flughafen", "Flugzeug", "Flur", "Fluss", "Flüssigkeit", 
+            "folgen", "folgend", "folglich", "fordern", "fördern", "Forderung", "Form", 
+            "Formel", "forschen", "Forschung", "fort", "fortsetzen", "Foto", "Frage", 
+            "fragen", "Frau", "frei", "freigeben", "freilich", "freiwillig", "Freitag", 
+            "fremd", "Fremde", "fressen", "Freude", "freuen", "Freund", "freundlich", 
+            "Frieden", "friedlich", "frieren", "frisch", "froh", "fromm", "Front", 
+            "früher", "Frühling", "frühstücken", "Fuchs", "fühlen", "führen", "Führer", 
+            "Führung", "füllen", "Fund", "funktionieren", "für", "Furcht", "fürchten", 
+            "Fuß", "Fußball", "Gabel", "Gabe", "Gang", "ganz", "gar", "Garten", "Gast", 
+            "geben", "Gebiet", "geboren", "Gebrauch", "Geburt", "Geburtstag", "Gedanke", 
+            "Gedicht", "geduldig", "geehrt", "geeignet", "Gefahr", "gefährlich", 
+            "Gefängnis", "Gefühl", "gegen", "Gegend", "gegenüber", "Gegner", "geheim", 
+            "gehen", "gehören", "Geist", "geistig", "gelb", "Geld", "Gelegenheit", 
+            "gelegentlich", "gelingen", "gelten", "Gemüse", "gemütlich", "genau", 
+            "Genehmigung", "Generation", "genießen", "genug", "genügen", "Gepäck", 
+            "Gerät", "gerade", "Geräusch", "gerecht", "Gericht", "gern", "Geruch", 
+            "Gesang", "Geschäft", "geschehen", "Geschichte", "Geschirr", "Geschlecht", 
+            "Geschmack", "Geschwindigkeit", "Gesellschaft", "Gesetz", "Gesicht", 
+            "Gespräch", "Gestalt", "gestalten", "gestehen", "gestern", "Gestalt", 
+            "gesund", "Getränk", "Gewicht", "gewinnen", "Gewinn", "Gewitter", "gießen", 
+            "Gift", "Gipfel", "Gitarre", "glatt", "glauben", "gleich", "gleichen", 
+            "Gleis", "glich", "glücklich", "Gold", "Gott", "Grab", "Grad", "gram", 
+            "gratulieren", "grau", "greifen", "Grenze", "grob", "groß", "Großmutter", 
+            "Großvater", "grün", "Grund", "gründen", "Gruppe", "gucken", "gültig", 
+            "günstig", "gut", "Gut", "Haar", "haben", "Hafen", "Hahn", "Hälfte", "Halle", 
+            "hallo", "halo", "Hals", "halt", "halten", "Haltung", "Hammer", "Hand", 
+            "handeln", "Handler", "hängen", "hart", "hassen", "hässlich", "Haupt", 
+            "Hauptstadt", "Haus", "Haut", "heben", "Heer", "Heft", "heftig", "heilen", 
+            "heim", "Heimat", "heimlich", "heiraten", "heiß", "heißen", "heiter", 
+            "heizen", "Held", "helfen", "hell", "Hemd", "her", "heraus", "Herbst", 
+            "Herd", "herein", "Herr", "herrlich", "herstellen", "herum", "Herz", "heute", 
+            "hier", "hilf", "hilflos", "Hilfe", "Himmel", "hin", "hinauf", "hinaus", 
+            "hindern", "hinein", "hingegen", "hinten", "hinter", "hinunter", 
+            "hinzufügen", "historisch", "Hitze", "hoch", "Hochzeit", "Hof", "hoffen", 
+            "hoffentlich", "Hoffnung", "höflich", "hohe", "hohem", "hohen", "hoher", 
+            "hohes", "holen", "Hölle", "hören", "Horizont", "Hose", "Hotel", "hübsch", 
+            "Huhn", "Hund", "hundert", "Hunger", "hüpfen", "husten", "hüten", "ich", 
+            "ideal", "Ideal", "ihm", "ihn", "ihnen", "ihr", "ihre", "ihrem", "ihren", 
+            "ihrer", "ihres", "Image", "immer", "impfen", "Import", "in", "indem", 
+            "indirekt", "Information", "Ingenieur", "innen", "innerhalb", "ins", 
+            "insbesondere", "Insel", "inspizieren", "installieren", "intensiv", 
+            "interessant", "interessieren", "International", "Interview", "inzwischen", 
+            "irgend", "irgendwann", "irgendwie", "irgendwo", "Ironie", "irren", 
+            "Isolation", "ja", "Jacke", "Jagd", "jagen", "Jahr", "Jahre", "Jahres", 
+            "Jahrhundert", "Jahrzehnt", "Januar", "jawohl", "jeden", "jedenfalls", 
+            "jeder", "jedes", "jedoch", "jemals", "jemand", "jener", "jenseits", 
+            "jetzt", "Jugend", "Juli", "jung", "Junge", "Juni", "Jura", "Kabel", 
+            "Kaffee", "Kaiser", "Kalt", "kam", "Kamera", "Kamin", "kämmen", "Kampf", 
+            "kämpfen", "kann", "kannte", "kaputt", "Karte", "Kartoffel", "kassieren", 
+            "kastrieren", "Katze", "kaufen", "Kaufhaus", "kaum", "kein", "keine", 
+            "keinem", "keinen", "keiner", "keines", "Keller", "kennen", "Kerze", 
+            "Kette", "kichern", "Kind", "Kinder", "Kino", "Kirsche", "Kissen", "Kiste", 
+            "Klavier", "kleben", "klein", "klettern", "klingeln", "klingen", "Kloster", 
+            "Klub", "klug", "Knabe", "Kneipe", "kneten", "Knochen", "Knopf", "kochen", 
+            "Koffer", "Kohl", "kommen", "Kommentar", "kommerziell", "kommunizieren", 
+            "komplett", "kompliziert", "Kondition", "können", "König", "Konsum", 
+            "Kontakt", "Konto", "Kontrolle", "konzentrieren", "Kopf", "Kopie", "korrekt", 
+            "kosten", "Kosten", "kostet", "krank", "Kraut", "Krebs", "Kreis", "kreisen", 
+            "Kreuz", "Krieg", "Krise", "Kritik", "kritisieren", "krumm", "Kuchen", 
+            "Küche", "Kugel", "kühl", "kümmern", "kündigen", "Kunst", "Künstler", 
+            "Kunstwerk", "Kupfer", "kurz", "küssen", "lächeln", "lachen", "Laden", 
+            "Lage", "lahm", "Lampe", "Land", "lang", "lange", "längere", "längst", 
+            "Langeweile", "langsam", "Lärm", "lassen", "last", "Last", "lässig", "Latte", 
+            "Latz", "Lauf", "laufen", "Laune", "Laut", "laut", "lauter", "leben", 
+            "Leben", "lebendig", "Lebensmittel", "lebhaft", "ledig", "leer", "legen", 
+            "lehnen", "Lehre", "Lehrer", "leicht", "leiden", "leider", "leihen", "Leine", 
+            "leise", "lernen", "lesen", "letzte", "letzten", "letzter", "letztes", 
+            "letztlich", "Leute", "Licht", "lieb", "Liebe", "lieben", "lieber", "Lied", 
+            "lief", "liegen", "ließ", "liest", "Lift", "Limonade", "Lineal", "links", 
+            "Linie", "Lippe", "Liste", "Liter", "Loch", "locker", "Löffel", "Lohn", 
+            "Lokal", "los", "lösen", "Lösung", "Lüge", "lügen", "Luft", "Lüftung", 
+            "Lunge", "Lust", "machen", "Macht", "mächtig", "Mädchen", "Magazin", 
+            "Magen", "magisch", "mähen", "Mahl", "Mahlzeit", "mal", "Mal", "malen", 
+            "man", "manch", "manche", "manchem", "manchen", "mancher", "manches", 
+            "Mangel", "Mann", "Mantel", "Märchen", "Mark", "Markt", "März", "Maschine", 
+            "Maß", "Masse", "mäßig", "Maßnahme", "Material", "Mathematik", "Matsch", 
+            "Mauer", "Maus", "Mechanik", "Meer", "Mehl", "mehr", "mehrere", "mehreren", 
+            "mein", "meine", "meinem", "meinen", "meiner", "meines", "Meinung", "meist", 
+            "meiste", "meisten", "Menge", "Mensch", "menschlich", "Messer", "messen", 
+            "Meter", "Methode", "Metzger", "Miete", "Miete", "mieten", "Milch", 
+            "Milliarde", "Million", "Minute", "mir", "mischen", "missbrauchen", 
+            "missen", "mit", "Mitarbeiter", "mitbringen", "mitmachen", "Mitte", 
+            "Mittel", "mitten", "mittlerweile", "möbel", "möblieren", "möchte", "mögen", 
+            "möglich", "mögliche", "möglichen", "möglicher", "mögliches", "Möglichkeit", 
+            "Mohr", "Monat", "Montag", "Moral", "morgen", "morgens", "Motor", "Mühe", 
+            "Müll", "Mund", "munter", "Museum", "Musik", "müssen", "Mutter", "mutig", 
+            "nach", "Nachbar", "nachdem", "nachdenken", "Nachfrage", "nachher", 
+            "Nachmittag", "nachmittags", "nächste", "nächsten", "nächster", "nächstes", 
+            "Nacht", "Nadel", "nageln", "nah", "Nahe", "nahe", "nahem", "nahen", 
+            "naher", "nahes", "Nähe", "nähen", "näher", "nähren", "Name", "namens", 
+            "Nase", "nass", "Nation", "national", "Natur", "natürlich", "Nebel", 
+            "neben", "nebenan", "nebst", "Neffe", "negativ", "nehmen", "nein", "nennen", 
+            "neu", "neue", "neuem", "neuen", "neuer", "neues", "Neugier", "neun", 
+            "neunte", "neunzehn", "neunzig", "nicht", "nichts", "nie", "Niederlage", 
+            "niedrig", "niemals", "niemand", "nirgendwo", "noch", "Nord", "Norden", 
+            "nördlich", "Not", "Note", "notieren", "notwendig", "November", "nun", 
+            "nur", "Nuss", "nutzen", "nützlich", "Ober", "ob", "oben", "obere", 
+            "oberen", "oberer", "oberes", "oberhalb", "Obst", "oder", "Ofen", "offen", 
+            "offenbar", "offene", "offenen", "offener", "offenes", "offensichtlich", 
+            "öffentlich", "öffnen", "oft", "ohne", "Ohr", "Oktober", "old", "Onkel", 
+            "Oper", "Orange", "ordentlich", "ordnen", "Ordnung", "Organ", "orientieren", 
+            "Ort", "Osten", "Ozean", "Paar", "Pacht", "packen", "Paket", "Palast", 
+            "Panik", "Panzer", "Papier", "Pappe", "Paradies", "Park", "Partei", 
+            "Partner", "Party", "Pass", "passen", "passieren", "Patient", "Pause", 
+            "Pech", "Pension", "perfekt", "Person", "Personal", "Pessimist", "Pfad", 
+            "Pfanne", "Pfeffer", "Pfeife", "Pferd", "Pflanze", "pflegen", "Pflicht", 
+            "Phase", "Philosoph", "Photo", "Physik", "picken", "Pilot", "Plakat", 
+            "Plan", "planen", "Plastik", "platt", "Platz", "plötzlich", "plump", 
+            "Polizei", "Polizist", "Portion", "Portugal", "positiv", "Post", "prächtig", 
+            "praktisch", "Präsident", "Preis", "pressen", "prima", "privat", "Probe", 
+            "Problem", "Produkt", "produzieren", "Professor", "Programm", "Projekt", 
+            "Propaganda", "Prozent", "Prozess", "prüfen", "Prüfung", "Publikum", 
+            "Pulver", "Pumpe", "Punkt", "pünktlich", "Puppe", "putzen", "Qualität", 
+            "Quelle", "quer", "Rad", "Radio", "Rahmen", "Rand", "Rang", "Rasse", 
+            "Rast", "raten", "Rat", "Rathaus", "rätselhaft", "Raub", "Rauch", "Raum", 
+            "räumen", "reagieren", "Reaktion", "recht", "Recht", "rechts", "Redakteur", 
+            "Rede", "reden", "Redner", "reduzieren", "Reflex", "Regel", "regeln", 
+            "Regen", "Regierung", "regnen", "reich", "Reich", "reichen", "reif", 
+            "Reihe", "reihen", "Reim", "rein", "Reis", "reißen", "reiten", "reizend", 
+            "Reklame", "relativ", "Religion", "rennen", "Rente", "Reparatur", 
+            "reservieren", "Rest", "Resultat", "retten", "Rezept", "richten", "Richter", 
+            "richtig", "Richtung", "riechen", "Rind", "Ring", "Rock", "roh", "Rohr", 
+            "Rolle", "rollen", "Roman", "Rose", "rot", "Rücken", "Rückkehr", "Ruder", 
+            "rufen", "Ruhe", "ruhig", "rund", "Runde", "Russe", "Russland", "Saal", 
+            "Sache", "sachlich", "Sack", "sagen", "Sahne", "Salat", "salzen", 
+            "sammeln", "Sammlung", "Samstag", "samt", "sämtliche", "sämtlichen", 
+            "Sand", "satt", "sauber", "sauer", "schade", "Schaden", "schaffen", 
+            "Schaf", "Schal", "schalten", "scharf", "Schatten", "schätzen", "Schatz", 
+            "schauen", "Schauer", "Schaukel", "Scheck", "scheinen", "scheitern", 
+            "schenken", "Scherz", "scheu", "schicken", "schieben", "Schiedsrichter", 
+            "schief", "Schiene", "schießen", "Schiff", "Schild", "schimpfen", 
+            "Schlacht", "Schlaf", "schlafen", "schlagen", "Schlange", "schlau", 
+            "schlecht", "schließen", "schließlich", "schlimm", "Schloss", "Schlüssel", 
+            "schmal", "schmecken", "schmeißen", "Schmerz", "schmutzig", "Schnaps", 
+            "schnell", "Schnur", "Schokolade", "schon", "schön", "Schrank", "Schreck", 
+            "schreiben", "Schreibtisch", "schreien", "Schrift", "Schuh", "Schuld", 
+            "schuld", "Schule", "Schüler", "schütteln", "schützen", "schwach", 
+            "schwarz", "schweben", "Schwein", "schweigen", "schwer", "Schwester", 
+            "schwierig", "schwimmen", "schwitzen", "schwul", "schwül", "See", "Seele", 
+            "Segel", "sehen", "sehr", "sei", "seicht", "Seide", "seien", "seiler", 
+            "sein", "seine", "seinem", "seinen", "seiner", "seines", "seit", "Seite", 
+            "seitdem", "selbe", "selben", "selber", "selbst", "selbstverständlich", 
+            "selten", "seltsam", "senden", "senken", "September", "Serviette", 
+            "Session", "setzen", "sich", "Sicherheit", "sicherlich", "sichern", 
+            "sichtbar", "sie", "Sie", "sieben", "siebte", "siebzehn", "siebzig", 
+            "Siedlung", "Silber", "singen", "sinken", "Sinn", "sitzen", "Skandal", 
+            "so", "sobald", "Socke", "soeben", "sofern", "sofort", "sogar", "sogenannt", 
+            "sogleich", "solange", "solch", "solche", "solchem", "solchen", "solcher", 
+            "solches", "soll", "sollen", "sollte", "sollten", "sondern", "Sonnabend", 
+            "Sonne", "sonnig", "sonst", "Sorge", "sorgen", "sorgfältig", "soviel", 
+            "soweit", "sowie", "sowieso", "sowohl", "sozial", "Spalt", "spannend", 
+            "sparen", "spät", "später", "spazieren", "Speise", "spenden", "sperren", 
+            "Spiegel", "spielen", "Spiel", "Spielzeug", "Spitze", "spontan", "Sport", 
+            "sprach", "sprechen", "Sprichwort", "springen", "spülen", "Spur", "Staat", 
+            "Stab", "Stadt", "Stahl", "stamm", "stammen", "Stand", "stand", "ständig", 
+            "star", "stark", "starr", "Start", "statt", "stattfinden", "Staub", 
+            "stechen", "stecken", "Stecker", "stehen", "stehlen", "steif", "steigen", 
+            "Stein", "Stelle", "stellen", "stellvertretend", "sterben", "Stern", 
+            "stetig", "steuern", "Stich", "Stiefel", "Stiel", "Stier", "Stift", "Stil", 
+            "still", "Stimme", "stimmen", "Stirn", "Stock", "Stoff", "stolz", "stoppen", 
+            "Störung", "Stoß", "stoßen", "Strafe", "Strahl", "Straße", "streben", 
+            "Streit", "streiten", "streng", "Strich", "Strom", "Stück", "Student", 
+            "studieren", "Studium", "Stufe", "Stuhl", "stumm", "stunden", "Stunde", 
+            "Sturm", "stürzen", "Stütze", "subtil", "Suche", "suchen", "Süd", "Süden", 
+            "südlich", "Summe", "Suppe", "süß", "Symbol", "Tabelle", "Tafel", "Tag", 
+            "Tage", "Tages", "Tal", "Talent", "Tank", "Tante", "Tanz", "tanzen", 
+            "Tasche", "Tasse", "Tat", "tätig", "Täter", "tatsächlich", "Taube", 
+            "tauschen", "tausend", "Taxi", "Team", "Technik", "Tee", "Teil", "teilen", 
+            "teils", "teilweise", "Telefon", "Teller", "Temperatur", "Tempo", "teuer", 
+            "Teufel", "Text", "Theater", "Thema", "theoretisch", "Thermometer", 
+            "tief", "Tief", "Tier", "Tisch", "Titel", "Tochter", "Tod", "toll", "Ton", 
+            "Topf", "Tor", "total", "töten", "Tour", "traditionell", "tragen", "trägt", 
+            "tragisch", "Training", "tränken", "träumen", "traurig", "treffen", 
+            "treiben", "trennen", "Treppe", "treten", "treu", "trieben", "trinken", 
+            "trocken", "tropfen", "Trotz", "trotz", "trotzdem", "trüb", "Truppe", 
+            "Tuch", "tun", "Tür", "Turnier", "Typ", "übel", "über", "überall", 
+            "überhaupt", "überlegen", "übermorgen", "übernehmen", "überraschen", 
+            "übersetzen", "überzeugt", "übrig", "übrigens", "Ufer", "Uhr", "um", 
+            "umarmen", "umfangreich", "Umgang", "umgeben", "umgehen", "umgekehrt", 
+            "umsonst", "umstellen", "umziehen", "unabhängig", "und", "unendlich", 
+            "unermesslich", "unfähig", "ungefähr", "ungern", "unglaublich", 
+            "Universität", "unklar", "unmöglich", "unser", "unsere", "unserem", 
+            "unseren", "unserer", "unseres", "unsichtbar", "unten", "unter", 
+            "unterbrechen", "Unterhaltung", "unternehmen", "unterscheiden", 
+            "Unterschied", "untersuchen", "Untersuchung", "unterwegs", "unzufrieden", 
+            "Urlaub", "Ursache", "Ursprung", "Vater", "verabreden", "verändern", 
+            "verantwortlich", "verbergen", "verbessern", "verbinden", "Verbindung", 
+            "verboten", "Verbrauch", "verbrennen", "Verbrechen", "verbringen", 
+            "Verdacht", "verdienen", "vereinbaren", "Vereinbarung", "Vereinigung", 
+            "verfallen", "verfassen", "verfolgen", "verfügbar", "vergangen", 
+            "Vergangenheit", "vergeben", "vergessen", "vergleichen", "Vergleich", 
+            "vergraben", "verhalten", "Verhältnis", "verhandeln", "verheiratet", 
+            "verhindern", "verkaufen", "Verkehr", "verlassen", "verlaufen", "verlegen", 
+            "verletzen", "verlieren", "Verlust", "vermeiden", "vermieten", "vermindern", 
+            "Vermögen", "vermutlich", "vernichten", "vernünftig", "veröffentlichen", 
+            "verpassen", "verrückt", "Vers", "versammeln", "verschieden", "verschwinden", 
+            "versehen", "versichern", "versorgen", "verständlich", "verstehen", 
+            "Versuche", "versuchen", "vertragen", "Vertrag", "vertrauen", "vertreten", 
+            "verwalten", "verwandt", "verwechseln", "verweigern", "verwenden", 
+            "verwirrt", "verzichten", "Verzweiflung", "viel", "viele", "vielem", 
+            "vielen", "vieler", "vieles", "vielleicht", "vielmals", "vier", "vierte", 
+            "vierzehn", "vierzig", "Vogel", "Volk", "voll", "vollständig", "vom", 
+            "von", "vor", "voran", "vorbei", "Vorgang", "vorhanden", "vorher", "vorig", 
+            "vorkommen", "Vormittag", "vorn", "vorne", "vornehmen", "Vorort", "Vorrat", 
+            "Vorschlag", "vorschlagen", "Vorschrift", "Vorsicht", "Vorsitzende", 
+            "vorstellen", "Vorstellung", "Vorteil", "vorüber", "vorziehen", "wachsen", 
+            "Waffe", "wagen", "wählen", "Wahl", "wahr", "während", "wahrnehmen", 
+            "Währung", "wahrscheinlich", "Wald", "Wall", "walten", "wandern", "Wand", 
+            "wann", "warm", "warnen", "warten", "warum", "was", "waschen", "Wasser", 
+            "wecken", "weder", "Weg", "wegen", "weggehen", "weh", "weiblich", "weich", 
+            "weil", "Wein", "weise", "weiß", "weit", "weiter", "weiteren", "weitgehend", 
+            "welche", "welchem", "welchen", "welcher", "welches", "Welle", "wem", 
+            "wen", "wenig", "wenige", "weniger", "wenigstens", "wenn", "wer", "werden", 
+            "Werk", "Wert", "wesentlich", "weshalb", "wessen", "Westen", "westlich", 
+            "Wettbewerb", "wichtig", "wickeln", "widersprechen", "wie", "wieder", 
+            "wiederholen", "Wiedersehen", "wiegen", "Wiese", "wieso", "wild", "Wille", 
+            "willkommen", "Wind", "winken", "Winter", "wir", "wirken", "wirklich", 
+            "Wirklichkeit", "Wirkung", "Wirt", "wissen", "Wissenschaft", "wittern", 
+            "wo", "Woche", "wochenlang", "woher", "wohin", "wohl", "wohnen", "Wohnung", 
+            "Wolf", "wollen", "Wort", "wovon", "wozu", "Wunde", "wunderbar", "wünschen", 
+            "Wurst", "Wut", "zäh", "zahlen", "Zahl", "zählen", "zahm", "Zahn", "zart", 
+            "Zaun", "Zehe", "Zeichen", "zeichnen", "zeigen", "Zeile", "Zeit", "Zeitung", 
+            "Zelt", "Zentrum", "zerstören", "Zettel", "Zeug", "ziehen", "Ziel", 
+            "ziemlich", "Zigarette", "Zimmer", "zitieren", "zittern", "zögern", "Zoll", 
+            "Zorn", "zu", "Zucker", "zudem", "zuerst", "Zufall", "zufällig", "zufrieden", 
+            "Zug", "zugleich", "zuletzt", "zum", "zunächst", "Zunahme", "zur", "zurück", 
+            "zurückkehren", "zusammen", "Zusammenhang", "zusehen", "zuständig", 
+            "zustimmen", "zutrauen", "zuviel", "zuweilen", "zwar", "Zweck", "zwei", 
+            "zweifeln", "Zweifel", "zweite", "zweiten", "zweiter", "zweitens", 
+            "zwanzig", "zwar", "Zweig", "zwischen", "Zyklus"
+        ];
+
+        const PORTUGUESE_WORDS = [
+            "abaixo", "abalar", "abandonar", "abandono", "abanar", "abater", "abdicar", "abdômen", "abelha", "aberto", "abertura", "abismo",
+            "abóbora", "abobrinha", "abolir", "abono", "aborto", "abraçar", "abraço", "abrigar", "abrigo", "abril", "abrir", "abrolhar",
+            "absoluto", "absorver", "abstêmio", "absurdo", "abundante", "abutre", "acabado", "acabar", "academia", "acalmar", "acamar", "acampar",
+            "ação", "acarajé", "acarretar", "acaso", "aceitar", "aceito", "acenar", "acender", "acenar", "acento", "acepção", "acerca",
+            "acertar", "acesso", "acessível", "acidente", "acima", "aclamar", "aclarar", "aclimatar", "acne", "acolher", "acomodar", "acompanhar",
+            "acondicionar", "aconchego", "acontecer", "acordar", "acorde", "acordo", "acorrentar", "acostumar", "acre", "acreditar", "acrobata", "actriz",
+            "acúmulo", "acusar", "adaptar", "adega", "ademais", "adentro", "adeus", "adiamento", "adiantar", "adiante", "adicionar", "adivinhar",
+            "adjacente", "adjetivo", "admirar", "admitir", "adolescente", "adonar", "adormecer", "adotar", "adquirir", "adrenalina", "adubo", "adulto",
+            "adversário", "advérbio", "advogado", "aérea", "aeroporto", "afago", "afastar", "afeição", "afetar", "afeto", "afinado", "afirmar",
+            "aflição", "afluente", "afogar", "afoito", "afora", "afortunado", "afrouxar", "afundar", "agachar", "agarrar", "agência", "agenda",
+            "agilidade", "agitado", "agitar", "aglomerar", "agonia", "agora", "agradar", "agradecer", "agrário", "agredir", "agregar", "agressivo",
+            "água", "aguardar", "aguçado", "agulha", "ai", "ajuda", "ajudar", "ajustar", "ala", "alargar", "alarme", "alastrar",
+            "alavanca", "albatroz", "albergue", "albino", "albumina", "alcance", "alcançar", "álcool", "alcoolismo", "aldeia", "alegar", "alegre",
+            "alegria", "aleijado", "alemã", "alemão", "alergia", "alerta", "alface", "alfaiate", "alfabeto", "alface", "algarismo", "algema",
+            "algo", "algodão", "alguém", "algum", "alguns", "alheio", "ali", "aliado", "aliança", "alicate", "alienígena", "alinhar",
+            "alisar", "aliviar", "alma", "almejar", "almofada", "almoçar", "almoço", "alocar", "alongar", "alpaca", "alpinista", "altar",
+            "alterar", "alteza", "altivez", "altivo", "alto", "altura", "alucinação", "alugar", "aluno", "alusão", "alvejante", "alvorada",
+            "amabilidade", "amaciante", "amado", "amador", "amainar", "amamentar", "amanhã", "amanhecer", "amansar", "amapá", "amar", "amarelo",
+            "amargor", "amarrar", "amassar", "amável", "amazônia", "ambas", "ambição", "ambiental", "ambíguo", "ambos", "ameaça", "ameaçar",
+            "ameno", "américa", "amido", "amigo", "amizade", "amnésia", "amor", "amora", "amordaçar", "amostra", "amparar", "ampliar",
+            "ampulheta", "amputar", "amuado", "análise", "ananás", "anão", "anca", "ancestral", "ancinho", "andar", "andorinha", "anedota",
+            "anel", "anexo", "ângulo", "anima", "animado", "animal", "aniversário", "anjinho", "ano", "anônimo", "ansiedade", "anta",
+            "ante", "antebraço", "antemão", "antena", "anterior", "antes", "antigo", "antro", "anual", "anuir", "anular", "anzol",
+            "aorta", "apagar", "apalpar", "apanhar", "apara", "aparatoso", "aparelho", "aparecer", "aparente", "apartar", "apartamento", "apaziguar",
+            "apelar", "apelido", "apenas", "apertar", "apesar", "apetite", "apiário", "apicultor", "apimentado", "apinhado", "apitar", "aplacar",
+            "aplanar", "aplaudir", "aplicar", "apogeu", "apoiar", "apontar", "apor", "aposentar", "apossar", "aposta", "apostar", "aprender",
+            "apresentar", "aprovar", "aprovado", "aprumo", "aptidão", "apto", "apurar", "aquário", "aquático", "aquecedor", "aquecer", "aqui",
+            "aquisição", "ar", "ara", "arado", "arame", "aranha", "arara", "arauto", "árbitro", "arbusto", "arca", "arcada", "arcanjo",
+            "arcar", "archote", "arco", "arder", "ardil", "ardor", "área", "areia", "arena", "arengar", "arenito", "arenoso", "aresta",
+            "argila", "argola", "arguente", "argumento", "aria", "aridez", "arrepender", "arroz", "arte", "artigo", "arvoredo", "ás",
+            "asa", "asfalto", "asneira", "asno", "aspirar", "assado", "assar", "assaz", "asseado", "assentar", "assentir", "assessor",
+            "assim", "assinar", "assistir", "assoalho", "assobiar", "associar", "assumir", "assustar", "astuto", "atacar", "atalho", "atar",
+            "ataque", "atarracado", "atear", "ateu", "atingir", "ativo", "atlântico", "atleta", "atolado", "átomo", "atracar", "atrair",
+            "atrevido", "atribuir", "átrio", "atrito", "atroz", "aturar", "audaz", "audição", "auditório", "aula", "aumentar", "aurora",
+            "ausente", "auspicioso", "austero", "autor", "autoria", "autuar", "auxiliar", "avaliação", "avançar", "avarento", "avaro", "ave",
+            "aveia", "avelã", "avental", "aventura", "averiguar", "aversão", "avesso", "avestruz", "avião", "avidez", "aviltar", "avisar",
+            "avistar", "avivar", "avó", "axial", "axioma", "azado", "azar", "azedo", "azeite", "azenha", "azo", "azul", "babar",
+            "baba", "babel", "babuíno", "bacalhau", "bacana", "bacará", "bacelo", "bacharel", "bacia", "baco", "bacuri", "badalar",
+            "badalo", "badejo", "baderna", "baeta", "bafejar", "bafo", "baga", "bagaço", "bagagem", "bagre", "bagunça", "baía",
+            "baiana", "baiano", "baião", "bailado", "bailar", "baile", "bainha", "bairro", "baixa", "baixar", "baixela", "baixo",
+            "bala", "balada", "balançar", "balão", "balcão", "balde", "baldio", "balé", "baliza", "balsa", "bálsamo", "bamba",
+            "bambu", "banal", "banana", "banca", "bancada", "banco", "banda", "bandeira", "bandeja", "bandida", "bando", "bangalô",
+            "banha", "banhar", "banheiro", "banho", "banido", "banir", "banjo", "banquete", "baque", "barata", "barato", "barba",
+            "barbante", "barbeiro", "barca", "barco", "bardo", "bário", "barra", "barraca", "barranco", "barrar", "barreira", "barriga",
+            "barro", "barulho", "base", "basear", "bastante", "bastão", "bastidor", "batata", "batedor", "batente", "bater", "bateria",
+            "batida", "batismo", "batom", "batucar", "báu", "baú", "bazar", "beata", "beato", "bebê", "bebedouro", "beber",
+            "bebida", "beco", "bedel", "bege", "beijo", "beira", "beisebol", "bela", "beldroega", "beleza", "belga", "beliche", "belo",
+            "belzebu", "bem", "bemol", "bênção", "bendito", "benesse", "benfeitor", "benfazejo", "bengala", "benigno", "benquerer", "benzeno",
+            "beque", "berço", "berrante", "berro", "besouro", "bestagem", "bestial", "beta", "betume", "bexiga", "bezerro", "biar",
+            "biboca", "bica", "bicada", "bicama", "bicar", "bíceps", "bicho", "bicicleta", "bico", "bidu", "biela", "bifurcar",
+            "bigorna", "bilhete", "bilhão", "bílis", "bimbar", "bimotor", "binário", "biografia", "biombo", "biorritmo", "biqueira", "biruta",
+            "bis", "bisavó", "bisbilhotar", "biscoito", "bisneto", "bispo", "bitola", "bizarro", "blasfêmia", "bloco", "blusa", "boate",
+            "boato", "bobagem", "bobina", "bobo", "boca", "bocada", "bocado", "bocejar", "boda", "bode", "bodega", "bodas",
+            "boemia", "boêmio", "bofetada", "bogotá", "boi", "boiada", "boiando", "boião", "boicote", "boina", "bojo", "bola",
+            "bolacha", "bolbo", "bolha", "bolo", "bolor", "bolsa", "bolso", "bom", "bomba", "bombom", "bonança", "bondade", "bonde",
+            "boneca", "boneco", "bonito", "boné", "borboleta", "borda", "bordado", "bordão", "bordel", "borra", "borracha", "borralho",
+            "bosque", "bossa", "bota", "botão", "botar", "bote", "botija", "botina", "bouquet", "bovino", "boxe", "branco",
+            "brasa", "braveza", "bravo", "braço", "brejo", "breu", "breve", "briga", "brilhar", "brim", "brincar", "brindar",
+            "brio", "brisa", "broa", "broca", "broche", "bronze", "broto", "bruxa", "bruxo", "brócolis", "bruma", "bruto",
+            "bruxuleio", "bucal", "bucha", "bucho", "budismo", "bufar", "bufê", "bule", "bulício", "bumbo", "buraco", "burgo",
+            "burguês", "burla", "burrice", "burro", "busca", "buscador", "busto", "bússola", "busto", "buxo", "cabaça", "cabaço",
+            "cabana", "cabaré", "cabeça", "cabeceira", "cabedal", "cabelo", "cabide", "cabine", "cabo", "caboclo", "cabotagem", "caça",
+            "caçador", "caçamba", "caçar", "caçava", "cachorro", "cacau", "cacetada", "cachoeira", "cacique", "caco", "cacto", "caçula",
+            "cadarço", "cadeado", "cadeira", "cadela", "cadência", "caderno", "cadete", "cadinho", "caduquice", "café", "cafta", "cágado",
+            "caiaque", "caibro", "caipira", "caipirinha", "cair", "cairo", "caixa", "caixote", "cajado", "caju", "cal", "cala",
+            "cala", "calabouço", "calafrio", "calamidade", "calar", "calça", "calçada", "calcanhar", "calçar", "calcinha", "calcitrar", "calculado",
+            "cálculo", "calda", "caldeira", "caldo", "caleidoscópio", "calhar", "calibre", "califa", "calisto", "calma", "calmo", "calor",
+            "caloria", "calote", "calouro", "cálice", "calvo", "cama", "camada", "câmara", "camarada", "camarão", "camareira", "cambalear",
+            "cambiar", "camburão", "camelô", "camelo", "camera", "camisa", "camiseta", "camomila", "campainha", "campanário", "campanha", "campestre",
+            "campina", "campo", "camuflar", "canal", "canalha", "canário", "canção", "canceriano", "candelabro", "candeeiro", "candidatar", "candidato",
+            "cândido", "canga", "canguru", "canhão", "canibal", "canil", "canivete", "cano", "canoa", "cansado", "cantar", "canteiro",
+            "cantiga", "cantil", "cantina", "canto", "cantor", "canudo", "cão", "capacho", "capanga", "capaz", "capela", "capelão", "capim",
+            "capital", "capitão", "capítulo", "capota", "capricho", "capsula", "captar", "capturar", "capuz", "cara", "caracol", "carácter",
+            "característica", "caramelo", "caranguejo", "caráter", "carbono", "carcereiro", "cárcere", "cardeal", "cardume", "careca", "careta", "carga",
+            "cargo", "caridade", "carinho", "carne", "carnaval", "caro", "carpa", "carpete", "carpinteiro", "carranca", "carrasco", "carregar", "carreira",
+            "carretel", "carro", "carroça", "carta", "cartaz", "cartilha", "cartão", "cartucho", "carvalho", "casa", "casaco", "casal",
+            "casamento", "casca", "casco", "casebre", "caso", "caspa", "casquinha", "cassar", "castanha", "castelo", "castigo", "casto",
+            "casual", "casulo", "cata", "catapora", "catarata", "catar", "catchau", "categórico", "cateto", "cativa", "cativeiro", "cativar",
+            "catorze", "catre", "caule", "causa", "causador", "cautela", "cavaco", "cavalheiro", "cavalgar", "cavalo", "cava", "caveira",
+            "caverna", "caviar", "caxumba", "cear", "cebola", "ceder", "cedo", "cedro", "cegar", "cegonha", "ceia", "ceifa",
+            "celebridade", "celeste", "celular", "célula", "celular", "cem", "cemitério", "cena", "cenário", "cenho", "censo", "censura",
+            "centavo", "centeio", "centelha", "centena", "centésimo", "centímetro", "centopeia", "central", "centro", "cerca", "cercar", "cerco",
+            "cerda", "cereal", "cerebral", "cereja", "cerimônia", "cerne", "ceroula", "cerrado", "cerrar", "certeza", "certo", "cerveja",
+            "césar", "cessar", "cesta", "cetim", "cevada", "chá", "chacina", "chacota", "chaleira", "chalé", "chama", "chamado",
+            "chamar", "chamariz", "chaminé", "chanfro", "chantagem", "chapéu", "charada", "charco", "charcutaria", "charla", "charuto", "chassi",
+            "chatear", "chato", "chave", "checar", "chefe", "chegada", "chegar", "cheia", "cheio", "cheiro", "cheque", "cherne",
+            "chiar", "chiclete", "chicote", "chifre", "chimarrão", "china", "chines", "chique", "chita", "chocalho", "chocar", "chofer",
+            "chope", "choque", "chover", "chumbo", "chupar", "churrasco", "chusma", "chuva", "chuvoso", "cicatriz", "ciclone", "cidade",
+            "ciência", "ciente", "cigana", "cigarro", "cilada", "cimento", "cimo", "cínico", "cinquenta", "cinta", "cinto", "cinza",
+            "cínzeiro", "cio", "cipó", "circo", "círculo", "circundar", "circunstância", "cirurgia", "cisne", "citação", "citado", "citar",
+            "citrino", "ciúme", "cívico", "civil", "cizânia", "clã", "clamar", "claque", "clara", "claraboia", "claridade", "clarim",
+            "claro", "classe", "clássico", "claudicar", "claustro", "clave", "clérigo", "clero", "clicar", "cliente", "clima", "clínica",
+            "clip", "clique", "clone", "cloreto", "clube", "coação", "coado", "coágulo", "coala", "coar", "coaxial", "cobaia",
+            "cobertor", "coberto", "cobertura", "cobrar", "cobrir", "coca", "coco", "cocoricó", "codeína", "código", "coelho", "coesão",
+            "cofre", "cogitar", "cogumelo", "coice", "coifa", "coiote", "coisa", "coitado", "cola", "colaborar", "colapso", "colar",
+            "colcha", "colchão", "colecionar", "colega", "colégio", "colérico", "colher", "cólica", "colidir", "colina", "coliseu", "colmeia",
+            "colocar", "colônia", "colorado", "colorir", "colosso", "coluna", "comandar", "comando", "combater", "combinação", "combinar", "começar",
+            "comédia", "comemorar", "comer", "comercial", "cometer", "comichão", "comida", "comigo", "comissão", "comitiva", "como", "comover",
+            "compaixão", "companhia", "comparar", "compartilhar", "compasso", "compatriota", "compelir", "comper", "competir", "complô", "compor", "comportar",
+            "compositor", "composto", "compreender", "comprido", "comprimir", "comprar", "comprimento", "compromisso", "comprovante", "computador", "comum", "comuna",
+            "comunal", "comunhão", "comunidade", "comunista", "comutar", "conceber", "conceder", "conceito", "concerto", "concha", "concluir", "concorrência",
+            "concreto", "concursado", "condenar", "condensar", "condição", "conduta", "conduzir", "cone", "conexão", "confecção", "conferir", "confessar",
+            "confete", "confiar", "configurar", "confim", "confirmar", "conflito", "conforto", "confrontar", "congelar", "congresso", "conhecer", "conivente",
+            "conjunto", "conquistar", "consagrar", "consciente", "conselho", "consentir", "conservar", "considerar", "consigo", "consistir", "consola", "constante",
+            "constar", "constelação", "construir", "consultar", "consumir", "contagem", "contaminar", "contar", "contato", "conter", "conteúdo", "contexto",
+            "contido", "contigo", "contínuo", "conto", "contorno", "contra", "contrabando", "contrair", "contrário", "contratar", "contribuir", "controle",
+            "contundente", "contusão", "convalescer", "convecção", "convencer", "convenção", "convergir", "conversa", "conversar", "convexo", "convés", "convicção",
+            "convicto", "convidado", "convite", "conviver", "convocar", "cooperar", "copa", "copeiro", "copiar", "copioso", "cor", "coração",
+            "coragem", "corajoso", "coral", "corar", "corcel", "corcunda", "cordão", "cordas", "cordel", "cordial", "coreto", "corgo",
+            "corja", "corno", "coro", "coroa", "coroar", "coronel", "corporal", "corpóreo", "corpo", "corpus", "correção", "corredor",
+            "correio", "correlato", "correr", "corresponder", "correto", "corrida", "corrigir", "corrupto", "corso", "cortar", "corte", "cortejo",
+            "cortês", "cortesia", "cortiça", "cortina", "coruja", "corvéia", "coser", "cosmético", "cossaco", "costa", "costas", "costela",
+            "costume", "costura", "cota", "cotar", "cotidiano", "cotovelo", "couro", "couve", "covarde", "covil", "coxa", "coxo",
+            "cozer", "cozinha", "cozinhar", "crânio", "cré", "creche", "credibilidade", "crédito", "credor", "cremalheira", "creme", "crença",
+            "crepe", "crescer", "crespo", "cretino", "cria", "criado", "criador", "crianca", "criança", "criar", "criação", "crime",
+            "criminoso", "crinça", "crioulo", "crise", "crista", "cristal", "cristão", "critério", "crítico", "crítica", "criticar", "crivo",
+            "croata", "croché", "cromado", "cromo", "cronômetro", "crosta", "cru", "crucial", "crude", "cruel", "crueza", "crumar",
+            "cruzar", "cruz", "cruzada", "cu", "cubano", "cubo", "cubrir", "cuca", "cueca", "cuidado", "cuidar", "cujo", "culatra",
+            "culpa", "culpado", "cultivar", "culto", "cultuar", "cultura", "cumprimentar", "cumprimento", "cumprir", "cunhado", "cunho", "cupim",
+            "cupom", "cúpula", "cura", "curar", "curdo", "curioso", "curral", "cursar", "curso", "curto", "curtir", "curva", "curvar",
+            "cuspe", "cuspir", "custar", "custódia", "customizar", "cutâneo", "cutucar", "cá", "cão", "dádiva", "dador", "dama",
+            "danado", "dança", "dançar", "danificar", "daninho", "dançarino", "daquilo", "dar", "dardo", "data", "datado", "datar",
+            "debaixo", "debalde", "debate", "debelar", "debitar", "débito", "deboche", "década", "decair", "decalque", "decantar", "decapitar",
+            "decênio", "decepção", "decidir", "decimal", "decifrar", "decisão", "declamar", "declarar", "declinar", "declínio", "decolar", "decompor",
+            "decorar", "decoro", "decorrer", "decote", "decreto", "decupar", "dedal", "dedicar", "dedilhar", "dedo", "dedução", "dedurar",
+            "defeito", "defender", "deferido", "defesa", "defeso", "deficiente", "definir", "definitivo", "deflagrar", "defletir", "defrontar", "defumar",
+            "degas", "degelo", "degelo", "degrau", "degredado", "degustar", "deidade", "deitado", "deitar", "deixar", "dejeto", "delator",
+            "dele", "delegado", "deletar", "deletério", "deli", "deliberar", "delicado", "delícia", "delimitar", "delinquente", "delirar", "delirium",
+            "delonga", "delta", "delator", "demais", "demanda", "demão", "demarcar", "demente", "demitir", "democracia", "demolir", "demônio",
+            "demora", "demover", "dengoso", "dengue", "denominar", "denotar", "denso", "dentado", "dental", "dentão", "dentro", "denúncia",
+            "deparar", "departamento", "depender", "depilar", "deplorar", "depoimento", "depor", "deportar", "depositário", "depositar", "depósito", "depravado",
+            "depreender", "depressa", "deprimir", "depurar", "depth", "deputado", "deriva", "derivado", "derivar", "derramar", "derredor", "derreter",
+            "derrota", "derrubar", "desabar", "desabotoar", "desabrochar", "desafiar", "desafio", "desaguar", "desajeitado", "desalinhado", "desanimar", "desanuviar",
+            "desaparecer", "desapontar", "desaprovar", "desarmar", "desarrumar", "desatar", "desavença", "desbravar", "descabelado", "descansar", "descanso", "descarado",
+            "descascar", "descer", "descerrar", "descobrir", "descolar", "descolorir", "descomunal", "desconectar", "desconforto", "desconhecido", "desconsiderar", "descontar",
+            "descontrair", "descrever", "descrição", "descrédito", "desculpa", "desculpar", "descumprir", "desdenhar", "desdém", "desejar", "desejo", "desembainhar",
+            "desembalar", "desembestar", "desembocar", "desempenhar", "desempregado", "desencontro", "desenhar", "desenho", "desenlace", "desenrolar", "desentendimento", "desentupir",
+            "desequilibrar", "deserdado", "deserto", "desesperado", "desespero", "desfalcar", "desfazer", "desferir", "desfiado", "desfilar", "desfrutar", "desgastar",
+            "desgraceira", "desgraça", "desgrenhado", "desgosto", "desgovernado", "desgrenhar", "desistir", "desleal", "desligar", "deslindar", "deslizar", "deslumbrante",
+            "deslumbramento", "desmaiar", "desmaio", "desmantelar", "desmascarar", "desmedido", "desmemoriado", "desmentir", "desmerecer", "desmistificar", "desmontar", "desmoronar",
+            "desnaturar", "desnivelado", "desnudo", "desobedecer", "desocupado", "desolado", "desonesto", "desonra", "desopilar", "desordem", "desorganizado", "desorientar",
+            "despachante", "despachar", "despacho", "despedida", "despedir", "despenhar", "despercebido", "desperdício", "desperdiçar", "despertar", "despesa", "despido",
+            "despir", "despistar", "despojar", "despontar", "desporto", "despotismo", "despovoar", "despregar", "desprender", "despreocupado", "desprezar", "desprezo",
+            "dessa", "dessedentar", "desse", "destacar", "destaque", "destemido", "destilar", "destinado", "destinar", "destino", "destituir", "destra",
+            "destralhar", "destreza", "destro", "destronar", "destruir", "desumano", "desuso", "desvairar", "desvantagem", "desvendar", "desventura", "desviar",
+            "desvio", "desvirtuar", "detalhar", "detalhe", "detectar", "detective", "detectar", "detentor", "deter", "detergente", "deteriorar", "determinar",
+            "detestar", "detido", "detonar", "detrás", "detrito", "deus", "deuteronômio", "devagar", "devaneio", "devasso", "devedor", "dever",
+            "deveras", "deviar", "devido", "devir", "devolver", "devorar", "devotado", "devoto", "dez", "dezena", "dezenove", "dezesseis",
+            "dezessete", "dezoito", "diabólico", "diabo", "diabrete", "diácono", "diadema", "diagnóstico", "dialeto", "diálogo", "diamante", "diâmetro",
+            "diante", "dianteira", "dia", "diário", "dica", "diesel", "dies", "dieta", "diferente", "dificuldade", "dificultar", "difundir",
+            "difusor", "digestão", "digladiar", "dignidade", "digno", "digo", "dilacerar", "dilatar", "dilema", "diligente", "diluir", "dilúvio",
+            "dimensão", "diminuir", "dinamite", "dinamizar", "dinastia", "dinheiro", "dinossauro", "diocese", "diodo", "diploma", "dipolo", "dique",
+            "direção", "direita", "direito", "diretor", "dirigente", "dirigir", "discar", "discernir", "disciplina", "disco", "discórdia", "discreto",
+            "discriminar", "discurso", "discutir", "dispor", "dispositivo", "disposto", "disputa", "disputar", "distância", "distante", "distinguir", "distinto",
+            "disto", "distorcer", "distrair", "distribuir", "distrito", "distúrbio", "dita", "ditado", "ditadura", "ditar", "dito", "ditongo",
+            "diurno", "diva", "diversão", "diverso", "diversão", "divertido", "divertir", "dividir", "divindade", "divino", "divisão", "divisor",
+            "divulgar", "dizer", "dizimar", "doar", "dobra", "dobrado", "dobrar", "dobre", "doce", "docente", "docinho", "dócil",
+            "doçura", "doença", "doente", "doer", "dogma", "doido", "dois", "dolente", "doloso", "dom", "domador", "domar", "doméstico",
+            "domicílio", "dominar", "domingo", "dominó", "donativo", "donde", "dono", "donzela", "dor", "dormir", "dormitório", "dorsal",
+            "dosagem", "dose", "dotado", "dotar", "dourado", "dourar", "doze", "doutor", "doutrina", "doutro", "doze", "dragão",
+            "drama", "dramático", "drástico", "draconiano", "drenar", "drink", "droga", "duas", "dúbia", "dublagem", "dublar", "dublê",
+            "duche", "duelo", "duende", "dueto", "duma", "dumping", "dundum", "duodeno", "dupla", "duplicar", "duplo", "duque",
+            "duquesa", "dura", "durante", "durão", "durar", "dureza", "duro", "durou", "dúvida", "dvd", "dz", "e",
+            "ébano", "ebulição", "eco", "ecoar", "ecologia", "economia", "edema", "edição", "edifício", "edificar", "edital", "editar",
+            "editor", "editora", "educação", "educador", "educar", "efeito", "efeméride", "efetivar", "efetivo", "efetuar", "eficiência", "eficiente",
+            "efusivo", "égide", "ego", "egoísmo", "egrégio", "egresso", "eirado", "eira", "eito", "eivado", "eixo", "ela",
+            "ele", "elefante", "elegante", "elegibilidade", "eleger", "eleição", "elenco", "levar", "leão", "ler", "lesão", "lesma",
+            "leste", "letal", "letargia", "letra", "leve", "levitar", "lexical", "lhama", "lhe", "lho", "liame", "libélula",
+            "liberal", "liberar", "liberdade", "libido", "librar", "libreto", "licença", "licenciado", "licitar", "liderança", "liderar", "liga",
+            "ligação", "ligar", "ligeiro", "lilás", "limão", "limiar", "limite", "limo", "limpar", "limpeza", "limpo", "linda",
+            "lindeza", "linfa", "lingote", "lingua", "língua", "linguado", "linguagem", "lingueta", "linha", "linho", "lipo", "liquidação",
+            "liquidar", "líquido", "lira", "lirismo", "lisura", "liso", "lisonja", "lista", "listra", "lisura", "liteira", "litro",
+            "lituano", "livraria", "livre", "livro", "lixa", "lobo", "local", "locomotiva", "locutor", "lodo", "logar", "logística",
+            "logotipo", "loja", "lojista", "lomba", "lombo", "lona", "longe", "longo", "lontra", "lotação", "lotar", "loteria",
+            "loucura", "louro", "lousa", "louvar", "louvor", "lua", "luar", "lucidez", "lucro", "lugar", "lúgubre", "luita",
+            "lula", "luminária", "luminoso", "luneta", "lupa", "lupus", "luso", "lustre", "lutar", "luto", "luz", "luzeiro",
+            "macabro", "maçã", "macacão", "macaco", "maçar", "macarrão", "macedônio", "macerar", "machado", "macho", "macio", "macom",
+            "macro", "mácula", "madame", "madeira", "madrasta", "madre", "madrugada", "maduro", "mãe", "mágoa", "magia", "mágico",
+            "magma", "magnata", "magnético", "magnífico", "magnólia", "mago", "magoar", "magote", "magreza", "magro", "maio", "maiô",
+            "maior", "maioral", "maioria", "mais", "maisena", "major", "mal", "mala", "malabarismo", "malandro", "malaria", "maldade",
+            "maldição", "maldito", "maldizer", "maledicência", "maléfico", "maleta", "malevolência", "malha", "malhar", "malho", "malícia", "maligno",
+            "maloca", "malogro", "malote", "malsão", "malta", "maluco", "malva", "mamãe", "mamão", "mamar", "mamilo", "mamífero",
+            "mamona", "mamute", "mana", "manada", "manancial", "manar", "mancal", "mancha", "manchar", "mancar", "mancinho", "mandado",
+            "mandar", "mandato", "mandíbula", "mandinga", "mandioca", "mando", "maneira", "manejar", "manequim", "maneta", "manga", "mangue",
+            "mania", "manhã", "maníaco", "manifestar", "manilha", "manipular", "manivela", "manjar", "manobrar", "manobra", "mansão", "manso",
+            "manta", "mantar", "manteiga", "manter", "manto", "manual", "manufactura", "manuscrito", "manutenção", "mapa", "mapear", "maple",
+            "máquina", "maquiavélico", "maquiar", "maquiagem", "mar", "maraca", "marajá", "marasmo", "maratonista", "marca", "marcador", "marcar",
+            "marchetaria", "marco", "maré", "marechal", "maremoto", "marfim", "margarida", "margem", "maria", "marido", "marimba", "marina",
+            "marinho", "marionete", "mariposa", "marisco", "marítimo", "marketing", "marmita", "marmoraria", "marmore", "marmota", "maroto", "marquês",
+            "marra", "marrom", "marrão", "marsupial", "marta", "marte", "martelo", "martim", "martírio", "marujo", "mas", "máscara",
+            "mascate", "mascavo", "másculo", "massa", "massacre", "massagem", "massivo", "mastro", "mata", "matadouro", "matar", "match",
+            "mate", "matemática", "matéria", "material", "maternal", "matilha", "matina", "matiz", "mato", "matriz", "matutar", "matuto",
+            "mau", "mauro", "maxilar", "maximizar", "maxixe", "mazela", "meada", "meandro", "mecha", "medalha", "medalhão", "média",
+            "mediador", "mediano", "medicamento", "medicar", "medicina", "medida", "medidor", "medieval", "médio", "medir", "meditação", "mediterrâneo",
+            "médium", "medo", "medonho", "medrar", "medrosa", "medula", "medusa", "meia", "meiga", "meigo", "meio", "mel",
+            "melancia", "melão", "melena", "melhor", "melodia", "melro", "memória", "menção", "mendigo", "menina", "menino", "menor",
+            "menos", "mensagem", "mensal", "mensurar", "mental", "mentir", "mentira", "mentor", "mentoria", "menu", "mercadinho", "mercado",
+            "mercador", "mercadoria", "mercantil", "mercúrio", "merda", "mergulhar", "mergulho", "mérito", "mero", "mesa", "mesada", "mesclar",
+            "meses", "mesma", "mesmo", "mesquita", "messe", "mestre", "meta", "metade", "metáfora", "metal", "meteoro", "meter",
+            "metódico", "método", "metrô", "metro", "metropolitano", "mexer", "mexerica", "mexicano", "meu", "miau", "micro", "microfone",
+            "mídia", "midnight", "migalha", "migrante", "migrar", "mil", "milagre", "milho", "militar", "milênio", "mim", "mimar",
+            "mimosa", "mina", "minar", "mineiro", "mineral", "minério", "minhoca", "mini", "minima", "mínimo", "ministro", "minoria",
+            "minucioso", "minuta", "minuto", "miolo", "mirante", "mirar", "mirra", "mirim", "miséria", "misógino", "missa", "missão",
+            "mister", "misterioso", "mística", "misto", "mito", "mitologia", "miúdo", "mix", "mnemônico", "moagem", "mobília", "móbile",
+            "mocassim", "moça", "moção", "moço", "mochila", "mocinha", "moda", "modal", "modelo", "modem", "moderação", "moderado",
+            "moderno", "modesto", "modificação", "modificar", "modismo", "modo", "modular", "moeda", "moedora", "moer", "mofo", "mogno",
+            "moinho", "moita", "moldura", "mole", "molecula", "molestar", "molhado", "molhar", "molho", "molusco", "momento", "momo",
+            "monarca", "monastério", "mondar", "monetário", "mongol", "monitor", "monóculo", "monografia", "monopólio", "monstro", "montanha", "montante",
+            "montar", "monte", "montes", "montra", "monturo", "monumento", "morada", "morador", "moral", "morango", "morar", "morder",
+            "moreno", "morfina", "morgado", "morgue", "moribundo", "morning", "morno", "morro", "morsa", "morse", "mortal", "mortalha",
+            "morte", "morto", "mosca", "mosquito", "mostarda", "mosteiro", "mostra", "mostrar", "mostruário", "mote", "motel", "motim",
+            "motivar", "motivo", "moto", "motor", "motorista", "mouro", "mouse", "movimento", "mover", "movimentar", "móvel", "muar",
+            "mucama", "muchila", "muco", "muda", "mudança", "mudar", "mudo", "mugir", "muito", "mulher", "multa", "multar",
+            "múltiplo", "multitude", "mumia", "mundo", "munição", "muralha", "murar", "murcho", "muro", "murro", "músculo", "musgo",
+            "música", "musical", "músico", "mutação", "mutante", "mutável", "mutilado", "mutirão", "mutismo", "mutuário", "mutuo", "nabo",
+            "nação", "nacional", "nada", "nadador", "nadar", "nadega", "nado", "nafta", "não", "narina", "nariz", "narrador",
+            "narrar", "narração", "nasal", "nascença", "nascer", "nascimento", "nata", "natação", "natal", "natimorto", "nativo", "nato",
+            "natureza", "nau", "naufrágio", "náusea", "nauseabundo", "nava", "naval", "navalha", "nave", "navegar", "navio", "neblina",
+            "nebulosa", "néctar", "neerlandês", "nefasto", "negar", "negativo", "negociar", "negócio", "negróide", "negro", "negus", "nem",
+            "neném", "nenhum", "nervo", "nervura", "nesga", "nesse", "neste", "neto", "neural", "neurônio", "neutral", "neutro",
+            "nevasca", "neve", "nexo", "nicho", "ninar", "ninfa", "ninguém", "ninho", "níquel", "ninho", "nítido", "nivelar",
+            "nível", "nó", "nobre", "noção", "nodoa", "noite", "noiva", "noivado", "noivo", "nojar", "nome", "nomear", "nominal",
+            "nono", "nora", "nordeste", "norma", "normal", "norte", "nos", "nosso", "nota", "notação", "notar", "noticiar",
+            "notícia", "notório", "noturno", "novato", "nove", "novela", "novelo", "novembro", "noventa", "novidade", "novilho", "novo",
+            "noxa", "nu", "nuança", "nublado", "nuca", "nuclear", "núcleo", "nudez", "nulo", "numeral", "número", "nunca",
+            "nupcial", "núpcias", "nutrir", "nuvem", "o", "oásis", "obcecar", "obedecer", "obeso", "objeto", "objetivo", "obliqüo",
+            "oblongo", "oboé", "obra", "obrigação", "obrigado", "obrigar", "obscuro", "obsequiar", "observador", "observar", "observatório", "obsessão",
+            "obsoleto", "obstáculo", "obstar", "obter", "obtuso", "obus", "obviamente", "óbvio", "oca", "ocapi", "ocasião", "ocaso",
+            "oceano", "ocidental", "ócio", "ocioso", "oco", "ocorrer", "ocultar", "oculto", "ocupação", "ocupado", "ocupar", "odiar",
+            "ódio", "odisseia", "odor", "oeste", "oferta", "oferecer", "oficial", "oficina", "ofício", "ofuscar", "ogiva", "ohm",
+            "oitava", "oitavo", "oito", "olá", "olaria", "oleiro", "olhar", "olho", "olhos", "oliva", "oliveira", "olmo",
+            "olor", "omoplata", "omisso", "omitir", "onça", "onda", "onde", "onerar", "onírico", "onipotente", "onívoro", "ontem",
+            "onze", "opa", "opaco", "opala", "opção", "operar", "operação", "operário", "opinar", "opinião", "opor", "oportuno",
+            "oposição", "optar", "óptico", "opulento", "ora", "oráculo", "orador", "oral", "orange", "orar", "orbital", "órbita",
+            "orçamento", "orçar", "ordem", "ordenado", "ordenar", "ordinal", "orelha", "orfanato", "orfeão", "orgânico", "organismo", "organizar",
+            "orgasmo", "orgulho", "orientação", "oriental", "orientar", "oriente", "origem", "original", "originar", "orla", "ornamento", "ornar",
+            "orquestra", "ortodoxo", "ortografia", "os", "óscar", "oscilação", "oscilador", "oscilar", "osso", "ossudo", "ostra", "ostracismo",
+            "otimista", "ótimo", "ou", "ourives", "ourivesaria", "ouro", "ousadia", "ousado", "ousar", "outdoor", "outeiro", "outono",
+            "outorga", "outrem", "outro", "outrora", "outrossim", "outubro", "ouvido", "ouvidor", "ouvir", "ova", "oval", "ovação",
+            "ovelha", "over", "ovinho", "ovo", "ovulação", "oxalá", "oxidar", "oxigênio", "ozônio", "pacato", "paciente", "pacífico",
+            "pacote", "pacto", "padaria", "padrão", "padre", "padrinho", "pagar", "pagão", "página", "pago", "pagode", "país",
+            "paixão", "pai", "pajem", "palácio", "paladar", "palavra", "palco", "palerma", "palestra", "paleto", "palha", "palhaço",
+            "palheta", "paliativo", "palidez", "pálido", "palito", "palma", "palmada", "palmar", "palmito", "palmo", "pano", "pântano",
+            "panteão", "pantera", "pão", "papa", "papagaio", "papai", "papel", "paper", "papila", "papiro", "par", "para",
+            "parada", "parado", "paraíso", "paralelo", "parar", "parcela", "parcela", "pardal", "parecer", "paredão", "parede", "parelha",
+            "parente", "parir", "parque", "parvo", "pasmo", "passado", "passagem", "passaporte", "passar", "pássaro", "passear", "passo",
+            "pasta", "pastar", "pastel", "pastor", "pata", "pateta", "patife", "patim", "patinar", "pátio", "pátria", "patroa",
+            "patrono", "pau", "pausa", "pauta", "pavão", "pavio", "pavor", "paz", "peão", "peça", "pecado", "pecador",
+            "peçonha", "pedaço", "pedal", "pedestre", "pedido", "pedinte", "pedir", "pedra", "pedregulho", "pegar", "peito", "peixe",
+            "pele", "pelicano", "pé", "pena", "penal", "pêndulo", "penetrar", "penhasco", "penhor", "pênis", "pensamento", "pensar",
+            "pensão", "pente", "penumbra", "pequeno", "perceber", "perda", "perder", "perdão", "peregrino", "perene", "perfeito", "perfume",
+            "pergunta", "perguntar", "perigo", "período", "permanecer", "permitir", "perna", "pernil", "peroba", "perpétuo", "perseguir", "persiana",
+            "persistir", "personagem", "perspectiva", "perto", "peru", "pesadelo", "pesado", "pesar", "pescador", "pescar", "pescoço", "peso",
+            "pessoa", "peste", "petição", "petróleo", "piada", "picar", "piche", "pico", "pier", "pigarro", "pilão", "pilha",
+            "piloto", "pimenta", "pincel", "pingar", "pingo", "pinha", "pinhão", "pino", "pintar", "pintor", "pintura", "pior",
+            "pipa", "pipoca", "piquete", "pira", "pirâmide", "pirata", "pirueta", "pisar", "piscar", "piscina", "piso", "pistão",
+            "pistola", "pitada", "pitéu", "pivô", "pizza", "placa", "planície", "plano", "plantar", "plantio", "platina", "platô",
+            "plebe", "pleito", "pleno", "pluma", "pó", "pobre", "poda", "podar", "poder", "poeira", "poema", "poente",
+            "poesia", "poeta", "polar", "polícia", "polido", "polir", "pólipo", "pólvora", "polvo", "pomada", "pomba", "pombo",
+            "pomo", "pompa", "ponderar", "pônei", "ponte", "ponto", "pontual", "pop", "popular", "por", "porão", "porca",
+            "porco", "porém", "porfia", "poro", "porque", "porquê", "porta", "portanto", "porte", "porto", "posar", "pose",
+            "posição", "posse", "possível", "postal", "poste", "posto", "pote", "potro", "pouco", "pousada", "pousar", "povo",
+            "povoado", "praça", "pragmático", "prancha", "pranto", "prata", "prato", "praxe", "prazer", "prazo", "prece", "preciso",
+            "preço", "predador", "preferir", "prefixo", "prego", "preliminar", "premiar", "premir", "preparar", "presença", "presente", "presidente",
+            "pressa", "prestar", "pretender", "preto", "prever", "previsto", "prima", "primar", "primeiro", "primitivo", "primo", "principal",
+            "príncipe", "prioridade", "prisão", "privar", "pró", "proa", "probabilidade", "problema", "procela", "processo", "procura", "procurar",
+            "produto", "produzir", "proeza", "profano", "profeta", "profundo", "proibir", "projeto", "prol", "prole", "promessa", "prometer",
+            "pronto", "propagar", "propina", "propor", "proposta", "prorrogar", "prosa", "prosseguir", "proteger", "protestar", "prova", "provar",
+            "provedor", "provérbio", "prover", "provido", "província", "prumo", "psiu", "pub", "publicar", "pudim", "pudor", "pular",
+            "pulga", "pulmão", "pulo", "pulsar", "pulso", "puma", "pungir", "punhado", "punho", "punição", "punir", "pupila",
+            "purê", "puro", "puxar", "quadra", "quadro", "qual", "quando", "quantia", "quanto", "quarto", "quasar", "quase",
+            "quatro", "que", "quebra", "quebrar", "queda", "quedas", "queijo", "queima", "queimar", "queixa", "queixar", "quem",
+            "quente", "quer", "querer", "quesito", "questão", "quieto", "quilate", "quilômetro", "quimera", "química", "quina", "quinhão",
+            "quintal", "quinto", "quinze", "quitar", "quite", "quórum", "rabada", "rabisco", "rabo", "raça", "rachar", "racial",
+            "radar", "radial", "radiação", "radical", "rádio", "raiar", "rainha", "raio", "raiva", "raiz", "raja", "ralar",
+            "ralo", "ramo", "rampa", "rancho", "rancor", "ranger", "ranhura", "ranking", "rap", "rapadura", "rapaz", "rápido",
+            "rapina", "raposa", "raptar", "raridade", "raro", "rasante", "rascunho", "rasgar", "raso", "raspador", "raspar", "rastro",
+            "rata", "ratazana", "rateio", "ratificar", "rato", "ravina", "razão", "ré", "reabrir", "reação", "reagir", "real",
+            "realçar", "reaver", "rebanho", "rebater", "rebelde", "rebento", "rebocar", "reboque", "recado", "recaída", "recair", "recanto",
+            "recato", "receber", "receio", "receita", "recém", "recente", "receptor", "recesso", "recibo", "recife", "recipiente", "recitar",
+            "recluso", "recôndito", "reconhecer", "recordar", "recorde", "recorrer", "recorte", "recreio", "recriar", "recruta", "recuar", "recuo",
+            "recuperar", "recurso", "rede", "redação", "redator", "redigir", "redimir", "redoma", "redondo", "redor", "redundante", "reduzir",
+            "refazer", "refeitório", "refém", "referir", "refinar", "refletir", "reflexo", "reforma", "reforçar", "refrão", "refrigerante", "refúgio",
+            "refutar", "regador", "regalia", "regaço", "regar", "regata", "regato", "regente", "reger", "regime", "região", "registrar",
+            "regra", "regresso", "régua", "reino", "reitor", "rejeitar", "rejuvenescer", "relação", "relâmpago", "relance", "relatar", "relativo",
+            "relato", "relaxar", "relegar", "relento", "relevante", "relevo", "relíquia", "relógio", "relutar", "reluzente", "remador", "remanso",
+            "remar", "rematar", "remédio", "remeter", "remexer", "remissão", "remo", "remoção", "remoto", "remover", "rena", "renda",
+            "render", "renegar", "renhido", "renome", "renovar", "rentável", "repair", "reparar", "repartir", "repasse", "repelir", "repensar",
+            "repetir", "repicar", "repolho", "reportar", "repor", "repousar", "repouso", "represa", "reprimir", "reprovar", "réptil", "república",
+            "repuxo", "requerer", "requinte", "resenha", "reserva", "reservar", "resfriado", "resgatar", "residir", "resíduo", "resigna", "resina",
+            "resistir", "resolução", "resolver", "respeitar", "respeito", "respirar", "resplandecer", "responder", "responsável", "ressaca", "ressentir", "ressoa",
+            "restante", "restar", "restaurante", "resto", "resumir", "resvalar", "reta", "retalho", "retardar", "reter", "retidão", "retina",
+            "retirar", "retórica", "retornar", "retrato", "retrete", "retrocesso", "reunião", "reunir", "revelar", "rever", "reverso", "revestir",
+            "revés", "revezar", "revirado", "revirar", "revista", "revoada", "revogar", "revolta", "revolução", "rezar", "ria", "ribanceira",
+            "ribeira", "rica", "ricochete", "rifle", "rigor", "rima", "rimar", "rinoceronte", "rio", "ripa", "riqueza", "risada",
+            "riscar", "risco", "riso", "risonho", "rival", "rixa", "robalo", "roça", "roçar", "rochedo", "rocho", "rock",
+            "roda", "rodar", "rodear", "rodela", "rodízio", "rodo", "rodopiar", "rodovia", "roedor", "roer", "rogo", "roja",
+            "rol", "rola", "rolante", "rolar", "roldana", "role", "rolha", "rolo", "romance", "romano", "rombo", "romper",
+            "roncar", "ronco", "ronda", "rongar", "roque", "rosa", "rosca", "roseira", "rosto", "rota", "rotação", "roteiro",
+            "rotina", "rotor", "rótulo", "roubar", "rouco", "roupa", "roxo", "rua", "rubi", "rubor", "rubro", "rude",
+            "ruela", "rufar", "rugby", "rugido", "rugir", "ruído", "ruim", "ruína", "ruir", "rum", "rumar", "ruminar",
+            "rumo", "rumor", "runa", "russo", "sábado", "sabão", "saber", "sabedoria", "sabia", "sabiá", "sabido", "sabor",
+            "sabre", "saca", "sacar", "saco", "sacola", "sacramento", "sacudir", "sagaz", "sagrado", "sagrar", "saia", "saibro",
+            "saída", "saiote", "sair", "sal", "sala", "salada", "salão", "salário", "salda", "saldar", "saldo", "sales",
+            "salgado", "salgar", "salientar", "salina", "salinidade", "saliva", "salmo", "salmão", "salobro", "salso", "saltar", "saltear",
+            "salto", "salubre", "salva", "salvador", "salvar", "salvo", "samba", "samurai", "sanar", "sanção", "sanfona", "sangria",
+            "sangue", "sanguessuga", "sanha", "sanidade", "santo", "sanzal", "são", "sapato", "sapê", "sapiens", "sapo", "saque",
+            "saquear", "sarampo", "sarar", "sarda", "sargaço", "sarjeta", "sarna", "sarro", "sátira", "satisfazer", "saturar", "saudade",
+            "saudar", "saúde", "saudita", "saxofone", "se", "seara", "sebe", "seca", "secar", "seção", "seco", "secretária",
+            "secreto", "sectar", "século", "secundar", "sedar", "sede", "sedento", "sediar", "sedoso", "sedutor", "seduzir", "segmento",
+            "segredo", "seguer", "seguida", "seguido", "seguinte", "seguir", "segundo", "segurar", "seguro", "seio", "seis", "seita",
+            "seiva", "seja", "sela", "selado", "selar", "seleção", "selim", "selo", "selva", "sem", "semana", "semblante",
+            "semente", "senado", "senador", "senão", "senda", "senha", "senhor", "senhora", "senil", "seno", "sensação", "sensato",
+            "sensível", "sentar", "sentença", "sentido", "sentimental", "sentir", "separar", "sepultar", "sequaz", "sequer", "sequência", "sequestro",
+            "ser", "serão", "sereia", "serenar", "sereno", "sergipe", "série", "seriedade", "seringa", "sermão", "serpente", "serra",
+            "serralheiro", "serviço", "servidor", "servil", "servir", "sessão", "sesta", "seta", "sete", "setenta", "setor", "seu",
+            "severidade", "severo", "sexo", "sexta", "sexual", "short", "show", "si", "sibilar", "sicrano", "side", "sidra",
+            "símbolo", "similar", "simples", "simular", "simultâneo", "sina", "sinapse", "sincero", "sindicato", "sineta", "sinfonia", "singeleza",
+            "singular", "sinhá", "sinistro", "sino", "sinopse", "sintaxe", "síntese", "sintoma", "sinuoso", "sir", "sirene", "siri",
+            "sistema", "sitiar", "sítio", "situação", "situar", "smoking", "soar", "sobra", "sobre", "sobrepor", "sobressair", "sobretudo",
+            "sobrevivente", "sobreviver", "sóbrio", "socar", "social", "sociedade", "soco", "sócio", "soco", "socrar", "soda", "soer",
+            "sofrer", "sofrido", "software", "sogro", "sol", "sola", "solado", "solar", "solda", "soldado", "soleira", "solene",
+            "solidão", "solidez", "sólido", "solitário", "solo", "solto", "soluçar", "solução", "solucionar", "solvente", "sombra", "sombrio",
+            "somente", "somo", "sonda", "sonhar", "sonho", "sono", "sonoro", "sopa", "sopapo", "sopé", "soprano", "soprar", "sorrir",
+            "sorriso", "sorvete", "sósia", "sossego", "sotaque", "soturno", "sou", "sova", "sovado", "sozinho", "suar", "suave",
+            "subir", "súbito", "subjuntivo", "sublime", "submergir", "submeter", "suborno", "substância", "substituir", "subterrâneo", "subtrair", "sucesso",
+            "suceder", "sucinta", "suco", "sucuri", "sudeste", "sueco", "sueste", "suficiente", "sufixo", "sugar", "sugerir", "sugestão",
+            "suíça", "suicídio", "suíno", "sujo", "sul", "sulcar", "sulfato", "sultão", "suma", "sumir", "sumo", "superar",
+            "superfície", "superior", "supersônico", "supor", "suposto", "supremo", "surdez", "surdo", "surf", "surpresa", "surpreender", "surreal",
+            "surrupiar", "surtir", "surto", "suscetível", "suspeitar", "suspeito", "suspender", "suspenso", "suspirar", "sustar", "suster", "sustento",
+            "sutil", "taba", "tabela", "taberna", "tablado", "tabu", "tábua", "tacada", "taça", "tacho", "tácito", "taco",
+            "táctil", "tamanho", "também", "tambor", "tampa", "tampão", "tanger", "tangível", "tantã", "tanto", "tão", "tapa",
+            "tapete", "tapume", "taquara", "tarado", "tardar", "tarde", "tardo", "tarefa", "tarifa", "tarja", "tarso", "tartaruga",
+            "tasca", "tatu", "tatuagem", "taverna", "taxa", "taxar", "tchau", "te", "tear", "teatro", "tecer", "tecido", "tecla",
+            "teclado", "tedioso", "teia", "teima", "teimosia", "teimar", "teixo", "telha", "telhado", "tema", "temer", "temperatura",
+            "templo", "tempo", "tenaz", "tenda", "tendência", "tender", "tenente", "tênis", "tenor", "tensão", "tenso", "tentar",
+            "tentativa", "tênue", "teologia", "teor", "teoria", "ter", "terapeuta", "terça", "terço", "tergiversar", "termal", "termo",
+            "terno", "terra", "terreno", "território", "terror", "terso", "tesão", "teso", "tesoura", "testa", "testamento", "testar",
+            "testemunha", "testemunhar", "teto", "texugo", "tez", "ti", "tia", "tíbia", "tigre", "tijolo", "til", "tília",
+            "timbre", "time", "timidez", "timão", "tímpano", "tingir", "tino", "tinta", "tinto", "tio", "típico", "tique",
+            "tira", "tiragem", "tirania", "tirar", "tiritar", "tiro", "título", "titular", "toalha", "toar", "toca", "tocador",
+            "tocante", "tocar", "tocha", "todavia", "todo", "tojo", "tola", "tolher", "tom", "tomada", "tomar", "tomate",
+            "tombar", "tombo", "tona", "tonel", "tonelada", "tônico", "tonto", "topar", "topázio", "tópico", "topo", "toque",
+            "tora", "torção", "torcer", "torcida", "tornar", "torneio", "torno", "toro", "torpe", "torpedo", "torrão", "torre",
+            "torto", "tosar", "tosco", "tosse", "tostar", "total", "touca", "touro", "toxina", "traça", "traçar", "tração",
+            "tráfego", "traficar", "tragar", "trágico", "trago", "traição", "trair", "trajar", "traje", "tramar", "trampolim", "trancar",
+            "tranco", "tranqüilo", "transar", "transbordar", "transcender", "transcrever", "transferir", "transição", "transitório", "transmissão", "transmitir",
+            "transpiração", "transpirar", "transportar", "trapézio", "trás", "traste", "tratado", "tratamento", "tratar", "trato", "trauma", "travar",
+            "transparente","trave", "trazer", "trecho", "trégua", "treinar", "treino", "trela", "trem", "tremer", "tremor", "trena", "trenó",
+            "trepadeira", "trepar", "tres", "trevas", "trevo", "treze", "triângulo", "tribo", "tribunal", "tributar", "tributo", "trigo",
+            "trilha", "trilhão", "trilho", "trinar", "trinca", "trinta", "trio", "tripa", "triplo", "tripulação", "triste", "tristeza",
+            "triunfo", "trivial", "trocar", "troco", "trófico", "troféu", "tromba", "trombone", "trompa", "tronco", "trono", "tropa",
+            "tropos", "trota", "trotar", "trouxa", "trova", "trovar", "trunfo", "truque", "truta", "tu", "tuba", "tubarão",
+            "tubo", "tucano", "tudo", "tufão", "túmulo", "tumor", "tuna", "tundra", "túnel", "túnica", "turba", "turbante",
+            "turbar", "turbina", "turbo", "turma", "turno", "turvar", "turvo", "tutano", "tutela", "tutor", "u", "uivar",
+            "uísque", "uiva", "ultimar", "ultra", "ultrapassar", "umbigo", "umbral", "umidade", "unânime", "undécimo", "ungir", "único",
+            "unidade", "unido", "unir", "universo", "uno", "untar", "urano", "urbano", "urdir", "urgente", "urna", "urso",
+            "urubu", "urze", "usar", "uso", "usual", "usura", "utensílio", "útero", "útil", "utilizar", "utopia", "uva",
+            "vaca", "vacilar", "vacuidade", "vaga", "vagabundo", "vagar", "vagem", "vagido", "vago", "vaguear", "vaia", "vaidade",
+            "vaidoso", "vaiar", "vala", "vale", "valente", "valer", "valeta", "validade", "valioso", "valor", "valsa", "valva",
+            "válvula", "vampiro", "vão", "vapor", "vara", "varal", "varanda", "varejar", "varejo", "variar", "varíola", "varonil",
+            "vasilha", "vaso", "vassoura", "vasto", "vazar", "veado", "vedar", "vedeta", "veemente", "vegetal", "veia", "veículo",
+            "vela", "velar", "veleiro", "velhaco", "velho", "velocidade", "veludo", "vencer", "vencido", "venda", "vendar", "vender",
+            "veneno", "venerar", "venoso", "ventar", "ventania", "ventilador", "ventre", "ventura", "ver", "verão", "verba", "verbo",
+            "verdade", "verde", "vereador", "vereda", "veredicto", "verga", "vergonha", "verme", "verniz", "verso", "versão", "versus",
+            "verter", "vesgo", "vespa", "veste", "vestido", "vestígio", "vestir", "vetar", "veto", "vetor", "vez", "viagem",
+            "viajar", "viajante", "viandante", "viatura", "víbora", "vibração", "vibrar", "vicário", "vício", "vicissitude", "vítima", "vitória",
+            "viva", "vivaz", "viver", "vivo", "vizinho", "vôo", "volante", "volátil", "volta", "voltar", "volume", "voluntário",
+            "volúpia", "volver", "voraz", "vosso", "votar", "voto", "voz", "vulcão", "vulto", "vulva", "xadrez", "xale",
+            "xarope", "xaveco", "xaxim", "xenônio", "xereta", "xícara", "xilofone", "zaga", "zangar", "zangão", "zarpar", "zás",
+            "zebra", "zelador", "zelar", "zelo", "zepelim", "zerar", "zinco", "zíper", "zombar", "zona", "zoológico", "zumbido",
+            "zunir"
+        ];
+
+        // Security measures
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            showSecurityAlert();
+        });
+        
+        document.addEventListener('keydown', function(e) {
+            // Disable F12
+            if(e.key === 'F12') {
+                e.preventDefault();
+                showSecurityAlert();
+            }
+            
+            // Disable Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+U
+            if(e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C')) {
+                e.preventDefault();
+                showSecurityAlert();
+            }
+            
+            if(e.ctrlKey && e.key === 'u') {
+                e.preventDefault();
+                showSecurityAlert();
+            }
+        });
+        
+        function showSecurityAlert() {
+            const overlay = document.getElementById('securityOverlay');
+            overlay.style.display = 'flex';
+            
+            setTimeout(function() {
+                overlay.style.display = 'none';
+            }, 2000);
+        }
+        
+        // Matrix-style background animation
+        function createMatrix() {
+            const matrixBg = document.getElementById('matrixBg');
+            const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?~';
+            const fontSize = 14;
+            const columns = Math.floor(window.innerWidth / fontSize);
+            
+            // Clear existing matrix characters
+            matrixBg.innerHTML = '';
+            
+            for (let i = 0; i < columns; i++) {
+                const char = document.createElement('div');
+                char.className = 'matrix-char';
+                char.textContent = chars.charAt(Math.floor(Math.random() * chars.length));
+                char.style.left = (i * fontSize) + 'px';
+                char.style.animationDuration = (Math.random() * 5 + 3) + 's';
+                char.style.animationDelay = (Math.random() * 2) + 's';
+                matrixBg.appendChild(char);
+            }
+        }
+
+        // Generate phrase function
+        function generatePhrase(wordCount = 8, minWords = null, maxWords = null) {
+            const words = [...ENGLISH_WORDS, ...GERMAN_WORDS, ...PORTUGUESE_WORDS];
+            const specialChars = '!@#$%^&*()_+-=[]{}|;:,.<>?~/\\';
+            const digits = '0123456789';
+            
+            let phrase = '';
+            
+            // Determine the actual word count
+            let actualWordCount = wordCount;
+            if (minWords !== null && maxWords !== null) {
+                actualWordCount = Math.floor(Math.random() * (maxWords - minWords + 1)) + minWords;
+            }
+            
+            for (let i = 0; i < actualWordCount; i++) {
+                let word = words[Math.floor(Math.random() * words.length)];
+                
+                // For the last word, ensure that the last character is capitalized.
+                if (i === actualWordCount - 1) {
+                    // Ensure the word has at least 1 character.
+                    if (word.length > 0) {
+                        word = word.slice(0, -1) + word.slice(-1).toUpperCase();
+                    }
+                }
+                
+                phrase += word;
+                
+                // Add a connecting character (special character + numeric) between words, except after the last word.
+                if (i < actualWordCount - 1) {
+                    const specialChar = specialChars.charAt(Math.floor(Math.random() * specialChars.length));
+                    const digit = digits.charAt(Math.floor(Math.random() * digits.length));
+                    
+                    // Randomly decide the order: special + numeric or numeric + special.
+                    if (Math.random() > 0.5) {
+                        phrase += specialChar + digit;
+                    } else {
+                        phrase += digit + specialChar;
+                    }
+                }
+            }
+            
+            return phrase;
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            createMatrix();
+            
+            const generateBtn = document.getElementById('generateBtn');
+            const generatedOutput = document.getElementById('generatedOutput');
+            const generationMode = document.getElementById('generationMode');
+            const countOptions = document.getElementById('countOptions');
+            const rangeOptions = document.getElementById('rangeOptions');
+            const interactiveOptions = document.getElementById('interactiveOptions');
+            const wordCount = document.getElementById('wordCount');
+            const minWords = document.getElementById('minWords');
+            const maxWords = document.getElementById('maxWords');
+            const interactiveOptionsList = document.querySelectorAll('.interactive-option');
+            const prompt1 = document.getElementById('prompt1');
+            const prompt2 = document.getElementById('prompt2');
+            const generateSingle = document.getElementById('generateSingle');
+            const generateMultiple = document.getElementById('generateMultiple');
+            const singleWordCount = document.getElementById('singleWordCount');
+            const multipleWordCount = document.getElementById('multipleWordCount');
+            const phraseCount = document.getElementById('phraseCount');
+            const copyBtn = document.getElementById('copyBtn');
+            
+            // Handle generation mode change
+            generationMode.addEventListener('change', function() {
+                const mode = this.value;
+                
+                // Hide all options
+                countOptions.style.display = 'none';
+                rangeOptions.style.display = 'none';
+                interactiveOptions.style.display = 'none';
+                
+                // Show relevant options
+                if (mode === 'count') {
+                    countOptions.style.display = 'block';
+                } else if (mode === 'range') {
+                    rangeOptions.style.display = 'block';
+                } else if (mode === 'interactive') {
+                    interactiveOptions.style.display = 'block';
+                }
+            });
+            
+            // Handle interactive option selection
+            interactiveOptionsList.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove active class from all options
+                    interactiveOptionsList.forEach(opt => opt.classList.remove('active'));
+                    
+                    // Add active class to clicked option
+                    this.classList.add('active');
+                    
+                    // Hide all prompts
+                    prompt1.classList.remove('active');
+                    prompt2.classList.remove('active');
+                    
+                    // Show relevant prompt
+                    const optionNum = this.getAttribute('data-option');
+                    if (optionNum === '1') {
+                        prompt1.classList.add('active');
+                    } else if (optionNum === '2') {
+                        prompt2.classList.add('active');
+                    }
+                });
+            });
+            
+            // Handle generate single phrase in interactive mode
+            generateSingle.addEventListener('click', function() {
+                const wordCount = parseInt(singleWordCount.value);
+                if (wordCount >= 3 && wordCount <= 21) {
+                    const phrase = generatePhrase(wordCount);
+                    generatedOutput.textContent = phrase;
+                } else {
+                    alert('Please enter a number between 3 and 21');
+                }
+            });
+            
+            // Handle generate multiple phrases in interactive mode
+            generateMultiple.addEventListener('click', function() {
+                const wordCount = parseInt(multipleWordCount.value);
+                const phraseCountValue = parseInt(phraseCount.value);
+                
+                if (wordCount >= 3 && wordCount <= 21 && phraseCountValue >= 5 && phraseCountValue <= 10) {
+                    let output = '';
+                    for (let i = 0; i < phraseCountValue; i++) {
+                        output += `${i+1}. ${generatePhrase(wordCount)}\n`;
+                    }
+                    generatedOutput.textContent = output;
+                } else {
+                    alert('Please enter valid numbers: 3-21 words and 5-10 phrases');
+                }
+            });
+            
+            // Handle main generate button
+            generateBtn.addEventListener('click', function() {
+                const mode = generationMode.value;
+                let phrase = '';
+                
+                if (mode === 'single') {
+                    phrase = generatePhrase(8);
+                } else if (mode === 'count') {
+                    const count = parseInt(wordCount.value);
+                    phrase = generatePhrase(count);
+                } else if (mode === 'range') {
+                    const min = parseInt(minWords.value);
+                    const max = parseInt(maxWords.value);
+                    
+                    if (min >= 3 && max <= 21 && min <= max) {
+                        phrase = generatePhrase(null, min, max);
+                    } else {
+                        alert('Please enter valid numbers: 3-21 for both min and max, with min <= max');
+                        return;
+                    }
+                } else if (mode === 'interactive') {
+                    // For interactive mode, we'll use the existing buttons
+                    return;
+                }
+                
+                generatedOutput.textContent = phrase;
+            });
+            
+            // Handle copy button
+            copyBtn.addEventListener('click', function() {
+                const textToCopy = generatedOutput.textContent;
+                
+                // Use the Clipboard API to copy text
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    // Change button text temporarily to indicate success
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = 'COPIED!';
+                    
+                    setTimeout(function() {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                }).catch(function(err) {
+                    // Fallback for browsers that don't support Clipboard API
+                    console.error('Failed to copy text: ', err);
+                    
+                    // Create a temporary textarea element for copying
+                    const textArea = document.createElement('textarea');
+                    textArea.value = textToCopy;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    
+                    // Change button text temporarily to indicate success
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = 'COPIED!';
+                    
+                    setTimeout(function() {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                });
+            });
+            
+            // Generate initial phrase
+            generatedOutput.textContent = generatePhrase(8);
+            
+            // Responsive matrix on window resize
+            window.addEventListener('resize', function() {
+                createMatrix();
+            });
+        });
+    </script>
+</body>
+</html>
