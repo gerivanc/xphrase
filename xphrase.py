@@ -47,7 +47,7 @@ def main():
     """Main CLI function with argument support"""
     parser = argparse.ArgumentParser(description='XPhrase Generation - Expressive phrase generator')
     parser.add_argument('--version', action='store_true', help='Show version information')
-    parser.add_argument('--count', type=int, default=1, help='Number of phrases to generate (default: 1)')
+    parser.add_argument('--count', type=int, default=None, help='Number of words per phrase (5-10)')
     parser.add_argument('--min', type=int, default=3, help='Minimum words per phrase (default: 3)')
     parser.add_argument('--max', type=int, default=21, help='Maximum words per phrase (default: 21)')
     parser.add_argument('--interactive', action='store_true', help='Run in interactive mode')
@@ -61,18 +61,22 @@ def main():
     generator = XPhraseGenerator()
     
     # If interactive mode or no arguments (except --version)
-    if args.interactive or (args.count == 1 and args.min == 3 and args.max == 21 and not sys.stdin.isatty()):
+    if args.interactive:
         run_interactive_mode(generator)
         return
     
     # Command-line mode
-    if args.count == 1:
-        phrase = generator.generate_phrase(args.min, args.max)
+    if args.count is None:
+        # Default behavior: generate single phrase with exactly 8 words
+        phrase = generator.generate_phrase(8, 8)
+        print(phrase)
+    elif 5 <= args.count <= 10:
+        # Generate single phrase with exactly the specified number of words (5-10)
+        phrase = generator.generate_phrase(args.count, args.count)
         print(phrase)
     else:
-        phrases = generator.generate_multiple_phrases(args.count, args.min, args.max)
-        for phrase in phrases:
-            print(phrase)
+        print("Error: --count parameter must be between 5 and 10")
+        sys.exit(1)
 
 def run_interactive_mode(generator):
     """Run the interactive menu mode"""
@@ -89,21 +93,45 @@ def run_interactive_mode(generator):
             choice = input("\nEnter your choice (1-3): ").strip()
             
             if choice == '1':
-                phrase = generator.generate_phrase()
-                print(f"\nGenerated phrase: {phrase}")
+                while True:
+                    try:
+                        num_words = int(input("Generate between 3-21 words? "))
+                        if 3 <= num_words <= 21:
+                            phrase = generator.generate_phrase(num_words, num_words)
+                            print(f"\nGenerated phrase: {phrase}")
+                            break
+                        else:
+                            print("Please enter a number between 3 and 21.")
+                    except ValueError:
+                        print("Please enter a valid number.")
                 
             elif choice == '2':
-                try:
-                    count = int(input("How many phrases to generate? "))
-                    if count < 1:
-                        print("Please enter a positive number.")
-                        continue
-                    phrases = generator.generate_multiple_phrases(count)
-                    print(f"\nGenerated {count} phrases:")
-                    for i, phrase in enumerate(phrases, 1):
-                        print(f"{i}. {phrase}")
-                except ValueError:
-                    print("Please enter a valid number.")
+                # Get number of words per phrase
+                while True:
+                    try:
+                        words_per_phrase = int(input("Generate between 3-21 words per phrase? "))
+                        if 3 <= words_per_phrase <= 21:
+                            break
+                        else:
+                            print("Please enter a number between 3 and 21.")
+                    except ValueError:
+                        print("Please enter a valid number.")
+                
+                # Get number of phrases
+                while True:
+                    try:
+                        num_phrases = int(input("Generate between 5-10 phrases? "))
+                        if 5 <= num_phrases <= 10:
+                            break
+                        else:
+                            print("Please enter a number between 5 and 10.")
+                    except ValueError:
+                        print("Please enter a valid number.")
+                
+                phrases = generator.generate_multiple_phrases(num_phrases, words_per_phrase, words_per_phrase)
+                print(f"\nGenerated {num_phrases} phrases:")
+                for i, phrase in enumerate(phrases, 1):
+                    print(f"{i}. {phrase}")
                     
             elif choice == '3':
                 print("Goodbye!")
