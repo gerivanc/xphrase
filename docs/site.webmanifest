@@ -1,0 +1,33 @@
+{
+  "name": "XPhrase Generation",
+  "short_name": "XPhrase",
+  "description": "Expressive phrase generator — strong, modern, and minimalist",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/favicon-338x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x136",
+      "type": "image/png"
+    },
+    {
+      "src": "/web-app-manifest-940x711.png",
+      "sizes": "960x960",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/web-app-manifest-880x866.png",
+      "sizes": "960x958",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
