@@ -748,7 +748,61 @@
             margin-right: 0.5rem;
         }
         
-        /* Responsive Design */
+        /* Desktop-specific adjustments */
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1100px;
+                padding: 2rem;
+            }
+            
+            section {
+                padding: 2.5rem;
+            }
+            
+            .generator-section {
+                padding: 2.5rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                gap: 2rem;
+            }
+            
+            .form-row {
+                gap: 1.5rem;
+            }
+            
+            .example-output {
+                font-size: 1.2rem;
+                padding: 1.5rem;
+            }
+            
+            .generate-btn, .copy-btn {
+                padding: 1rem 2.5rem;
+                font-size: 1.2rem;
+            }
+        }
+        
+        /* Large desktop screens */
+        @media (min-width: 1440px) {
+            .container {
+                max-width: 1300px;
+            }
+            
+            h1 {
+                font-size: 3.5rem;
+            }
+            
+            h2 {
+                font-size: 2.2rem;
+            }
+            
+            .tagline {
+                font-size: 1.4rem;
+            }
+        }
+        
+        /* Responsive Design for mobile */
         @media (max-width: 768px) {
             h1 {
                 font-size: 2rem;
@@ -818,7 +872,8 @@
         <h1 class="glitch" data-text="XPHRASE GENERATION">XPHRASE GENERATION</h1>
         <p class="tagline">Expressive phrase generator — strong, modern, and minimalist</p>
     </header>
-        
+    
+    <div class="container">
         <section class="features">
             <h2>PHRASE GENERATOR</h2>
             
@@ -903,16 +958,20 @@
         </section>
  
         <section class="usage">
-        <h2>PROJECT REPOSITORY</h2>
-        <div class="button-group" style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap;">
-            <a href="https://xphrase.gerivan.me/" target="_blank" class="generate-btn" style="text-decoration: none; display: inline-block;">
-                HOME XPHRASE GENERATION
-            </a>
-            <a href="https://github.com/gerivanc/xphrase/blob/main/LICENSE" target="_blank" class="generate-btn" style="text-decoration: none; display: inline-block;">
-                LICENSE
-            </a>
+            <h2>PROJECT REPOSITORY</h2>
+            <div class="button-group" style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap;">
+                <a href="https://xphrase.gerivan.me/" target="_blank" class="generate-btn" style="text-decoration: none; display: inline-block;">
+                    HOME XPHRASE GENERATION
+                </a>
+                <a href="https://github.com/gerivanc/xphrase/" target="_blank" class="generate-btn" style="text-decoration: none; display: inline-block;">
+                    GITHUB
+                </a>
+                <a href="https://github.com/gerivanc/xphrase/blob/main/LICENSE" target="_blank" class="generate-btn" style="text-decoration: none; display: inline-block;">
+                    LICENSE
+                </a>
             </div>
         </section>
+    </div>
 
     <footer>        
         <h2>CONTACT</h2>
