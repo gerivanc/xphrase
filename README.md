@@ -1,4 +1,4 @@
-# 🚀 XPHRASE GENERATION
+# 🤹 XPHRASE GENERATION
 
 **Expressive phrase generator — strong, modern, and minimalist.**  
 Built entirely in Python for CLI environments on Linux and Windows.
@@ -191,6 +191,7 @@ xphrase/
 ├── LICENSE
 ├── README.md
 ├── SECURITY.md
+├── XPHRASECALCULATION.md
 ├── pyproject.toml 
 ├── requirements.txt
 ├── setup.py
@@ -215,11 +216,38 @@ xphrase/
 
 ---
 
-# 🧰 FUTURE ROADMAP
+# 📊 XPhrase Generation Calculation Methodology
+Generation phrase  by Phrase Formation Rules:
 
-- 🌐 HTML interface (web version)
-- 📦 Packaging for PyPI
-- 🧪 Unit tests and coverage
+For a phrase with \( n \) words (\( 3 \leq n \leq 21 \)):
+
+### 1. **Word Selection**
+   - Each word is selected **randomly with replacement** from the pool of 4,000
+   - Language origin is **random per word** (uniform distribution across 3 languages)
+   - **Order matters**, repetitions allowed
+
+### 2. **Per-Word Modification**
+   For each selected word:
+   - Insert **at least one digit** (`0–9`) → 10 options
+   - Insert **at least one special character** from:
+     ```
+     !@#$%^&*()_+-=[]{}|;:,.<>?~\\
+     ```
+     → **29 special characters**
+   - Insertions occur **between letters**, **before**, or **after** the word
+   - **Multiple insertions allowed** (no upper limit per word)
+   - **No fixed pattern** — randomness ensures entropy
+
+### 3. **Inter-Word Linking**
+   - Words are **concatenated directly** with their modifications
+   - No fixed separator between augmented words
+   - Example: `davor,9Möglichkeit]3ThermometeR`
+
+### 4. **Final Word Capitalization**
+   - The **last character of the final word** must be a **letter** and is **forced uppercase**
+   - If the last character after modification is not a letter, a **valid letter is appended and uppercased**
+
+See the [XPHRASECALCULATION.md](https://github.com/gerivanc/xphrase/blob/main/XPHRASECALCULATION.md) for details.
 
 ---
 
