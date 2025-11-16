@@ -25,8 +25,8 @@ This project is:
   - At least **one special character**: `!@#$%^&*()_+-=[]{}|;:,.<>?~\\`
   - At least **one digit**: `0123456789`
 - The **last character of the final word** is always **uppercase**
-- Output example:  
-  `ice8café*intentos7vermeideN`
+- Example of output for generating a phrase with eight words plus numeric and special characters:  
+  `Note,8oxidar+6truly=3Chaos\1ressaca[3kind;1achtzehn_9descréditO`
 
 ---
 
