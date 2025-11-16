@@ -7,9 +7,45 @@ All notable changes to the XPhrase Generation project are documented in this fil
 
 ---
 
+## [1.0.0] - 2025-11-16
+
+### Created
+- Create XPHRASECALCULATION.md
+
+### Added
+- New interactive mode with structured menu options
+- Word count validation (3-21 words per phrase)
+- Phrase count validation (5-10 phrases for multiple generation)
+- Specific count-based generation with `--count` argument (5-10 words)
+
+### Revised
+- Complete overhaul of CLI interface section in README.md
+- Updated command behavior and usage examples
+- Restructured interactive mode workflow
+
+### Updated
+- Default command behavior to generate exactly 8 words
+- `--count` argument to accept specific word counts (5-10)
+- Interactive mode to include two-step phrase generation
+- Documentation to reflect new generation rules
+
+### Fixed
+- Clear separation between single and multiple phrase generation
+- Consistent word count ranges across all interfaces
+
+### Reordered
+- CLI argument examples by functionality
+- Interactive mode options for better user flow
+
+### Deleted
+- Legacy interactive mode structure
+- Obsolete command examples from previous versions
+
+
 ## [1.0.0] - 2025-11-10
 ### Created
 - Create CHANGELOG.md
+
 
 ## [1.0.0] - 2025-11-09
 
@@ -24,6 +60,7 @@ All notable changes to the XPhrase Generation project are documented in this fil
 ### Updated
 - Update CONTRIBUTING.md for clarity and copyright
 - Update index.html
+
 
 ## [1.0.0] - 2025-11-08
 
@@ -47,6 +84,7 @@ All notable changes to the XPhrase Generation project are documented in this fil
 
 ### Deleted
 - Delete docs/CNAME
+
 
 ## [1.0.0] - 2025-11-07
 
