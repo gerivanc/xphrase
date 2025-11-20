@@ -939,7 +939,6 @@
                                 <label class="form-label">Generate between 3-21 words?</label>
                                 <input type="number" class="form-input" id="singleWordCount" min="3" max="21" value="8">
                             </div>
-                            <button class="generate-btn" id="generateSingle">Generate Phrase</button>
                         </div>
                         
                         <div class="interactive-prompt" id="prompt2">
@@ -951,7 +950,6 @@
                                 <label class="form-label">Generate between 5-10 phrases?</label>
                                 <input type="number" class="form-input" id="phraseCount" min="5" max="10" value="5">
                             </div>
-                            <button class="generate-btn" id="generateMultiple">Generate Phrases</button>
                         </div>
                     </div>
                 </div>
@@ -2065,8 +2063,6 @@
             const interactiveOptionsList = document.querySelectorAll('.interactive-option');
             const prompt1 = document.getElementById('prompt1');
             const prompt2 = document.getElementById('prompt2');
-            const generateSingle = document.getElementById('generateSingle');
-            const generateMultiple = document.getElementById('generateMultiple');
             const singleWordCount = document.getElementById('singleWordCount');
             const multipleWordCount = document.getElementById('multipleWordCount');
             const phraseCount = document.getElementById('phraseCount');
@@ -2088,6 +2084,13 @@
                     rangeOptions.style.display = 'block';
                 } else if (mode === 'interactive') {
                     interactiveOptions.style.display = 'block';
+                }
+                
+                // Update button text based on mode
+                if (mode === 'interactive') {
+                    generateBtn.textContent = 'GENERATE PHRASE';
+                } else {
+                    generateBtn.textContent = 'GENERATE PHRASE';
                 }
             });
             
@@ -2114,33 +2117,6 @@
                 });
             });
             
-            // Handle generate single phrase in interactive mode
-            generateSingle.addEventListener('click', function() {
-                const wordCount = parseInt(singleWordCount.value);
-                if (wordCount >= 3 && wordCount <= 21) {
-                    const phrase = generatePhrase(wordCount);
-                    generatedOutput.textContent = phrase;
-                } else {
-                    alert('Please enter a number between 3 and 21');
-                }
-            });
-            
-            // Handle generate multiple phrases in interactive mode
-            generateMultiple.addEventListener('click', function() {
-                const wordCount = parseInt(multipleWordCount.value);
-                const phraseCountValue = parseInt(phraseCount.value);
-                
-                if (wordCount >= 3 && wordCount <= 21 && phraseCountValue >= 5 && phraseCountValue <= 10) {
-                    let output = '';
-                    for (let i = 0; i < phraseCountValue; i++) {
-                        output += `${i+1}. ${generatePhrase(wordCount)}\n`;
-                    }
-                    generatedOutput.textContent = output;
-                } else {
-                    alert('Please enter valid numbers: 3-21 words and 5-10 phrases');
-                }
-            });
-            
             // Handle main generate button
             generateBtn.addEventListener('click', function() {
                 const mode = generationMode.value;
@@ -2162,8 +2138,42 @@
                         return;
                     }
                 } else if (mode === 'interactive') {
-                    // For interactive mode, we'll use the existing buttons
-                    return;
+                    // Get the active interactive option
+                    const activeOption = document.querySelector('.interactive-option.active');
+                    
+                    if (!activeOption) {
+                        alert('Please select an option in Interactive Mode');
+                        return;
+                    }
+                    
+                    const optionNum = activeOption.getAttribute('data-option');
+                    
+                    if (optionNum === '1') {
+                        // Generate single phrase
+                        const wordCount = parseInt(singleWordCount.value);
+                        if (wordCount >= 3 && wordCount <= 21) {
+                            phrase = generatePhrase(wordCount);
+                        } else {
+                            alert('Please enter a number between 3 and 21');
+                            return;
+                        }
+                    } else if (optionNum === '2') {
+                        // Generate multiple phrases
+                        const wordCount = parseInt(multipleWordCount.value);
+                        const phraseCountValue = parseInt(phraseCount.value);
+                        
+                        if (wordCount >= 3 && wordCount <= 21 && phraseCountValue >= 5 && phraseCountValue <= 10) {
+                            let output = '';
+                            for (let i = 0; i < phraseCountValue; i++) {
+                                output += `${i+1}. ${generatePhrase(wordCount)}\n`;
+                            }
+                            generatedOutput.textContent = output;
+                            return;
+                        } else {
+                            alert('Please enter valid numbers: 3-21 words and 5-10 phrases');
+                            return;
+                        }
+                    }
                 }
                 
                 generatedOutput.textContent = phrase;
