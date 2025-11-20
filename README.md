@@ -1,4 +1,4 @@
-# 🤹 XPHRASE GENERATION
+# 🧩 XPHRASE GENERATION
 
 **Expressive phrase generator — strong, modern, and minimalist.**  
 Built entirely in Python for CLI environments on Linux and Windows.
@@ -13,7 +13,29 @@ It creates expressive, randomized phrases using words from **Portuguese**, **Eng
 This project is:
 - 💯 Written 100% in Python
 - 🖥️ CLI-compatible for Linux and Windows
-- 🌐 Future-ready for HTML interface integration
+- 🌐 The CLI project has been fully converted to the web version of the HTML interface, maintaining the same phrase generation method, now accessible directly in your browser. 
+
+---
+
+## 🌍 Interactive Web Version
+
+Experience the XPhrase Generation directly in your browser! The web version offers all the functionality of the Python script in an intuitive and responsive interface.
+
+### 🚀 Access the Web Version
+
+<div align="center">
+  
+[**🌐 Try It Now on XPhrase Generation**](https://xphrase.gerivan.me/xphrase.html)
+
+</div>
+
+### ⚡ Interactive Demo
+
+<div align="center">
+
+[**📚 Interactive Readme**](https://xphrase.gerivan.me/)
+
+</div>
 
 ---
 
@@ -158,49 +180,6 @@ verwandt=0cínico_0Talent^2confecção!9sol,0letztes[7mesa_4möbeL
 
 ---
 
-# 📁 FILE STRUCTURE
-
-```
-xphrase/
-├── .github/
-│   └── ISSUE_TEMPLATE
-│       ├── bug_report.md
-│       ├── config.yml		
-│       └── issue_template.md
-│   └── workflows/
-│       ├── pypi-publish.yml
-│       └── python-app.yml
-│
-├── data/
-│		├── __init__.py
-│		├── english_words.py
-│		├── german_words.py
-│		└── portuguese_words.py
-│
-├── docs/
-│		├── .nojekyll
-│		├── CNAME
-│		├── _config.yml
-│		└── index.html		
-├── tests/
-│		├── __init__.py
-│		└── test_xphrase.py
-│
-├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── LICENSE
-├── README.md
-├── SECURITY.md
-├── XPHRASECALCULATION.md
-├── pyproject.toml 
-├── requirements.txt
-├── setup.py
-├── word_manager.py
-└── xphrase.py
-```
-
----
-
 # 📚 WORD BANK SPECS
 
 - It contains 4,000 specific words, selected from the vocabulary of three different languages.
@@ -304,4 +283,4 @@ Feel free to reach out for collaboration or feedback!
 ---
 
 #### Copyright © 2025 Gerivan Costa dos Santos
-#### XPhrase Generation — Expressive phrases. Strong logic. Minimalist design © 2025
+**XPhrase Generation — Expressive phrases. Strong logic. Minimalist design © 2025**
