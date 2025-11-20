@@ -593,6 +593,178 @@
             text-shadow: 0 0 10px var(--primary-color);
         }
         
+        /* CHEGUEI EFFECT - Maximum presence button */
+        .live-demon-btn {
+            position: relative;
+            background: linear-gradient(45deg, 
+                rgba(0, 255, 0, 0.15), 
+                rgba(0, 255, 255, 0.15),
+                rgba(255, 0, 60, 0.1),
+                rgba(153, 50, 204, 0.15)
+            );
+            color: #00ff00;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.3rem;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.4s;
+            margin: 1rem 0;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            overflow: visible;
+            z-index: 10;
+            text-decoration: none;
+            display: inline-block;
+            text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+            box-shadow: 
+                0 0 20px rgba(0, 255, 0, 0.7),
+                0 0 40px rgba(0, 255, 255, 0.5),
+                0 0 60px rgba(255, 0, 60, 0.3),
+                inset 0 0 15px rgba(0, 255, 0, 0.3);
+            animation: pulse-glow 2s ease-in-out infinite alternate;
+        }
+        
+        /* Main electric border - always visible and intense */
+        .live-demon-btn::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, 
+                #00ff00, #00ffff, #ff003c, #9932cc, #00ff00
+            );
+            background-size: 400% 400%;
+            border-radius: 10px;
+            z-index: -1;
+            animation: 
+                electric-flow 1.5s linear infinite,
+                hue-rotate 3s linear infinite;
+            filter: brightness(1.5) contrast(2);
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.8);
+        }
+        
+        /* Secondary inner glow */
+        .live-demon-btn::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            background: rgba(10, 10, 10, 0.9);
+            border-radius: 6px;
+            z-index: -1;
+            box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+        
+        /* Floating particles effect */
+        .live-demon-btn .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00ffff;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float-particle 3s linear infinite;
+            box-shadow: 0 0 8px #00ffff;
+        }
+        
+        /* Hover effects - even more intense */
+        .live-demon-btn:hover {
+            transform: scale(1.05) translateY(-2px);
+            color: #00ffff;
+            text-shadow: 
+                0 0 15px #00ffff, 
+                0 0 30px #00ffff,
+                0 0 45px #00ffff;
+            box-shadow: 
+                0 0 30px rgba(0, 255, 0, 0.9),
+                0 0 60px rgba(0, 255, 255, 0.7),
+                0 0 90px rgba(255, 0, 60, 0.5),
+                0 0 120px rgba(153, 50, 204, 0.3),
+                inset 0 0 20px rgba(0, 255, 0, 0.4);
+            animation: pulse-glow-hover 2s ease-in-out infinite alternate;
+        }
+        
+        .live-demon-btn:hover::before {
+            animation: 
+                electric-flow 0.8s linear infinite,
+                hue-rotate 4.5s linear infinite;
+            filter: brightness(2) contrast(3);
+            box-shadow: 0 0 50px rgba(0, 255, 0, 1);
+        }
+        
+        /* Animations */
+        @keyframes electric-flow {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 400% 50%;
+            }
+        }
+        
+        @keyframes hue-rotate {
+            0% {
+                filter: hue-rotate(0deg) brightness(1.5) contrast(2);
+            }
+            100% {
+                filter: hue-rotate(360deg) brightness(1.5) contrast(2);
+            }
+        }
+        
+        @keyframes pulse-glow {
+            0% {
+                box-shadow: 
+                    0 0 20px rgba(0, 255, 0, 0.7),
+                    0 0 40px rgba(0, 255, 255, 0.5),
+                    0 0 60px rgba(255, 0, 60, 0.3),
+                    inset 0 0 15px rgba(0, 255, 0, 0.3);
+            }
+            100% {
+                box-shadow: 
+                    0 0 25px rgba(0, 255, 0, 0.8),
+                    0 0 50px rgba(0, 255, 255, 0.6),
+                    0 0 75px rgba(255, 0, 60, 0.4),
+                    inset 0 0 20px rgba(0, 255, 0, 0.4);
+            }
+        }
+        
+        @keyframes pulse-glow-hover {
+            0% {
+                box-shadow: 
+                    0 0 30px rgba(0, 255, 0, 0.9),
+                    0 0 60px rgba(0, 255, 255, 0.7),
+                    0 0 90px rgba(255, 0, 60, 0.5),
+                    0 0 120px rgba(153, 50, 204, 0.3),
+                    inset 0 0 20px rgba(0, 255, 0, 0.4);
+            }
+            100% {
+                box-shadow: 
+                    0 0 40px rgba(0, 255, 0, 1),
+                    0 0 80px rgba(0, 255, 255, 0.8),
+                    0 0 120px rgba(255, 0, 60, 0.6),
+                    0 0 160px rgba(153, 50, 204, 0.4),
+                    inset 0 0 25px rgba(0, 255, 0, 0.5);
+            }
+        }
+        
+        @keyframes float-particle {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx, 50px), var(--ty, -50px)) scale(0);
+                opacity: 0;
+            }
+        }
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             h1 {
@@ -619,6 +791,12 @@
             .code-block::before {
                 display: none;
             }
+            
+            .live-demon-btn {
+                padding: 0.8rem 2rem;
+                font-size: 1.1rem;
+                letter-spacing: 2px;
+            }
         }
 
 	/* CSS adapted for the phrase generator box */
@@ -642,6 +820,12 @@
 			padding: 0.7rem 1.5rem;
 			font-size: 1rem;
 		}
+        
+        .live-demon-btn {
+            padding: 0.7rem 1.5rem;
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
 	}
 
 	/* Ensure that long sentences are broken up correctly */
@@ -668,7 +852,7 @@
         <h1 class="glitch" data-text="XPHRASE GENERATION">XPHRASE GENERATION</h1>
         <p class="tagline">Expressive phrase generator — strong, modern, and minimalist</p>
     </header>
-    
+  
     <div class="container">
         <section class="project-overview">
             <h2>PROJECT OVERVIEW</h2>
@@ -678,14 +862,17 @@
                 <div class="feature-card">
                     <h3>100% PYTHON</h3>
                     <p>Written entirely in Python for maximum efficiency and portability.</p>
+                    <p>The principle of randomness enables the generation of over 12.6 trillion unique combinations by interconnecting words from three languages, along with the inclusion of special characters and numerical digits.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>CLI-COMPATIBLE</h3>
-                    <p>Designed for Linux and Windows command-line environments.</p>
+                   <h3>CLI-COMPATIBLE</h3>
+					<p>Designed for Linux and Windows command-line environments.</p>
+					<p>Generate single phrase: Asks: "generate between 3-21 words?", and generates one phrase with the specified word count (3-21 words).</p>
+					<p>Generate multiple phrases: First, you are asked to define the word range per sentence ('generate between 3 and 21 words?') and then the number of sentences ('generate between 5 and 10 sentences?'), in order to then generate multiple sentences with a consistent word count.</p>				
                 </div>
                 <div class="feature-card">
-                    <h3>FUTURE-READY</h3>
-                    <p>Architected for easy integration with HTML interfaces in future versions.</p>
+                    <h3>WEB VERSION</h3>
+                    <p>The CLI project has been fully converted to the web version of the HTML interface, maintaining the same phrase generation method, now accessible directly in your browser.</p>
                 </div>
             </div>
         </section>
@@ -694,9 +881,12 @@
         <section class="web-version">
             <h2>XPHRASE GENERATION — ACCESS THE WEB VERSION</h2>
             <p>See different ways to generate your sentences. Generate sentences right now!</p>
+            <p>HTML interface (web version)</p>			
+            <p>100% of the CLI project converted to the web browser</p>
+            <p>The same method for generating phrases, but in your browser</p>			
             
             <div class="button-group" style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap;">
-                <a href="https://xphrase.gerivan.me/xphrase.html" target="_blank" class="generate-btn" style="text-decoration: none; display: inline-block;">
+                <a href="https://xphrase.gerivan.me/xphrase.html" target="_blank" class="live-demon-btn" id="liveDemonBtn">
                     LIVE DEMON
                 </a>
             </div>
@@ -797,16 +987,7 @@
                 <code>run7Liebe!café2dream#vermeide9IntentoN<br>code3vermeide@ice8Liebe*intentos1caféZ</code>
             </div>
         </section>
-        
-        <section class="roadmap">
-            <h2>FUTURE ROADMAP</h2>
-            <ul>
-                <li>HTML interface (web version)</li>
-                <li>Packaging for PyPI</li>
-                <li>Unit tests and coverage</li>
-            </ul>
-        </section>
-        
+                
         <!-- SECTION SUPPORT AND CONTRIBUTIONS -->
         <section class="support-contributions">
             <h2>SUPPORT AND CONTRIBUTIONS</h2>
@@ -960,9 +1141,33 @@
 			return phrase;
 		}
 		
+		// Create floating particles for the LIVE DEMON button
+		function createParticles() {
+			const button = document.getElementById('liveDemonBtn');
+			if (!button) return;
+			
+			// Create multiple particles
+			for (let i = 0; i < 8; i++) {
+				const particle = document.createElement('div');
+				particle.className = 'particle';
+				
+				// Random position around the button
+				const tx = (Math.random() - 0.5) * 100;
+				const ty = (Math.random() - 0.5) * 100;
+				particle.style.setProperty('--tx', `${tx}px`);
+				particle.style.setProperty('--ty', `${ty}px`);
+				
+				// Random delay
+				particle.style.animationDelay = `${Math.random() * 3}s`;
+				
+				button.appendChild(particle);
+			}
+		}
+		
 		// Initialize the page - Corrected function
 		document.addEventListener('DOMContentLoaded', function() {
 			createMatrix();
+			createParticles();
 			
 			const generateBtn = document.getElementById('generateBtn');
 			const exampleOutput = document.getElementById('exampleOutput');
