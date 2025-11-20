@@ -18,7 +18,7 @@ This project is:
 
 ---
 
-## 🌍 Interactive Web Version
+## 🌍 INTERACTIVE WEB VERSION
 
 Experience the XPhrase Generation directly in your browser! The web version offers all the functionality of the Python script in an intuitive and responsive interface.
 
