@@ -9,6 +9,7 @@ Built entirely in Python for CLI environments on Linux and Windows.
 
 **XPhrase Generation** is a multilingual phrase generator designed for command-line interface (CLI) usage.  
 It creates expressive, randomized phrases using words from **Portuguese**, **English**, and **German**, interlinked with special characters and digits.
+The principle of randomness enables the generation of over 12.6 trillion unique combinations by interconnecting words from three languages, along with the inclusion of special characters and numerical digits.
 
 This project is:
 - 💯 Written 100% in Python
