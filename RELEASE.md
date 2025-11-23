@@ -1,10 +1,10 @@
-# XPhrase Generation v1.0.1
+# XPhrase Generation v1.0.2
 
-**Release Date:** November 22th, 2025
+**Release Date:** November 23th, 2025
 
 Released on 	2025/11/22 	
 
-Last updated 	2025/11/22
+Last updated 	2025/11/23
 
 Publisher 	[gerivanc](https://github.com/gerivanc/)
 
