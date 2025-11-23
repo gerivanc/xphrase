@@ -101,27 +101,17 @@ jobs:
 
     - name: Test word manager module
       run: |
-        # Test if word manager can load words from .py files
-        python -c "
-from word_manager import WordManager
+        python -c "from word_manager import WordManager
 wm = WordManager()
 print('✓ WordManager initialized successfully')
-
-# Test word generation
 words = [wm.get_random_word() for _ in range(5)]
 print('✓ Random words generated:', words)
-
-# Test separator generation
 separators = [wm.get_separator() for _ in range(5)]
 print('✓ Separators generated:', separators)
-
-# Verify word lists are loaded
 print('✓ English words loaded:', len(wm.english_words) > 0)
 print('✓ Portuguese words loaded:', len(wm.portuguese_words) > 0)
 print('✓ German words loaded:', len(wm.german_words) > 0)
-
-print('✓ All data modules working correctly')
-        "
+print('✓ All data modules working correctly')"
 
     - name: Verify data files structure
       run: |
@@ -155,24 +145,15 @@ print('✓ All data modules working correctly')
     - name: Test phrase generation rules
       run: |
         echo "Testing phrase generation rules compliance:"
-        python -c "
-from xphrase import XPhraseGenerator
+        python -c "from xphrase import XPhraseGenerator
 import re
-
 generator = XPhraseGenerator()
-
-# Test multiple phrases to verify rules
 for i in range(3):
     phrase = generator.generate_phrase(5, 5)
     print(f'Test {i+1}: {phrase}')
-    
-    # Basic rule checks
     assert len(phrase) > 0, 'Phrase should not be empty'
     assert any(char.isdigit() for char in phrase), 'Phrase should contain digits'
     assert any(not char.isalnum() and not char.isspace() for char in phrase), 'Phrase should contain special characters'
     assert phrase[-1].isupper(), 'Last character should be uppercase'
-    
     print(f'✓ Phrase {i+1} passed all rule checks')
-
-print('✓ All phrase generation rules validated successfully')
-        "
+print('✓ All phrase generation rules validated successfully')"
