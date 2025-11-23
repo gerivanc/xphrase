@@ -56,7 +56,7 @@ Include the full stack trace or terminal output:
 
 Example of incorrect output:
 ```bash
-$ python xphrase.py --count 1
+$ python xphrase.py --count 5
 generatedphrasemissingcharacters
 ```
 
