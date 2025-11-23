@@ -43,7 +43,7 @@ Provide details about your environment. To check versions, use:
 
 - **Operating System**: [e.g., Ubuntu 24.04, Windows 11, macOS Sonoma]
 - **Python Version**: [e.g., 3.8, 3.10, 3.12]
-- **Project Version**: [e.g., 1.0.0]
+- **Project Version**: [e.g., 1.0.1]
 - **Installation Method**: [e.g., cloned repository, PyPI]
 - **Additional Context**: [e.g., terminal output, system configurations]
 
