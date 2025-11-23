@@ -7,6 +7,15 @@ All notable changes to the XPhrase Generation project are documented in this fil
 
 ---
 
+## [1.0.1] - 2025-11-22
+
+### Created
+- Create RELEASE.md
+
+### Fixed
+- This fixes version 1.0.1. The project has been definitively released and completed
+
+
 ## [1.0.0] - 2025-11-16
 
 ### Created
