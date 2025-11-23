@@ -55,7 +55,7 @@ def main():
     args = parser.parse_args()
     
     if args.version:
-        print("XPhrase Generation v1.0.0")
+        print("XPhrase Generation v1.0.1")
         return
     
     generator = XPhraseGenerator()
