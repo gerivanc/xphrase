@@ -1,4 +1,4 @@
-# DNAPass Password Generator v1.0.1
+# XPhrase Generation v1.0.1
 
 **Release Date:** November 22th, 2025
 
