@@ -10,9 +10,8 @@ permissions:
 
 jobs:
   publish-test-pypi:
-    name: Publish to Test PyPI
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v4
 
@@ -29,36 +28,19 @@ jobs:
     - name: Build package
       run: |
         python -m build
+
+    - name: Debug Test PyPI Token
+      run: |
+        if [ -z "$TWINE_PASSWORD" ]; then
+          echo "ERROR: TWINE_PASSWORD is not set or empty"
+          exit 1
+        fi
+      env:
+        TWINE_PASSWORD: ${{ secrets.TEST_PYPI_TOKEN }}
 
     - name: Publish to Test PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        repository-url: https://test.pypi.org/legacy/
-        password: ${{ secrets.TEST_PYPI_TOKEN }}
-
-  publish-pypi:
-    name: Publish to PyPI
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
-    
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.12'
-
-    - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install hatchling build twine
-
-    - name: Build package
-      run: |
-        python -m build
-
-    - name: Publish to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        password: ${{ secrets.PYPI_TOKEN }}
+        twine upload --repository testpypi dist/*
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.TEST_PYPI_TOKEN }}
