@@ -67,3 +67,5 @@ jobs:
         python -c "from data.english_words import ENGLISH_WORDS; print(f'✓ ENGLISH_WORDS imported: {len(ENGLISH_WORDS)} words')"
         python -c "from data.portuguese_words import PORTUGUESE_WORDS; print(f'✓ PORTUGUESE_WORDS imported: {len(PORTUGUESE_WORDS)} words')"
         python -c "from data.german_words import GERMAN_WORDS; print(f'✓ GERMAN_WORDS imported: {len(GERMAN_WORDS)} words')"
+
+        
