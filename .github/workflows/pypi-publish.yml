@@ -1,11 +1,9 @@
-name: Publish XPhrase to PyPI
+name: Publish to Test PyPI
 
 on:
   push:
     tags:
-      - '1.0.1'
-  release:
-    types: [published]
+      - 'v*.*.*'  # Publishes when a version tag (e.g., v1.0.2) is created
 
 permissions:
   contents: read
