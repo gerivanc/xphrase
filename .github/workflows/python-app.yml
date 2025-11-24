@@ -26,9 +26,9 @@ jobs:
         echo "Project structure:"
         find . -name "*.py" -type f | head -20
         echo "Content of main files:"
-        if [ -f "xphrase.py" ]; then
-          echo "xphrase.py exists"
-          head -10 xphrase.py
+        if [ -f "src/xphrase.py" ]; then
+          echo "src/xphrase.py exists"
+          head -10 src/xphrase.py
         fi
 
     - name: Set up Python ${{ matrix.python-version }}
