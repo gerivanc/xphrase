@@ -47,7 +47,7 @@ Issues = "https://github.com/gerivanc/xphrase/issues"
 Documentation = "https://github.com/gerivanc/xphrase#readme"
 
 [project.scripts]
-xphrase-generate = "xphrase:main"
+xphrase-generate = "xphrase.main:main"
 
 [build-system]
 requires = ["hatchling"]
