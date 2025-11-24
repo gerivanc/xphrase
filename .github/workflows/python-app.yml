@@ -59,24 +59,24 @@ jobs:
         xphrase-generate --version || echo "Version check not available"
         
         # Test version command
-        python xphrase.py --version
+        python src/xphrase.py --version
         
         # Test default phrase generation (8 words)
         echo "Testing default generation:"
-        python xphrase.py
+        python src/xphrase.py
         
         # Test specific word count
         echo "Testing specific word count:"
         for count in 5 6 7 8 9 10; do
           echo "Testing --count $count"
-          python xphrase.py --count $count
+          python src/xphrase.py --count $count
         done
         
         # Test custom word range
         echo "Testing custom word range:"
-        python xphrase.py --min 5 --max 10
+        python src/xphrase.py --min 5 --max 10
         
         # Test phrase validation rules
         echo "Testing phrase validation:"
-        phrase=$(python xphrase.py --count 8)
+        phrase=$(python src/xphrase.py --count 8)
         echo "Generated phrase: $phrase"
