@@ -56,9 +56,6 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["src"]
 
-[tool.hatch.build.targets.wheel.packages]
-src = "."
-
 [tool.mypy]
 python_version = "3.8"
 warn_return_any = true
