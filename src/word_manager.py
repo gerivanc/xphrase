@@ -1,5 +1,7 @@
 import random
-from data import ENGLISH_WORDS, GERMAN_WORDS, PORTUGUESE_WORDS  
+from data.english_words import ENGLISH_WORDS
+from data.german_words import GERMAN_WORDS  
+from data.portuguese_words import PORTUGUESE_WORDS  
 
 class WordManager:
     def __init__(self):
