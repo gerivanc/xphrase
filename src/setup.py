@@ -5,14 +5,15 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="xphrase",
-    version="1.0.2",
+    version="1.0.3",
     author="Gerivanc",
     author_email="your-email@example.com",
     description="Expressive phrase generator, strong, modern and minimalist",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/gerivanc/xphrase",
-    packages=find_packages(),
+    package_dir={"": "src"},
+    packages=find_packages(where="src"),
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
