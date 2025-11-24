@@ -56,27 +56,24 @@ jobs:
     - name: Test CLI functionality
       run: |
         # Test single phrase generation
-        xphrase-generate --version || echo "Version check not available"
-        
-        # Test version command
-        python src/xphrase.py --version
+        xphrase-generate --version
         
         # Test default phrase generation (8 words)
         echo "Testing default generation:"
-        python src/xphrase.py
+        xphrase-generate
         
         # Test specific word count
         echo "Testing specific word count:"
         for count in 5 6 7 8 9 10; do
           echo "Testing --count $count"
-          python src/xphrase.py --count $count
+          xphrase-generate --count $count
         done
         
         # Test custom word range
         echo "Testing custom word range:"
-        python src/xphrase.py --min 5 --max 10
+        xphrase-generate --min 5 --max 10
         
         # Test phrase validation rules
         echo "Testing phrase validation:"
-        phrase=$(python src/xphrase.py --count 8)
+        phrase=$(xphrase-generate --count 8)
         echo "Generated phrase: $phrase"
