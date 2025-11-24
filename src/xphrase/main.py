@@ -2,12 +2,7 @@
 import random
 import sys
 import argparse
-try:
-    # Try absolute import first (for installed package)
-    from xphrase.word_manager import WordManager
-except ImportError:
-    # Fallback to relative import (for development)
-    from word_manager import WordManager
+from .word_manager import WordManager
 
 class XPhraseGenerator:
     def __init__(self):
@@ -47,41 +42,6 @@ class XPhraseGenerator:
         for _ in range(count):
             phrases.append(self.generate_phrase(min_words, max_words))
         return phrases
-
-def main():
-    """Main CLI function with argument support"""
-    parser = argparse.ArgumentParser(description='XPhrase Generation - Expressive phrase generator')
-    parser.add_argument('--version', action='store_true', help='Show version information')
-    parser.add_argument('--count', type=int, default=None, help='Number of words per phrase (5-10)')
-    parser.add_argument('--min', type=int, default=3, help='Minimum words per phrase (default: 3)')
-    parser.add_argument('--max', type=int, default=21, help='Maximum words per phrase (default: 21)')
-    parser.add_argument('--interactive', action='store_true', help='Run in interactive mode')
-    
-    args = parser.parse_args()
-    
-    if args.version:
-        print("XPhrase Generation v1.0.2")
-        return
-    
-    generator = XPhraseGenerator()
-    
-    # If interactive mode or no arguments (except --version)
-    if args.interactive:
-        run_interactive_mode(generator)
-        return
-    
-    # Command-line mode
-    if args.count is None:
-        # Default behavior: generate single phrase with exactly 8 words
-        phrase = generator.generate_phrase(8, 8)
-        print(phrase)
-    elif 5 <= args.count <= 10:
-        # Generate single phrase with exactly the specified number of words (5-10)
-        phrase = generator.generate_phrase(args.count, args.count)
-        print(phrase)
-    else:
-        print("Error: --count parameter must be between 5 and 10")
-        sys.exit(1)
 
 def run_interactive_mode(generator):
     """Run the interactive menu mode"""
@@ -150,6 +110,41 @@ def run_interactive_mode(generator):
             break
         except Exception as e:
             print(f"An error occurred: {e}")
+
+def main():
+    """Main CLI function with argument support"""
+    parser = argparse.ArgumentParser(description='XPhrase Generation - Expressive phrase generator')
+    parser.add_argument('--version', action='store_true', help='Show version information')
+    parser.add_argument('--count', type=int, default=None, help='Number of words per phrase (5-10)')
+    parser.add_argument('--min', type=int, default=3, help='Minimum words per phrase (default: 3)')
+    parser.add_argument('--max', type=int, default=21, help='Maximum words per phrase (default: 21)')
+    parser.add_argument('--interactive', action='store_true', help='Run in interactive mode')
+    
+    args = parser.parse_args()
+    
+    if args.version:
+        print("XPhrase Generation v1.0.2")
+        return
+    
+    generator = XPhraseGenerator()
+    
+    # If interactive mode or no arguments (except --version)
+    if args.interactive:
+        run_interactive_mode(generator)
+        return
+    
+    # Command-line mode
+    if args.count is None:
+        # Default behavior: generate single phrase with exactly 8 words
+        phrase = generator.generate_phrase(8, 8)
+        print(phrase)
+    elif 5 <= args.count <= 10:
+        # Generate single phrase with exactly the specified number of words (5-10)
+        phrase = generator.generate_phrase(args.count, args.count)
+        print(phrase)
+    else:
+        print("Error: --count parameter must be between 5 and 10")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
