@@ -10,8 +10,8 @@ import re
 import subprocess
 import argparse
 
-# Add the parent directory to the Python path to import the main modules
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+# Add the src directory to the Python path to import the main modules
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from xphrase import XPhraseGenerator, main
 from word_manager import WordManager
