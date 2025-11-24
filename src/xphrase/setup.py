@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="xphrase",
-    version="1.0.3",
+    version="1.0.2",
     author="Gerivanc",
     author_email="your-email@example.com",
     description="Expressive phrase generator, strong, modern and minimalist",
@@ -29,7 +29,7 @@ setup(
     python_requires=">=3.8",
     entry_points={
         "console_scripts": [
-            "xphrase-generate=xphrase:main",
+            "xphrase-generate=xphrase.main:main",
         ],
     },
     include_package_data=True,
