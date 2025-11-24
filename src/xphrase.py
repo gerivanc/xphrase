@@ -2,7 +2,12 @@
 import random
 import sys
 import argparse
-from word_manager import WordManager
+try:
+    # Try absolute import first (for installed package)
+    from xphrase.word_manager import WordManager
+except ImportError:
+    # Fallback to relative import (for development)
+    from word_manager import WordManager
 
 class XPhraseGenerator:
     def __init__(self):
