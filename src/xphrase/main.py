@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
+#!/usr/bin/env python3
 import random
 import sys
 import argparse
-from .word_manager import WordManager
+from xphrase.word_manager import WordManager  # Import absoluto
 
 class XPhraseGenerator:
     def __init__(self):
@@ -10,29 +11,26 @@ class XPhraseGenerator:
         
     def generate_phrase(self, min_words=3, max_words=21):
         """Generate a phrase with mixed language words and separators"""
+        if min_words > max_words:
+            raise ValueError("Minimum words cannot be greater than maximum words")
         num_words = random.randint(min_words, max_words)
         words = []
         
-        # Generate random words from different languages
         for _ in range(num_words):
             word = self.word_manager.get_random_word()
             words.append(word)
         
-        # Process last word to end with uppercase
         if words:
             last_word = words[-1]
             if last_word:
-                # Ensure last character is uppercase
-                last_word_processed = last_word[:-1] + last_word[-1].upper()
-                words[-1] = last_word_processed
+                words[-1] = last_word[:-1] + last_word[-1].upper()
         
-        # Join words with separators
         phrase_parts = []
         for i, word in enumerate(words):
             phrase_parts.append(word)
-            if i < len(words) - 1:  # Add separator after each word except last
-                separator = self.word_manager.get_separator()
-                phrase_parts.append(separator)
+            if i < len(words) - 1:
+                sep = self.word_manager.get_separator()
+                phrase_parts.append(sep)
         
         return ''.join(phrase_parts)
     
@@ -116,35 +114,42 @@ def main():
     parser = argparse.ArgumentParser(description='XPhrase Generation - Expressive phrase generator')
     parser.add_argument('--version', action='store_true', help='Show version information')
     parser.add_argument('--count', type=int, default=None, help='Number of words per phrase (5-10)')
-    parser.add_argument('--min', type=int, default=3, help='Minimum words per phrase (default: 3)')
-    parser.add_argument('--max', type=int, default=21, help='Maximum words per phrase (default: 21)')
+    parser.add_argument('--min', type=int, default=None, help='Minimum words per phrase (default: 3 if using range)')
+    parser.add_argument('--max', type=int, default=None, help='Maximum words per phrase (default: 21 if using range)')
     parser.add_argument('--interactive', action='store_true', help='Run in interactive mode')
     
     args = parser.parse_args()
     
     if args.version:
-        print("XPhrase Generation v1.0.2")
+        print("XPhrase Generation v1.0.3")
         return
     
     generator = XPhraseGenerator()
     
-    # If interactive mode or no arguments (except --version)
     if args.interactive:
         run_interactive_mode(generator)
         return
     
     # Command-line mode
-    if args.count is None:
-        # Default behavior: generate single phrase with exactly 8 words
-        phrase = generator.generate_phrase(8, 8)
-        print(phrase)
-    elif 5 <= args.count <= 10:
-        # Generate single phrase with exactly the specified number of words (5-10)
-        phrase = generator.generate_phrase(args.count, args.count)
+    if args.count is not None:
+        if 5 <= args.count <= 10:
+            phrase = generator.generate_phrase(args.count, args.count)
+            print(phrase)
+        else:
+            print("Error: --count parameter must be between 5 and 10")
+            sys.exit(1)
+    elif args.min is not None or args.max is not None:
+        min_words = args.min if args.min is not None else 3
+        max_words = args.max if args.max is not None else 21
+        if min_words < 3 or max_words > 21 or min_words > max_words:
+            print("Error: --min and --max must be between 3-21 and min <= max")
+            sys.exit(1)
+        phrase = generator.generate_phrase(min_words, max_words)
         print(phrase)
     else:
-        print("Error: --count parameter must be between 5 and 10")
-        sys.exit(1)
+        # Default: single phrase with 8 words
+        phrase = generator.generate_phrase(8, 8)
+        print(phrase)
 
 if __name__ == "__main__":
     main()
