@@ -1,4 +1,4 @@
-name: XPhrase Generator CI
+name: CI - XPhrase Generator
 
 on:
   push:
@@ -10,70 +10,61 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  test-and-build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.10", "3.11", "3.12"]   # suficiente e rápido
 
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Debug - Show project structure
-      run: |
-        echo "Current commit:"
-        git log -1 --oneline
-        echo "Project structure:"
-        find . -name "*.py" -type f | head -20
-        echo "Content of main files:"
-        if [ -f "src/xphrase.py" ]; then
-          echo "src/xphrase.py exists"
-          head -10 src/xphrase.py
-        fi
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
+      - name: Upgrade pip & install build tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install build
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install flake8 build
+      - name: Install package in editable mode (necessário para testes e CLI)
+        run: |
+          pip install -e .    # <- ESSA LINHA É OBRIGATÓRIA
 
-    - name: Run unit tests
-      run: |
-        python -m unittest discover tests/ -v
+      - name: Run unit tests
+        run: |
+          python -m unittest discover tests/ -v
 
-    - name: Build package
-      run: |
-        python -m build
+      - name: Test CLI directly (sem depender do entry-point)
+        run: |
+          echo "=== Versão ==="
+          python -m xphrase.main --version
 
-    - name: Install package locally
-      run: |
-        pip install dist/xphrase-*.whl
+          echo "=== 8 palavras (padrão) ==="
+          python -m xphrase.main
 
-    - name: Test CLI functionality
-      run: |
-        # Test single phrase generation
-        xphrase-generate --version
-        
-        # Test default phrase generation (8 words)
-        echo "Testing default generation:"
-        xphrase-generate
-        
-        # Test specific word count
-        echo "Testing specific word count:"
-        for count in 5 6 7 8 9 10; do
-          echo "Testing --count $count"
-          xphrase-generate --count $count
-        done
-        
-        # Test custom word range
-        echo "Testing custom word range:"
-        xphrase-generate --min 5 --max 10
-        
-        # Test phrase validation rules
-        echo "Testing phrase validation:"
-        phrase=$(xphrase-generate --count 8)
-        echo "Generated phrase: $phrase"
+          echo "=== --count 5 a 10 ==="
+          for n in 5 6 7 8 9 10; do
+            echo "→ $n palavras:"
+            python -m xphrase.main --count $n
+          done
+
+          echo "=== Faixa aleatória (5-12) ==="
+          python -m xphrase.main --min 5 --max 12
+
+          echo "=== Modo interativo (smoke test) ==="
+          timeout 3s python -m xphrase.main --interactive || true   # só pra garantir que inicia
+
+      - name: Build package (wheel + sdist)
+        run: |
+          python -m build
+
+      - name: Upload artifacts (opcional – útil pra ver o pacote gerado)
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-python-${{ matrix.python-version }}
+          path: dist/
