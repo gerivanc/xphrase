@@ -5,12 +5,6 @@ Built entirely in Python for CLI environments on Linux and Windows.
 
 --- 
 
-[![CI - XPhrase Generator](https://github.com/gerivanc/xphrase/actions/workflows/python-app.yml/badge.svg)](https://github.com/gerivanc/xphrase/actions/workflows/python-app.yml)
-[![Maintained - Yes 2025](https://img.shields.io/badge/Maintained-Yes%202025-4fc08d?style=flat&logo=maintenance&logoColor=white)](https://github.com/gerivanc/xphrase)
-[![License: MIT](https://img.shields.io/badge/License-MIT-FFC107?style=flat&logo=mit&logoColor=white)](LICENSE)
-[![Made with Python](https://img.shields.io/badge/Made%20with-Python-3572A5?style=flat&logo=python&logoColor=white)](https://python.org)
-[![Python 3.10+|3.11|3.12](https://img.shields.io/badge/Python-3.10%2B%203.11%203.12-blue?style=flat&logo=python)](https://www.python.org/downloads/)
-
 # 🧠 PROJECT OVERVIEW
 
 **XPhrase Generation** is a multilingual phrase generator designed for command-line interface (CLI) usage.  
@@ -182,6 +176,51 @@ cd xphrase
 ```
 cd xphrase
 ./gerar --version
+```
+
+---
+
+### 🧪 Mode './run.py'.  Apply the script below before activating the './run.py' mode to generate the phrases. Do this only on the first installation; after installation, navigate to the directory and generate the phrase using the function.:
+```
+cd xphrase
+cat > run.py << 'EOF'
+#!/usr/bin/env python3
+import sys
+import os
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+
+from xphrase.main import main
+
+if __name__ == '__main__':
+    main()
+EOF
+
+chmod +x run.py
+```
+
+#### 5️⃣🔟 The parameter should be between 5 and 10 words long.
+```
+cd xphrase
+./run.py --count 9
+```
+
+#### ➖➕ Defines the minimum and maximum number of words to be generated in the sentence. --min and --max must be between 3-21 and min <= max.
+```
+cd xphrase
+./run.py --min 5 --max 21
+```
+
+#### 📋🔘 Interactive menu - generates unique and multiple phrases.
+```
+cd xphrase
+./run.py --interactive
+```
+
+#### 📦✨ Show which version of XPhrase Generation it is.
+```
+cd xphrase
+./run.py --version
 ```
 
 ---
