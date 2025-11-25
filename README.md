@@ -68,12 +68,6 @@ Experience the XPhrase Generation directly in your browser! The web version offe
 
 ---
 
-# 🚨🚧 Updating to CLI version/mode 🚧🚨
-
-For the web browser version, 100% functional!
-
----
-
 # 💾 INSTALLATION - CLI
 1. No additional dependencies are required, as the project uses only Python standard libraries.
 2. Ensure you have Python 3.8 or higher installed.
@@ -88,92 +82,102 @@ cd xphrase
 
 # 📟 COMMAND LINE INTERFACE - CLI
 
-## 🛠️ Support for CLI arguments - Command line usage:
+## 🛠️ After installation, navigate to the directory where the XPhrase Generation repository folder was installed, then choose one of the following options to generate the phrases:
 
-**Generate single phrase with 8 words (default):**
-```
-python xphrase.py
-```
+### 🧪  Mode 'PYTHONPATH=' 
 
-**Generate single phrase with specific word count (5-10 words):**
+#### 5️⃣🔟 The parameter should be between 5 and 10 words long.
 ```
-python xphrase.py --count 5    # 1 phrase with 5 words
-python xphrase.py --count 6    # 1 phrase with 6 words
-python xphrase.py --count 7    # 1 phrase with 7 words
-python xphrase.py --count 8    # 1 phrase with 8 words
-python xphrase.py --count 9    # 1 phrase with 9 words
-python xphrase.py --count 10   # 1 phrase with 10 words
+cd xphrase
+PYTHONPATH=src python src/xphrase/main.py --count 5
 ```
 
-**Generate phrases with custom word range, 1 phrase with 5-10 random words:**
+#### ➖➕ Defines the minimum and maximum number of words to be generated in the sentence. --min and --max must be between 3-21 and min <= max.
 ```
-python xphrase.py --min 5 --max 10
-```
-
-**Show version:**
-```
-python xphrase.py --version
+cd xphrase
+PYTHONPATH=src python src/xphrase/main.py --min 5 --max 21
 ```
 
-**Interactive mode:**
+#### 📦✨ Show which version of XPhrase Generation it is.
 ```
-python xphrase.py --interactive
+cd xphrase
+PYTHONPATH=src python src/xphrase/main.py --version
 ```
 
 ---
 
-### 🎮 Interactive Mode
-**XPhrase Generation - Expressive phrase generator**  
-==================================================
+### 🧪  Mode 'echo PYTHONPATH='
 
-**Options:**
+#### 5️⃣🔟 The parameter should be between 5 and 10 words long. 
 
-1. **Generate single phrase**  
-   - Asks: "generate between 3-21 words?"  
-   - Generates one phrase with the specified word count (3-21 words)
+```
+echo 'PYTHONPATH=src python src/xphrase/main.py "$@"' > xphrase.sh
+chmod +x xphrase.sh
+./xphrase.sh --count 10
+```
 
-2. **Generate multiple phrases**  
-   - First asks: "generate between 3-21 words?" (words per phrase)  
-   - Then asks: "generate between 5-10 phrases?" (number of phrases)  
-   - Generates multiple phrases with consistent word count
+#### ➖➕ Defines the minimum and maximum number of words to be generated in the sentence. --min and --max must be between 3-21 and min <= max.
+```
+echo 'PYTHONPATH=src python src/xphrase/main.py "$@"' > xphrase.sh
+chmod +x xphrase.sh
+./xphrase.sh --min 5 --max 21
+```
 
-3. **Exit**  
-   - Closes the phrase generator
+#### 📋🔘 Interactive menu - generates unique and multiple phrases.
+```
+echo 'PYTHONPATH=src python src/xphrase/main.py "$@"' > xphrase.sh
+chmod +x xphrase.sh
+./xphrase.sh --interactive
+```
+
+#### 📦✨ Show which version of XPhrase Generation it is.
+```
+echo 'PYTHONPATH=src python src/xphrase/main.py "$@"' > xphrase.sh
+chmod +x xphrase.sh
+./xphrase.sh --version
+```
 
 ---
 
-### 🧪 Usage Examples:
+### 🧪 Mode './gerar'.  Apply the script below before activating the './generate' mode to generate the phrases. Do this only on the first installation; after installation, navigate to the directory and generate the phrase using the function.:
+```
+cd xphrase
+cat > gerar << 'EOF'
+#!/usr/bin/env python3
+import sys
+sys.path.insert(0, 'src')
+from xphrase.main import main
+if __name__ == '__main__':
+    main()
+EOF
 
-**Simple generation with 8 words (default):**
-```text
-python xphrase.py
+chmod +x gerar
 ```
 
-**Generated phrase (default):**
-```text
-solch!7strange!2interest~7place:9health[0quick%6dotado,8atroZ
+#### 5️⃣🔟 The parameter should be between 5 and 10 words long.
+```
+cd xphrase
+./gerar --count 7
 ```
 
-**Generate phrase with 10 words, 1 set of phrases with 10 words (standard):**
-```text
-python xphrase.py --count 10
+#### ➖➕ Defines the minimum and maximum number of words to be generated in the sentence. --min and --max must be between 3-21 and min <= max.
+```
+cd xphrase
+./gerar --min 5 --max 21
 ```
 
-**Generated phrase (default):**
-```text
-important%8burla+9candidato>6repor]1combinação#4deine<8vara*8appearance?2covarde=1purchasE
+#### 📋🔘 Interactive menu - generates unique and multiple phrases.
+```
+cd xphrase
+./gerar --interactive
 ```
 
-**Generate phrase with random word count (5-10):**
-```text
-python xphrase.py --min 5 --max 10
+#### 📦✨ Show which version of XPhrase Generation it is.
+```
+cd xphrase
+./gerar --version
 ```
 
-**Generated phrase (default):**
-```text
-verwandt=0cínico_0Talent^2confecção!9sol,0letztes[7mesa_4möbeL
-```
-	
 ---
 
 # 🔐 GENERATION RULES
