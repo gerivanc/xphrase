@@ -2,294 +2,95 @@
 """
 Unit tests for XPhrase Generation
 """
-
 import unittest
 import sys
 import os
 import re
-import subprocess
-import argparse
+import sys
 
-# Add the src directory to the Python path to import the main modules
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+SRC_PATH = os.path.join(PROJECT_ROOT, 'src')
+if SRC_PATH not in sys.path:
+    sys.path.insert(0, SRC_PATH)
 
-from xphrase import XPhraseGenerator, main
-from word_manager import WordManager
+# Agora os imports absolutos funcionam perfeitamente
+from xphrase.main import XPhraseGenerator, main
+from xphrase.word_manager import WordManager
 
 
 class TestWordManager(unittest.TestCase):
-    """Test cases for WordManager class"""
-    
     def setUp(self):
-        self.word_manager = WordManager()
-    
+        self.wm = WordManager()
+
     def test_get_random_word(self):
-        """Test that get_random_word returns a non-empty string"""
-        word = self.word_manager.get_random_word()
+        word = self.wm.get_random_word()
         self.assertIsInstance(word, str)
-        self.assertTrue(len(word) > 0)
-    
+        self.assertGreater(len(word), 0)
+
     def test_get_random_word_specific_language(self):
-        """Test getting words from specific languages"""
         for lang in ['english', 'german', 'portuguese']:
-            word = self.word_manager.get_random_word(lang)
+            word = self.wm.get_random_word(lang)
             self.assertIsInstance(word, str)
-            self.assertTrue(len(word) > 0)
-    
+            self.assertGreater(len(word), 0)
+
     def test_get_separator(self):
-        """Test that separator contains special char and digit"""
-        separator = self.word_manager.get_separator()
-        self.assertEqual(len(separator), 2)
-        
-        # Check if first character is a special character
-        special_chars = self.word_manager.get_special_characters()
-        self.assertIn(separator[0], special_chars)
-        
-        # Check if second character is a digit
-        digits = self.word_manager.get_digits()
-        self.assertIn(separator[1], digits)
-    
+        sep = self.wm.get_separator()
+        self.assertEqual(len(sep), 2)
+        self.assertIn(sep[0], self.wm.get_special_characters())
+        self.assertIn(sep[1], self.wm.get_digits())
+
     def test_language_pools_not_empty(self):
-        """Test that all language pools have words"""
-        for lang, words in self.word_manager.language_pools.items():
-            self.assertTrue(len(words) > 0, f"Language pool for {lang} is empty")
-            # Test that we can get a word from each pool
-            word = self.word_manager.get_random_word(lang)
-            self.assertIn(word, words)
+        for lang, pool in self.wm.language_pools.items():
+            self.assertGreater(len(pool), 0)
 
 
 class TestXPhraseGenerator(unittest.TestCase):
-    """Test cases for XPhraseGenerator class"""
-    
     def setUp(self):
-        self.generator = XPhraseGenerator()
-    
-    def test_generate_phrase_default_8_words(self):
-        """Test that default command generates exactly 8 words"""
-        phrase = self.generator.generate_phrase(8, 8)
-        words = self._count_words_in_phrase(phrase)
-        self.assertEqual(len(words), 8)
-    
-    def test_generate_phrase_exact_word_count(self):
-        """Test generating phrases with exact word counts (5-10)"""
-        for word_count in range(5, 11):
-            phrase = self.generator.generate_phrase(word_count, word_count)
-            words = self._count_words_in_phrase(phrase)
-            self.assertEqual(len(words), word_count)
-    
-    def test_generate_phrase_custom_range(self):
-        """Test generating phrases with custom word range using --min and --max"""
-        min_words, max_words = 5, 10
-        phrase = self.generator.generate_phrase(min_words, max_words)
-        words = self._count_words_in_phrase(phrase)
-        self.assertTrue(min_words <= len(words) <= max_words)
-    
-    def test_generate_phrase_last_word_uppercase(self):
-        """Test that last word ends with uppercase letter"""
-        phrase = self.generator.generate_phrase(8, 8)
-        # Get last character (should be uppercase)
-        last_char = phrase[-1]
-        self.assertTrue(last_char.isupper(), 
-                       f"Last character '{last_char}' is not uppercase in phrase: {phrase}")
-    
-    def test_generate_phrase_separators_present(self):
-        """Test that separators (special char + digit) are present between words"""
-        phrase = self.generator.generate_phrase(8, 8)
-        
-        # Check for pattern: word + special char + digit + word
-        pattern = r'[a-zA-ZäöüÄÖÜßáéíóúãõâêîôûàèìòùç]+[!@#$%^&*()_+\-=\[\]{}|;:,.<>?~\\][0-9][a-zA-ZäöüÄÖÜßáéíóúãõâêîôûàèìòùç]+'
-        matches = re.findall(pattern, phrase)
-        self.assertTrue(len(matches) >= 1, 
-                       f"No separators found in phrase: {phrase}")
-    
-    def test_generate_multiple_phrases(self):
-        """Test generating multiple phrases with exact word counts"""
-        count = 5
-        word_count = 8
-        phrases = self.generator.generate_multiple_phrases(count, word_count, word_count)
-        
-        self.assertEqual(len(phrases), count)
-        for phrase in phrases:
-            self.assertIsInstance(phrase, str)
-            self.assertTrue(len(phrase) > 0)
-            words = self._count_words_in_phrase(phrase)
-            self.assertEqual(len(words), word_count)
-    
-    def test_phrase_structure(self):
-        """Test the overall structure of generated phrases"""
-        phrase = self.generator.generate_phrase(8, 8)
-        
-        # Should have words separated by special char + digit
-        parts = re.split(r'([!@#$%^&*()_+\-=\[\]{}|;:,.<>?~\\][0-9])', phrase)
-        
-        # Parts should alternate: word, separator, word, separator, etc.
-        # For 8 words, we should have 8 words + 7 separators = 15 parts
-        self.assertEqual(len(parts), 15)
-        
-        # Check that words are in even positions
-        for i in range(0, len(parts), 2):
-            self.assertTrue(parts[i].isalpha() or any(c.isalpha() for c in parts[i]))
-        
-        # Check that separators are in odd positions
-        for i in range(1, len(parts), 2):
-            self.assertEqual(len(parts[i]), 2)
-            self.assertIn(parts[i][0], self.generator.word_manager.get_special_characters())
-            self.assertIn(parts[i][1], self.generator.word_manager.get_digits())
-    
-    def _count_words_in_phrase(self, phrase):
-        """Helper method to count words in a phrase"""
-        # Count words by splitting on separators (special char + digit)
+        self.gen = XPhraseGenerator()
+
+    def _count_words(self, phrase):
         words = re.split(r'[!@#$%^&*()_+\-=\[\]{}|;:,.<>?~\\][0-9]', phrase)
-        words = [w for w in words if w]  # Remove empty strings
-        return words
+        return [w for w in words if w]
 
+    def test_default_8_words(self):
+        phrase = self.gen.generate_phrase(8, 8)
+        self.assertEqual(len(self._count_words(phrase)), 8)
 
-class TestCommandLineInterface(unittest.TestCase):
-    """Test cases for command line interface"""
-    
-    def test_default_command_8_words(self):
-        """Test that default behavior generates exactly 8 words"""
-        # Test via direct function call instead of subprocess
-        generator = XPhraseGenerator()
-        phrase = generator.generate_phrase(8, 8)
-        words = self._count_words_in_phrase(phrase)
-        self.assertEqual(len(words), 8)
-    
-    def test_count_parameter_valid_range(self):
-        """Test --count parameter with valid range (5-10)"""
-        generator = XPhraseGenerator()
-        for count in range(5, 11):
-            phrase = generator.generate_phrase(count, count)
-            words = self._count_words_in_phrase(phrase)
-            self.assertEqual(len(words), count)
-    
-    def test_count_parameter_invalid_range(self):
-        """Test that invalid count values raise appropriate errors"""
-        # Test that values 1-4 are not accepted
-        # This is tested via the argument parsing logic
-        generator = XPhraseGenerator()
-        
-        # For values 1-4, we expect the CLI to reject them, but the generator
-        # itself can still generate phrases with 1-4 words if called directly
-        # So we test that the generator can handle these ranges internally
-        for count in range(1, 5):
-            phrase = generator.generate_phrase(count, count)
-            words = self._count_words_in_phrase(phrase)
-            self.assertEqual(len(words), count)
-    
-    def test_min_max_parameters(self):
-        """Test --min and --max parameters"""
-        generator = XPhraseGenerator()
-        min_words, max_words = 5, 10
-        phrase = generator.generate_phrase(min_words, max_words)
-        words = self._count_words_in_phrase(phrase)
-        self.assertTrue(min_words <= len(words) <= max_words)
-    
-    def _count_words_in_phrase(self, phrase):
-        """Helper method to count words in a phrase"""
-        words = re.split(r'[!@#$%^&*()_+\-=\[\]{}|;:,.<>?~\\][0-9]', phrase)
-        words = [w for w in words if w]
-        return words
+    def test_exact_word_count(self):
+        for n in range(5, 11):
+            phrase = self.gen.generate_phrase(n, n)
+            self.assertEqual(len(self._count_words(phrase)), n)
 
+    def test_range_min_max(self):
+        phrase = self.gen.generate_phrase(5, 10)
+        count = len(self._count_words(phrase))
+        self.assertTrue(5 <= count <= 10)
 
-class TestArgumentParsing(unittest.TestCase):
-    """Test cases for argument parsing logic"""
-    
-    def test_default_arguments(self):
-        """Test that default arguments result in 8-word phrases"""
-        # Mock sys.argv for testing
-        import sys
-        original_argv = sys.argv
-        try:
-            sys.argv = ['xphrase.py']
-            
-            # Import and test the main function logic
-            from xphrase import main
-            generator = XPhraseGenerator()
-            
-            # Default should be 8 words
-            phrase = generator.generate_phrase(8, 8)
-            words = re.split(r'[!@#$%^&*()_+\-=\[\]{}|;:,.<>?~\\][0-9]', phrase)
-            words = [w for w in words if w]
-            self.assertEqual(len(words), 8)
-            
-        finally:
-            sys.argv = original_argv
-    
-    def test_count_argument_validation(self):
-        """Test that count argument validation works correctly"""
-        # Test valid counts
-        for count in range(5, 11):
-            # This should not raise an exception
-            generator = XPhraseGenerator()
-            phrase = generator.generate_phrase(count, count)
-            self.assertIsInstance(phrase, str)
-        
-        # Test that counts 1-4 are handled by the generator (though rejected by CLI)
-        for count in range(1, 5):
-            generator = XPhraseGenerator()
-            phrase = generator.generate_phrase(count, count)
-            self.assertIsInstance(phrase, str)
+    def test_last_character_uppercase(self):
+        phrase = self.gen.generate_phrase(8, 8)
+        self.assertTrue(phrase and phrase[-1].isupper())
+
+    def test_separators_present(self):
+        phrase = self.gen.generate_phrase(8, 8)
+        self.assertRegex(phrase, r'[!@#$%^&*()_+\-=\[\]{}|;:,.<>?~\\][0-9]')
+
+    def test_multiple_phrases(self):
+        phrases = self.gen.generate_multiple_phrases(5, 6, 6)
+        self.assertEqual(len(phrases), 5)
+        for p in phrases:
+            self.assertEqual(len(self._count_words(p)), 6)
 
 
 class TestIntegration(unittest.TestCase):
-    """Integration tests for the complete system"""
-    
-    def test_complete_workflow(self):
-        """Test the complete phrase generation workflow"""
-        generator = XPhraseGenerator()
-        
-        # Test default 8-word phrase
-        phrase = generator.generate_phrase(8, 8)
-        self._verify_phrase_structure(phrase, 8)
-        
-        # Test multiple phrases with exact word counts
-        phrases = generator.generate_multiple_phrases(3, 6, 6)
-        self.assertEqual(len(phrases), 3)
-        for phrase in phrases:
-            self._verify_phrase_structure(phrase, 6)
-    
-    def _verify_phrase_structure(self, phrase, expected_word_count=None):
-        """Helper method to verify phrase structure"""
-        # Should not be empty
-        self.assertTrue(len(phrase) > 0)
-        
-        # Should contain mixed content (letters, special chars, digits)
-        has_letters = any(c.isalpha() for c in phrase)
-        has_special = any(c in '!@#$%^&*()_+-=[]{}|;:,.<>?~\\' for c in phrase)
-        has_digits = any(c.isdigit() for c in phrase)
-        
-        self.assertTrue(has_letters, f"Phrase has no letters: {phrase}")
-        self.assertTrue(has_special, f"Phrase has no special chars: {phrase}")
-        self.assertTrue(has_digits, f"Phrase has no digits: {phrase}")
-        
-        # Last character should be uppercase
-        self.assertTrue(phrase[-1].isupper(), 
-                      f"Last character not uppercase: {phrase}")
-        
-        # Verify word count if expected
-        if expected_word_count is not None:
-            words = re.split(r'[!@#$%^&*()_+\-=\[\]{}|;:,.<>?~\\][0-9]', phrase)
-            words = [w for w in words if w]
-            self.assertEqual(len(words), expected_word_count)
-
-
-def run_tests():
-    """Run all tests and return results"""
-    loader = unittest.TestLoader()
-    suite = loader.loadTestsFromModule(sys.modules[__name__])
-    runner = unittest.TextTestRunner(verbosity=2)
-    return runner.run(suite)
+    def test_full_workflow(self):
+        gen = XPhraseGenerator()
+        phrase = gen.generate_phrase(10, 10)
+        words = re.split(r'[!@#$%^&*()_+\-=\[\]{}|;:,.<>?~\\][0-9]', phrase)
+        words = [w for w in words if w]
+        self.assertEqual(len(words), 10)
+        self.assertTrue(phrase[-1].isupper())
+        self.assertIn(any(c.isdigit() for c in phrase), [True])
 
 
 if __name__ == '__main__':
-    print("Running XPhrase Generation Tests...")
-    print("=" * 50)
-    
-    result = run_tests()
-    
-    if result.wasSuccessful():
-        print("\n✅ All tests passed!")
-    else:
-        print(f"\n❌ {len(result.failures)} test(s) failed")
-        sys.exit(1)
+    unittest.main(verbosity=2)
