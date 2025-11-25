@@ -5,6 +5,12 @@ Built entirely in Python for CLI environments on Linux and Windows.
 
 --- 
 
+[![CI - XPhrase Generator](https://github.com/gerivanc/xphrase/actions/workflows/python-app.yml/badge.svg)](https://github.com/gerivanc/xphrase/actions/workflows/python-app.yml)
+[![Maintained - Yes 2025](https://img.shields.io/badge/Maintained-Yes%202025-4fc08d?style=flat&logo=maintenance&logoColor=white)](https://github.com/gerivanc/xphrase)
+[![License: MIT](https://img.shields.io/badge/License-MIT-FFC107?style=flat&logo=mit&logoColor=white)](LICENSE)
+[![Made with Python](https://img.shields.io/badge/Made%20with-Python-3572A5?style=flat&logo=python&logoColor=white)](https://python.org)
+[![Python 3.10+|3.11|3.12](https://img.shields.io/badge/Python-3.10%2B%203.11%203.12-blue?style=flat&logo=python)](https://www.python.org/downloads/)
+
 # 🧠 PROJECT OVERVIEW
 
 **XPhrase Generation** is a multilingual phrase generator designed for command-line interface (CLI) usage.  
