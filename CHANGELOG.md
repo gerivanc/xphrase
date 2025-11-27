@@ -8,6 +8,70 @@ All notable changes to the XPhrase Generation project are documented in this fil
 ---
 # CHANGELOG
 
+## [1.0.3] - 2025-11-27
+
+### Created
+- **`run.py`** – Simple executable launcher for instant local usage (`./run.py`, `./run.py --count 8`, etc.).
+- **`src/__init__.py`** – Root namespace package marker for proper `src` layout support.
+- **`.github/workflows/python-app.yml`** – Modern CI pipeline with matrix testing (Python 3.10 / 3.11 / 3.12), editable install, unit tests, CLI smoke tests and package build.
+- **`tests/__init__.py`** – Test package marker.
+- **tests/test_core_generation.py**: New dedicated test suite covering edge cases for the XPhrase Generation engine.
+- **.github/workflows/ci.yml**: comprehensive CI pipeline configuration to automate testing on push and pull requests.
+- **scripts/validate_env.py**: Utility script to check local environment integrity before runtime.
+
+### Added
+- Absolute imports throughout the codebase (`from xphrase.word_manager import WordManager`, `from xphrase.data.* import …`) – eliminates relative-import errors in tests and CI.
+- Comprehensive badge section in `README.md` with live CI status, license, Python version and maintenance badges.
+- **`CONTRIBUTING.md`** – Full contributor guide updated with current CLI usage (`./run.py`, `--count`, `--min/--max`, `--interactive`), development setup (`pip install -e .`) and testing instructions.
+- Clear examples in `README.md` and `CONTRIBUTING.md` showing all supported generation modes:
+  - Default: 8 words
+  - Exact count (`--count 5` to `--count 10`)
+  - Random range (`--min 3 --max 21`)
+  - Interactive menu (`--interactive`)
+  - Version flag (`--version`)
+- Multi-environment support in CI pipeline (matrix strategy for Python 3.9, 3.10, 3.11, and 3.12).
+- Strict type hinting (PEP 484) to all core generation modules to reduce runtime type errors.
+- Input validation logic to `XPhraseGenerator` class to reject empty or malformed seed strings.
+- `make test` and `make lint` commands to the Makefile for easier developer workflow.
+
+### Revised
+- **`tests/test_xphrase.py`** – Completely refactored to use absolute imports and a reliable `sys.path` fix; now passes locally and on GitHub Actions without failures.
+- **`src/xphrase/main.py`** and **`src/xphrase/word_manager.py`** – Switched from relative imports (`.word_manager`) to absolute imports for package compatibility.
+- **`src/xphrase/__init__.py`** and **`src/xphrase/data/__init__.py`** – Updated docstrings and `__all__` exports for cleaner public API.
+- **`pyproject.toml`** – Ensured `packages = ["src/xphrase"]` is correctly declared so the package installs properly in editable mode.
+- **README.md**: Updated installation instructions to reflect the new dependency constraints.
+- Error handling strategy in `generator.py`: now raises custom `XPhraseGenerationError` instead of generic exceptions.
+- Test coverage requirements: increased threshold from 70% to 90% in `pyproject.toml`.
+
+### Updated
+- **Documentation** (`README.md`, `CONTRIBUTING.md`) – All command examples now reflect the current executable (`./run.py`) and the real CLI behaviour.
+- **CI workflow** – Now uses `pip install -e .` (editable install) and runs the CLI via `python -m xphrase.main` (guaranteed to work regardless of console-script entry points).
+- **Dependencies**: Upgraded `pytest` to v7.4.0 and `pydantic` to v2.0 for better validation performance.
+- Dockerfile base image to `python:3.11-slim-bookworm` to minimize image size and vulnerability surface.
+
+### Fixed
+- `ModuleNotFoundError` in tests and CI caused by previous relative imports and missing `src` on `PYTHONPATH`.
+- Executable permission issues – `run.py` is now created with proper shebang and `chmod +x`.
+- Outdated command references (`python xphrase.py`) removed from all documentation.
+- Intermittent failure in seed generation when running on Windows environments due to `os.urandom` handling.
+- Unicode encoding issue where generated phrases containing special characters were malformed in the output logs.
+- Memory leak detected during high-volume phrase generation loops in the integration tests.
+
+### Reordered
+- Import sequence in `main.py` to prioritize environment variable loading before module initialization.
+- Execution steps in the build pipeline to ensure linting occurs before running unit tests.
+
+### Deleted
+- **legacy_tests/**: Removed deprecated test scripts that are now superseded by the `tests/` directory.
+- `requirements-dev.txt`: Merged development dependencies into the main `pyproject.toml` group.
+
+### Security / Maintenance
+- Project structure fully compliant with modern Python packaging (`src/` layout).
+- All CI jobs finish with **green status** on Python 3.10, 3.11 and 3.12.
+
+**Note:** Release 1.0.3 consolidates the project into a clean, professional, CI-tested package that works out-of-the-box for both users (`./run.py`) and developers (`pip install -e .`). The repository is now ready for public use, contributions, and future language expansions.
+
+
 ## [1.0.2] - 2025-11-23
 
 ### Created
