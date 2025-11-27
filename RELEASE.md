@@ -1,10 +1,10 @@
-# XPhrase Generation v1.0.2
+# XPhrase Generation v1.0.3
 
-**Release Date:** November 23th, 2025
+**Release Date:** November 27th, 2025
 
 Released on 	2025/11/22 	
 
-Last updated 	2025/11/23
+Last updated 	2025/11/27
 
 Publisher 	[gerivanc](https://github.com/gerivanc/)
 
@@ -73,42 +73,152 @@ cd xphrase
 ---
 
 # 📟 COMMAND LINE INTERFACE - CLI
+## 📦️ After installation, navigate to the directory where the XPhrase Generation repository folder was installed, then choose one of the following options to generate the phrases:
 
-## 🛠️ Support for CLI arguments - Command line usage:
+### 🧪  Mode 'PYTHONPATH=' 
 
-**Generate single phrase with 8 words (default):**
+#### 5️⃣🔟 The parameter should be between 5 and 10 words long.
 ```
-python xphrase.py
-```
-
-**Generate single phrase with specific word count (5-10 words):**
-```
-python xphrase.py --count 5    # 1 phrase with 5 words
-python xphrase.py --count 6    # 1 phrase with 6 words
-python xphrase.py --count 7    # 1 phrase with 7 words
-python xphrase.py --count 8    # 1 phrase with 8 words
-python xphrase.py --count 9    # 1 phrase with 9 words
-python xphrase.py --count 10   # 1 phrase with 10 words
+PYTHONPATH=src python src/xphrase/main.py --count 5
 ```
 
-**Generate phrases with custom word range, 1 phrase with 5-10 random words:**
+#### ➖➕ Defines the minimum and maximum number of words to be generated in the sentence. --min and --max must be between 3-21 and min <= max.
 ```
-python xphrase.py --min 5 --max 10
-```
-
-**Show version:**
-```
-python xphrase.py --version
+PYTHONPATH=src python src/xphrase/main.py --min 5 --max 21
 ```
 
-**Interactive mode:**
+#### 📋🔘 Interactive menu - generates unique and multiple phrases.
 ```
-python xphrase.py --interactive
+PYTHONPATH=src python src/xphrase/main.py --interactive
+```
+
+#### 📦✨ Show which version of XPhrase Generation it is.
+```
+PYTHONPATH=src python src/xphrase/main.py --version
 ```
 
 ---
 
-### 🎮 Interactive Mode
+### 🧪  Mode 'echo PYTHONPATH='
+
+#### 5️⃣🔟 The parameter should be between 5 and 10 words long. 
+
+```
+echo 'PYTHONPATH=src python src/xphrase/main.py "$@"' > xphrase.sh
+chmod +x xphrase.sh
+./xphrase.sh --count 10
+```
+
+#### ➖➕ Defines the minimum and maximum number of words to be generated in the sentence. --min and --max must be between 3-21 and min <= max.
+```
+echo 'PYTHONPATH=src python src/xphrase/main.py "$@"' > xphrase.sh
+chmod +x xphrase.sh
+./xphrase.sh --min 5 --max 21
+```
+
+#### 📋🔘 Interactive menu - generates unique and multiple phrases.
+```
+echo 'PYTHONPATH=src python src/xphrase/main.py "$@"' > xphrase.sh
+chmod +x xphrase.sh
+./xphrase.sh --interactive
+```
+
+#### 📦✨ Show which version of XPhrase Generation it is.
+```
+echo 'PYTHONPATH=src python src/xphrase/main.py "$@"' > xphrase.sh
+chmod +x xphrase.sh
+./xphrase.sh --version
+```
+
+---
+
+### 🧪 Mode './gerar'.  Apply the script below before activating the './generate' mode to generate the phrases. Do this only on the first installation; after installation, navigate to the directory and generate the phrase using the function.:
+```
+cd xphrase
+cat > gerar << 'EOF'
+#!/usr/bin/env python3
+import sys
+sys.path.insert(0, 'src')
+from xphrase.main import main
+if __name__ == '__main__':
+    main()
+EOF
+
+chmod +x gerar
+```
+
+#### 📏✨ The parameter generates a single sentence with 8 words.
+```
+./gerar
+```
+
+#### 5️⃣🔟 The parameter should be between 5 and 10 words long.
+```
+./gerar --count 7
+```
+
+#### ➖➕ Defines the minimum and maximum number of words to be generated in the sentence. --min and --max must be between 3-21 and min <= max.
+```
+./gerar --min 5 --max 21
+```
+
+#### 📋🔘 Interactive menu - generates unique and multiple phrases.
+```
+./gerar --interactive
+```
+
+#### 📦✨ Show which version of XPhrase Generation it is.
+```
+./gerar --version
+```
+
+---
+
+### 🧪 Mode './run.py'.  Apply the script below before activating the './run.py' mode to generate the phrases. Do this only on the first installation; after installation, navigate to the directory and generate the phrase using the function.:
+```
+cd xphrase
+cat > run.py << 'EOF'
+#!/usr/bin/env python3
+import sys
+import os
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+
+from xphrase.main import main
+
+if __name__ == '__main__':
+    main()
+EOF
+
+chmod +x run.py
+```
+
+#### 📏✨ The parameter generates a single sentence with 8 words.
+```
+./run.py
+```
+
+#### 5️⃣🔟 The parameter should be between 5 and 10 words long.
+```
+./run.py --count 9
+```
+
+#### ➖➕ Defines the minimum and maximum number of words to be generated in the sentence. --min and --max must be between 3-21 and min <= max.
+```
+./run.py --min 5 --max 21
+```
+
+#### 📋🔘 Interactive menu - generates unique and multiple phrases.
+```
+./run.py --interactive
+```
+
+#### 📦✨ Show which version of XPhrase Generation it is.
+```
+./run.py --version
+```
+
+### 🎮 Description of the interactive mode
 **XPhrase Generation - Expressive phrase generator**  
 ==================================================
 
