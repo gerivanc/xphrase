@@ -1,15 +1,15 @@
 # Contributing to XPHRASE GENERATION
 
-Thank you for your interest in contributing to the **XPHRASE GENERATION**! This project provides an expressive phrase generator that creates strong, modern, and minimalist phrases in multiple languages, and we welcome contributions to enhance its functionality, documentation, and accessibility. Whether you're fixing bugs, adding features, improving documentation, or contributing in other ways, your efforts are greatly appreciated.
+Thank you for your interest in contributing to the **XPHRASE GENERATION**! This project provides an expressive phrase generator that creates strong, modern, and minimalist phrases in multiple languages (English, German, Portuguese), and we welcome contributions to enhance its functionality, documentation, and accessibility. Whether you're fixing bugs, adding features, improving documentation, or contributing in other ways, your efforts are greatly appreciated.
 
 ---
 
 ## 🤝 Ways to Contribute
 
 You can contribute to the XPHRASE GENERATION in several ways:
-- **Code**: Fix bugs, add new features, or optimize existing functionality in `xphrase.py` and `word_manager.py`.
+- **Code**: Fix bugs, add new features, or optimize existing functionality in `src/xphrase/main.py` and `src/xphrase/word_manager.py`.
 - **Documentation**: Improve `README.md`, `SECURITY.md`, or add inline comments and docstrings.
-- **Word Banks**: Contribute to or expand the multilingual word banks in the `data/` directory.
+- **Word Banks**: Contribute to or expand the multilingual word banks in the `src/xphrase/data/` directory.
 - **Issues**: Report bugs, suggest features, or propose documentation enhancements via GitHub Issues.
 - **Translations**: Translate documentation or add support for additional languages.
 - **Testing**: Validate functionality across different Python versions or platforms.
@@ -20,7 +20,7 @@ You can contribute to the XPHRASE GENERATION in several ways:
 
 ### ⚙️ 1. Setting Up Your Environment
 To contribute, set up a local development environment:
-1. **Install Python**: Ensure you have Python 3.8 or higher installed.
+1. **Install Python**: Ensure you have Python 3.8 or higher installed (tested on 3.10–3.12).
 2. **Clone the repository**:
    ```bash
    git clone https://github.com/gerivanc/xphrase.git
@@ -36,14 +36,20 @@ To contribute, set up a local development environment:
    python -m venv xphrase_venv
    .\xphrase_venv\Scripts\Activate.ps1
    ```
-4. **Install development tools** (optional, but recommended):
+4. **Install the package in editable mode** (required for development):
    ```bash
-   pip install flake8 black isort
+   pip install -e .
+   ```
+   This enables running the CLI as `python -m xphrase.main` or using the `run.py` script.
+5. **Install development tools** (optional, but recommended):
+   ```bash
+   pip install flake8 black isort pytest
    ```
    These tools help ensure code quality:
    - `flake8`: Linting to enforce PEP 8.
    - `black`: Automatic code formatting.
    - `isort`: Sorting imports.
+   - `pytest`: Enhanced testing.
 
 ### 📢 2. Reporting Issues
 If you find a bug, have a feature request, or notice documentation that needs improvement:
@@ -52,67 +58,46 @@ If you find a bug, have a feature request, or notice documentation that needs im
 - **Security issues**: For vulnerabilities, follow the process in [SECURITY.md](https://github.com/gerivanc/xphrase/blob/main/SECURITY.md) instead of opening a public issue.
 
 ### 🔄 3. Submitting Pull Requests
-To contribute code, documentation, or other changes, submit a pull request (PR):
-1. **Fork the repository**:
-   - Click the "Fork" button on the [repository page](https://github.com/gerivanc/xphrase).
-   - Clone your fork:
-     ```bash
-     git clone https://github.com/gerivanc/xphrase.git
-     cd xphrase
-     ```
-2. **Create a branch**:
-   - Use a descriptive name (e.g., `feature/add-new-language`, `fix/word-selection-bug`):
-     ```bash
-     git checkout -b feature/your-feature-name
-     ```
-3. **Make changes**:
-   - Follow the coding standards below.
-   - Test changes locally (see "Testing" section).
-   - Update documentation (e.g., `README.md`, docstrings) if necessary.
-   - Run linting and formatting tools:
-     ```bash
-     flake8 .
-     black .
-     isort .
-     ```
-4. **Commit changes**:
-   - Use clear, concise commit messages following the [Conventional Commits](https://www.conventionalcommits.org/) format (e.g., `feat: add German word support`, `fix: correct phrase length calculation`):
-     ```bash
-     git commit -m "feat: describe your change"
-     ```
-5. **Push to your fork**:
+To contribute code, documentation, or other changes:
+1. **Fork the repository** and create a new branch for your feature (e.g., `git checkout -b feature/add-spanish-support`).
+2. **Make your changes**: Follow the coding standards below.
+3. **Test locally**: Ensure your changes pass all checks (see "Testing" section).
+4. **Commit and push**:
    ```bash
-   git push origin feature/your-feature-name
+   git add .
+   git commit -m "feat: add Spanish word bank support"
+   git push origin feature/add-spanish-support
    ```
-6. **Open a pull request**:
-   - Go to the [repository](https://github.com/gerivanc/xphrase) and click "New pull request".
-   - Select your branch and provide a detailed description of your changes.
-   - Reference related issues (e.g., "Fixes #123").
-   - Ensure your PR passes the GitHub Actions CI checks (if configured).
+5. **Open a Pull Request**: Link to the issue (if applicable) and describe your changes clearly.
 
-### 📜 4. Coding Standards
-To maintain consistency and security, adhere to these guidelines:
-- **Python Version**: Use Python 3.8 or higher.
-- **Style**: Follow [PEP 8](https://www.python.org/dev/peps/pep-0008/) for code style. Use `flake8` for linting and `black` for formatting.
-- **Docstrings**: Write clear, English docstrings for all functions and modules.
-- **Security**: Use the `secrets` module for cryptographic randomness. Avoid insecure libraries like `random`.
-- **File Structure**: Keep changes within the existing structure (e.g., core logic in `xphrase.py`, word management in `word_manager.py`).
-- **Licensing**: By contributing, you agree that your contributions are licensed under the [MIT License](https://github.com/gerivanc/xphrase/blob/main/LICENSE.md).
+### 📝 4. Coding Standards
+- **Style Guide**: Use PEP 8. Run `black src/` and `isort src/` before committing.
+- **Comments and Docstrings**: All code comments and docstrings must be in English. Use clear, concise language.
+- **Imports**: Use absolute imports (e.g., `from xphrase.word_manager import WordManager`) to avoid relative import issues.
+- **Phrase Generation Rules**: Any new features must adhere to the core formula:
+  - Mix words from English, German, and Portuguese (or new languages).
+  - Separate words with random special character + digit (e.g., `@3`, `#7`).
+  - End the last word with an uppercase letter.
+  - CLI modes: Default (8 words), `--count N` (5–10 words exact), `--min M --max X` (random M–X, 3–21), `--interactive` (menu for single/multiple).
+- **Word Management**: Updates to word banks in `src/xphrase/data/` should maintain alphabetical order and avoid duplicates.
+- **Licensing**: By contributing, you agree that your contributions are licensed under the [MIT License](https://github.com/gerivanc/xphrase/blob/main/LICENSE).
 
 ### 🧪 5. Testing
 Ensure your changes do not break existing functionality:
-- **Manual Testing**:
-  - Run the CLI with different arguments:
-    ```bash
-    python xphrase.py
-    python xphrase.py --count 5
-    python xphrase.py --min 5 --max 10
-    ```
-  - Verify that generated phrases follow the specified rules (special characters, digits, final uppercase letter).
+- **Manual Testing** (use `./run.py` or `python -m xphrase.main`):
+  - Default: `./run.py` (generates 1 phrase with exactly 8 words).
+  - Exact count: `./run.py --count 5` (generates 1 phrase with exactly 5 words; valid 5–10).
+  - Random range: `./run.py --min 5 --max 10` (generates 1 phrase with 5–10 words randomly).
+  - Interactive: `./run.py --interactive` (menu: option 1 for single phrase with 3–21 words; option 2 for 5–10 phrases, each 3–21 words).
+  - Version: `./run.py --version` (shows "XPhrase Generation v1.0.3").
+  - Verify generated phrases: Check for mixed languages, separators (special + digit between words), and final uppercase letter (no separator at end).
+- **Automated Testing**:
+  - Run unit tests: `python -m unittest discover tests/ -v` (or `pytest` if installed).
+  - Ensure all tests pass (coverage: word selection, separators, CLI args, phrase structure).
 - **Cross-Version Testing**:
-  - Test with Python 3.8, 3.10, and 3.12 to ensure compatibility.
+  - Test with Python 3.8, 3.10, 3.11, and 3.12 to ensure compatibility.
 - **Word Bank Testing**:
-  - Validate that word banks in `data/` directory are properly loaded and words are correctly selected.
+  - Validate that word banks in `src/xphrase/data/` are properly loaded and words are correctly selected (no empty pools).
 
 ### ✅ 6. Pull Request Review Process
 After submitting a PR:
@@ -120,7 +105,7 @@ After submitting a PR:
 - **Criteria**: PRs are evaluated based on code quality, adherence to standards, security, and alignment with project goals.
 - **Feedback**: You may be asked to make revisions. Address feedback promptly to expedite merging.
 - **Approval**: PRs require approval from the maintainer (Gerivan Costa dos Santos) before merging.
-- **CI Checks**: Ensure all GitHub Actions checks (if configured) pass. Fix any failures reported in the workflow.
+- **CI Checks**: Ensure all GitHub Actions checks pass (linting, tests, build). Fix any failures reported in the workflow.
 
 ### 🤗 7. Code of Conduct
 We are committed to fostering an inclusive and respectful community. Please:
