@@ -3,7 +3,7 @@ Data module for XPhrase Generation
 Contains word lists for English, German, and Portuguese languages
 """
 
-__version__ = "1.0.3"
+__version__ = "1.0.4"
 
 from .english_words import ENGLISH_WORDS
 from .german_words import GERMAN_WORDS
