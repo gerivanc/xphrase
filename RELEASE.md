@@ -1,10 +1,10 @@
-# XPhrase Generation v1.0.3
+# XPhrase Generation v1.0.4
 
-**Release Date:** November 27th, 2025
+**Release Date:** December 01th, 2025
 
 Released on 	2025/11/22 	
 
-Last updated 	2025/11/27
+Last updated 	2025/12/01
 
 Publisher 	[gerivanc](https://github.com/gerivanc/)
 
@@ -16,19 +16,7 @@ Reporting Issues	[Report a](https://github.com/gerivanc/xphrase/issues/new/choos
 
 ---
 
-## 📋 Overview
-**XPhrase Generation** is a multilingual phrase generator designed for command-line interface (CLI) usage.  
-It creates expressive, randomized phrases using words from **Portuguese**, **English**, and **German**, interlinked with special characters and digits.
-The principle of randomness enables the generation of over 12.6 trillion unique combinations by interconnecting words from three languages, along with the inclusion of special characters and numerical digits.
-
-This project is:
-- 💯 Written 100% in Python
-- 🖥️ CLI-compatible for Linux and Windows
-- 🌐 The CLI project has been fully converted to the web version of the HTML interface, maintaining the same phrase generation method, now accessible directly in your browser.
-
----
-
-## 🌍 INTERACTIVE WEB VERSION
+# 🌍 Interactive Web Version
 
 Experience the XPhrase Generation directly in your browser! The web version offers all the functionality of the Python script in an intuitive and responsive interface.
 
@@ -50,7 +38,21 @@ Experience the XPhrase Generation directly in your browser! The web version offe
 
 ---
 
-# 📋 Requirements
+# 📋 Overview
+The **XPhrase Generation** v1.0.4 is now available on [Test PyPI](https://test.pypi.org/project/xphrase/) and [PyPI](https://pypi.org/project/xphrase/)! This release builds on the improvements from v1.0.4, adding a GitHub Actions badge to the project documentation to reflect the status of CI/CD workflows and updating the version references to v1.0.4. 
+The principle of randomness enables the generation of over 12.6 trillion unique combinations by interconnecting words from three languages, along with the inclusion of special characters and numerical digits.
+
+# ✨ What's New
+- Updated version references in `README.md` from `v1.0.3` to `v1.0.4`. Updates to all layout structures and section titles. 
+- Adjusted layout styling and emoji use for better readability and visual identity.
+- Corrected anchor links in the Table of Contents that were not functioning due to emoji or formatting conflicts. 
+
+This project is:
+- 💯 Written 100% in Python
+- 🖥️ CLI-compatible for Linux and Windows
+- 🌐 The CLI project has been fully converted to the web version of the HTML interface, maintaining the same phrase generation method, now accessible directly in your browser.
+
+## 📋 Requirements
 
 - Python 3.8+
 - No external dependencies
@@ -69,36 +71,23 @@ git clone https://github.com/gerivanc/xphrase.git
 cd xphrase
 ```
 
-
 ---
 
-# 📟 COMMAND LINE INTERFACE - CLI
-## 📦️ After installation, navigate to the directory where the XPhrase Generation repository folder was installed, then choose one of the following options to generate the phrases:
+# 📟 Command Line Interface - Virtual environment
+## 📦 Stable Version Installation (PyPI)
 
-### 🧪  Mode 'PYTHONPATH=' 
+To install the stable version from PyPI on Kali Linux, execute the following commands step-by-step:
 
-#### 5️⃣🔟 The parameter should be between 5 and 10 words long.
-```
-PYTHONPATH=src python src/xphrase/main.py --count 5
-```
-
-#### ➖➕ Defines the minimum and maximum number of words to be generated in the sentence. --min and --max must be between 3-21 and min <= max.
-```
-PYTHONPATH=src python src/xphrase/main.py --min 5 --max 21
-```
-
-#### 📋🔘 Interactive menu - generates unique and multiple phrases.
-```
-PYTHONPATH=src python src/xphrase/main.py --interactive
+```bash
+python3 -m venv venv-stablepypi
+source venv-stablepypi/bin/activate
+python -m ensurepip --upgrade
+pip install --upgrade pip
+pip install xphrase
+pip list
 ```
 
-#### 📦✨ Show which version of XPhrase Generation it is.
-```
-PYTHONPATH=src python src/xphrase/main.py --version
-```
-
----
-
+## 🛠️ After installation, navigate to the directory where the XPhrase Generation repository folder was installed, then choose one of the following options to generate the phrases:
 ### 🧪  Mode 'echo PYTHONPATH='
 
 #### 5️⃣🔟 The parameter should be between 5 and 10 words long. 
@@ -130,66 +119,31 @@ chmod +x xphrase.sh
 ./xphrase.sh --version
 ```
 
----
+## 🧪 Development Version Installation (Test PyPI)
 
-### 🧪 Mode './gerar'.  Apply the script below before activating the './generate' mode to generate the phrases. Do this only on the first installation; after installation, navigate to the directory and generate the phrase using the function.:
-```
-cd xphrase
-cat > gerar << 'EOF'
-#!/usr/bin/env python3
-import sys
-sys.path.insert(0, 'src')
-from xphrase.main import main
-if __name__ == '__main__':
-    main()
-EOF
+To install the development version from Test PyPI on Kali Linux, execute the following commands step-by-step:
 
-chmod +x gerar
+```bash
+python3 -m venv venv-testpypi
+source venv-testpypi/bin/activate
+python -m ensurepip --upgrade
+pip install --upgrade pip
+pip install -i https://test.pypi.org/simple/ --trusted-host test.pypi.org xphrase
+pip list
 ```
 
-#### 📏✨ The parameter generates a single sentence with 8 words.
-```
-./gerar
-```
-
-#### 5️⃣🔟 The parameter should be between 5 and 10 words long.
-```
-./gerar --count 7
-```
-
-#### ➖➕ Defines the minimum and maximum number of words to be generated in the sentence. --min and --max must be between 3-21 and min <= max.
-```
-./gerar --min 5 --max 21
-```
-
-#### 📋🔘 Interactive menu - generates unique and multiple phrases.
-```
-./gerar --interactive
-```
-
-#### 📦✨ Show which version of XPhrase Generation it is.
-```
-./gerar --version
-```
-
----
-
+## 🛠️ After installation, navigate to the directory where the XPhrase Generation repository folder was installed, then choose one of the following options to generate the phrases:
 ### 🧪 Mode './run.py'.  Apply the script below before activating the './run.py' mode to generate the phrases. Do this only on the first installation; after installation, navigate to the directory and generate the phrase using the function.:
 ```
-cd xphrase
 cat > run.py << 'EOF'
 #!/usr/bin/env python3
 import sys
 import os
-
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
-
 from xphrase.main import main
-
 if __name__ == '__main__':
     main()
 EOF
-
 chmod +x run.py
 ```
 
@@ -219,7 +173,7 @@ chmod +x run.py
 ```
 
 ### 🎮 Description of the interactive mode
-**XPhrase Generation - Expressive phrase generator**  
+#### XPhrase Generation - Expressive phrase generator  
 ==================================================
 
 **Options:**
@@ -238,7 +192,7 @@ chmod +x run.py
 
 ---
 
-## 📬 Feedback
+# 📬 Feedback
 Help us improve by reporting issues using our [issue template](https://github.com/gerivanc/xphrase/blob/main/.github/ISSUE_TEMPLATE/issue_template.md).
 
 Thank you for supporting **XPhrase Generation**! 🚀🔑
