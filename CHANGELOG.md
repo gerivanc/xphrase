@@ -8,6 +8,49 @@ All notable changes to the XPhrase Generation project are documented in this fil
 ---
 # CHANGELOG
 
+## [1.0.4] - 2025-12-01
+
+**Important note:** Version 1.0.4 is an exclusive release dedicated to the official publication of the `xphrase` package on Test PyPI and the official PyPI, making the tool globally installable via `pip install xphrase`.
+
+### Created
+- Official distributable package published on [PyPI](https://pypi.org/project/xphrase/) and [Test PyPI](https://test.pypi.org/project/xphrase/)
+- Detailed installation instructions using virtual environments for both the stable (PyPI) and development (Test PyPI) versions
+- Simplified `run.py` wrapper script for direct execution after pip or repository installation
+
+### Added
+- New section “Command Line Interface - Virtual environment” with step-by-step pip installation instructions (tested on Kali Linux but applicable to any distribution)
+- Examples for creating and activating isolated virtual environments (`venv-stablepypi` and `venv-testpypi`)
+- GitHub Actions CI/CD status badge added to project documentation
+- Specific instructions for installing the development version from Test PyPI using `--trusted-host`
+
+### Revised
+- Release title updated from “XPhrase Generation v1.0.3” to “XPhrase Generation v1.0.4”
+- Release date updated to 2025-12-02
+- Entire layout structure, section headings, and emoji usage revised for better consistency and visual identity
+- Introductory text rewritten and expanded, highlighting availability on PyPI
+
+### Updated
+- All version references in documentation changed from `v1.0.3` to `v1.0.4`
+- “What's New” section added to explicitly highlight version changes and layout improvements
+- General document structure reordered to prioritize the web version and pip installation
+
+### Fixed
+- Broken table-of-contents anchor links caused by emoji or formatting conflicts
+- Minor typographical and formatting issues carried over from v1.0.3
+
+### Reordered
+- “Interactive Web Version” section moved to the very top of the document
+- Main sections reordered to: Web Version → Overview → What's New → Requirements → Installation → CLI
+
+### Deleted
+- Obsolete or redundant execution modes from v1.0.3:
+  - Direct `PYTHONPATH=src python src/xphrase/main.py …` method (kept only as example inside wrapper script)
+  - `./gerar` mode completely removed from official documentation
+- Excessively repetitive manual wrapper creation instructions no longer needed after PyPI publication
+
+**Note:** This release marks the definitive transition of XPhrase Generation from a local script to a fully distributable Python package while preserving 100% of the original phrase-generation functionality.
+
+
 ## [1.0.3] - 2025-11-27
 
 ### Created
