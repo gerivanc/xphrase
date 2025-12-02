@@ -1,6 +1,6 @@
 [project] 
 name = "xphrase"
-version = "1.0.2"
+version = "1.0.4"
 description = "Expressive phrase generator, strong, modern and minimalist"
 authors = [
     {name = "Gerivan Costa dos Santos", email = "dean-grumbly-plop@duck.com"}
