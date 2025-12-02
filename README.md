@@ -3,11 +3,12 @@
 **Expressive phrase generator — strong, modern, and minimalist.**  
 Built entirely in Python for CLI environments on Linux and Windows.
 
-[![Maintained - Yes 2025](https://img.shields.io/badge/Maintained-Yes%202025-4fc08d?style=flat&logo=maintenance&logoColor=white)](https://github.com/gerivanc/xphrase)
-[![CI - XPhrase Generator](https://github.com/gerivanc/xphrase/actions/workflows/python-app.yml/badge.svg)](https://github.com/gerivanc/xphrase/actions/workflows/python-app.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-FFC107?style=flat&logo=mit&logoColor=white)](LICENSE)
-[![Made with Python](https://img.shields.io/badge/Made%20with-Python-3572A5?style=flat&logo=python&logoColor=white)](https://python.org)
-[![Python 3.10+|3.11|3.12](https://img.shields.io/badge/Python-3.10%2B%203.11%203.12-blue?style=flat&logo=python)](https://www.python.org/downloads/)
+[![Maintained](https://img.shields.io/badge/Maintained-Yes%202025-4fc08d?style=flat&logo=maintenance&logoColor=white)](https://github.com/gerivanc/xphrase)
+[![CI](https://github.com/gerivanc/xphrase/actions/workflows/python-app.yml/badge.svg)](https://github.com/gerivanc/xphrase/actions/workflows/python-app.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat&logo=licenses)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue?style=flat&logo=python)](https://python.org)
+[![PyPI](https://img.shields.io/badge/PyPI-xphrase-blue?style=flat&logo=pypi)](https://pypi.org/project/xphrase/)
+[![TestPyPI](https://img.shields.io/badge/TestPyPI-xphrase-3700b3?style=flat&logo=pypi)](https://test.pypi.org/project/xphrase/)
 
 --- 
 
