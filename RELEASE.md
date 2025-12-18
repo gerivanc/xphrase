@@ -8,7 +8,7 @@ Last updated 	2025/12/01
 
 Publisher 	[gerivanc](https://github.com/gerivanc/)
 
-Changelog [Changelog]https://github.com/gerivanc/xphrase/blob/main/CHANGELOG.md)
+Changelog [Changelog](https://github.com/gerivanc/xphrase/blob/main/CHANGELOG.md)
 
 Release Notes [RELEASE.md](https://github.com/gerivanc/xphrase/blob/main/RELEASE.md)
 
