@@ -2,30 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#00ffff">
-    <meta http-equiv="Content-Security-Policy" 
-          content="default-src 'self'; 
-                   script-src 'self' 'unsafe-inline'; 
-                   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
-                   font-src 'self' https://fonts.gstatic.com; 
+    <!-- Zoom left enabled (no maximum-scale/user-scalable=no) so users with low vision can pinch-to-zoom -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self';
+                   script-src 'self' 'unsafe-inline';
+                   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+                   font-src 'self' https://fonts.gstatic.com;
                    img-src 'self' data: https://*.githubusercontent.com https://img.shields.io https://komarev.com https://github-readme-activity-graph.vercel.app https://nirzak-streak-stats.vercel.app https://github-readme-stats.vercel.app https://github-profile-summary-cards.vercel.app https://vercel.app https://vercel.live;
                    frame-src 'self' https://xphrase.gerivan.me/ https://*.githubusercontent.com;">
-	
+
 	<!-- Favicon -->
 	<link rel="icon" type="image/png" href="https://xphrase.gerivan.me/web-app-manifest-940x711.png" sizes="940x711">
-	<link rel="icon" type="image/x-icon" href="https://xphrase.gerivan.me/web-app-manifest-940x711.png">
+	<!-- .ico fallback for older browsers; previously pointed at the .png above under an image/x-icon type -->
+	<link rel="icon" type="image/x-icon" href="https://xphrase.gerivan.me/favicon.ico">
 	<meta name="description" content="XPhrase Generation - Expressive phrase generator — strong, modern, and minimalist">
 	<link rel="apple-touch-icon" sizes="180x136" href="https://xphrase.gerivan.me/apple-touch-icon.png">
-	<link rel="manifest" href="https://xphrase.gerivan.me/site.webmanifest">		
-	
-    <!-- Meta tags para PWA -->
-    <meta name="theme-color" content="#000000">
+	<link rel="manifest" href="https://xphrase.gerivan.me/site.webmanifest">
+
+    <!-- PWA meta tags -->
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<meta name="description" content="XPhrase Generation - Expressive phrase generator — strong, modern, and minimalist">
-    <link rel="manifest" href="site.webmanifest">	
     <title>XPhrase Generation - Expressive Phrase Generator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #00ff00;
@@ -443,7 +442,9 @@
             overflow: hidden;
             word-break: break-word;
             overflow-wrap: break-word;
-            white-space: normal;
+            /* pre-line preserves the \n line breaks generatePhrase()'s multi-phrase
+               output relies on, while still wrapping long lines like normal text */
+            white-space: pre-line;
             min-height: 60px;
             display: flex;
             align-items: center;
@@ -894,7 +895,7 @@
                     <select class="form-select" id="generationMode">
                         <option value="single">Single Phrase (8 words)</option>
                         <option value="count">Fixed Word Count (5-10 words)</option>
-                        <option value="range">Range of 5 to 21 words (min.-max.)</option>
+                        <option value="range">Range of 3 to 21 words (min.-max.)</option>
                         <option value="interactive">Interactive Mode: Generate sentences in simple and multiple forms.</option>
                     </select>
                 </div>
@@ -924,42 +925,43 @@
                 
                 <div id="interactiveOptions" style="display: none;">
                     <div class="interactive-section">
-                        <div class="interactive-option" data-option="1">
+                        <!-- role="button"/tabindex so keyboard users can reach and activate these options too -->
+                        <div class="interactive-option" data-option="1" role="button" tabindex="0" aria-pressed="false">
                             <h3>1. Generate single phrase</h3>
                             <p>Generate one phrase with a specified word count (3-21 words)</p>
                         </div>
-                        
-                        <div class="interactive-option" data-option="2">
+
+                        <div class="interactive-option" data-option="2" role="button" tabindex="0" aria-pressed="false">
                             <h3>2. Generate multiple phrases</h3>
                             <p>Generate multiple phrases with consistent word count</p>
                         </div>
-                        
+
                         <div class="interactive-prompt" id="prompt1">
                             <div class="form-group">
-                                <label class="form-label">Generate between 3-21 words?</label>
+                                <label class="form-label" for="singleWordCount">Generate between 3-21 words?</label>
                                 <input type="number" class="form-input" id="singleWordCount" min="3" max="21" value="8">
                             </div>
                         </div>
-                        
+
                         <div class="interactive-prompt" id="prompt2">
                             <div class="form-group">
-                                <label class="form-label">Generate between 3-21 words per phrase?</label>
+                                <label class="form-label" for="multipleWordCount">Generate between 3-21 words per phrase?</label>
                                 <input type="number" class="form-input" id="multipleWordCount" min="3" max="21" value="8">
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Generate between 5-10 phrases?</label>
+                                <label class="form-label" for="phraseCount">Generate between 5-10 phrases?</label>
                                 <input type="number" class="form-input" id="phraseCount" min="5" max="10" value="5">
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <button class="generate-btn" id="generateBtn">GENERATE PHRASE</button>
             </div>
-            
+
             <div class="results-section" id="resultsSection">
                 <h3>Generated Phrase:</h3>
-                <div class="example-output" id="generatedOutput">
+                <div class="example-output" id="generatedOutput" aria-live="polite" role="status">
                     Click "Generate Phrase" to create your first phrase
                 </div>
                 <button class="copy-btn" id="copyBtn">COPY PHRASE</button>
@@ -991,8 +993,8 @@
         <p>Unleash your creativity — Create unique phrases with XPhrase!</p>
         
         <div class="copyright">
-            <p>Copyright © 2025 Gerivan Costa dos Santos</p>
-            <p>XPhrase Generation — Expressive phrases. Strong logic. Minimalist design © 2025</p>
+            <p>Copyright © 2025-2026 Gerivan Costa dos Santos</p>
+            <p>XPhrase Generation — Expressive phrases. Strong logic. Minimalist design © 2026</p>
         </div>
     </footer>
     
@@ -1948,7 +1950,10 @@
             "zunir"
         ];
 
-        // Security measures
+        // Cosmetic "hacker" effect matching the page's theme (matrix rain, glitch title, etc.).
+        // This is NOT a real security control: disabling right-click/devtools shortcuts is
+        // trivially bypassed (disable JS, use the browser menu, view source via curl, etc.)
+        // and provides no actual protection for the page's static content.
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
             showSecurityAlert();
@@ -2085,13 +2090,6 @@
                 } else if (mode === 'interactive') {
                     interactiveOptions.style.display = 'block';
                 }
-                
-                // Update button text based on mode
-                if (mode === 'interactive') {
-                    generateBtn.textContent = 'GENERATE PHRASE';
-                } else {
-                    generateBtn.textContent = 'GENERATE PHRASE';
-                }
             });
             
             // Handle interactive option selection
@@ -2113,6 +2111,17 @@
                         prompt1.classList.add('active');
                     } else if (optionNum === '2') {
                         prompt2.classList.add('active');
+                    }
+
+                    // Reflect selection for assistive tech
+                    interactiveOptionsList.forEach(opt => opt.setAttribute('aria-pressed', opt === this ? 'true' : 'false'));
+                });
+
+                // Keyboard support: Enter/Space activates the option, matching a native button
+                option.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
                     }
                 });
             });
@@ -2167,6 +2176,9 @@
                             for (let i = 0; i < phraseCountValue; i++) {
                                 output += `${i+1}. ${generatePhrase(wordCount)}\n`;
                             }
+                            // Left-align the numbered list (readable with white-space: pre-line);
+                            // single-phrase output below resets this back to centered.
+                            generatedOutput.style.textAlign = 'left';
                             generatedOutput.textContent = output;
                             return;
                         } else {
@@ -2175,7 +2187,8 @@
                         }
                     }
                 }
-                
+
+                generatedOutput.style.textAlign = 'center';
                 generatedOutput.textContent = phrase;
             });
             
