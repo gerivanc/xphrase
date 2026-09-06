@@ -361,5 +361,5 @@ This repository is licensed under the [MIT License](https://github.com/gerivanc/
 
 ---
 
-#### Copyright © 2025 Gerivan Costa dos Santos
+#### Copyright © 2025-2026 Gerivan Costa dos Santos
 **XPhrase Generation — Expressive phrases. Strong logic. Minimalist design © 2025**
